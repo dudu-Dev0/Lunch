@@ -10,7 +10,7 @@ android {
     
     defaultConfig {
         applicationId = "com.dudu.wearlauncher"
-        minSdk = 23
+        minSdk = 19
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -45,4 +45,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    //retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }
