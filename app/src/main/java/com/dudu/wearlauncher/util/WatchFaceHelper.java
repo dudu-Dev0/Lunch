@@ -1,5 +1,6 @@
 package com.dudu.wearlauncher.util;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 import com.dudu.wearlauncher.WearLauncherApp;
 import dalvik.system.DexClassLoader;
@@ -11,15 +12,16 @@ import java.lang.reflect.InvocationTargetException;
 public class WatchFaceHelper {
     public static String watchFaceFolder = WearLauncherApp.getContext().getExternalFilesDir("watchface").getAbsolutePath();
     public static String watchFaceSuffix = ".wf";
-    public static String watchFaceClassName = ".WatchFaceImpl"
+    public static String watchFaceClassName = ".WatchFaceImpl";
     
-    public WatchFace getWatchFace(String packageName,String name) {
-        String wfPath = watchFaceFolder + File.pathSeparator + name + watchFaceSuffix;
+    public static WatchFace getWatchFace(String packageName,String name) {
+        String wfPath = watchFaceFolder + "/" + name + watchFaceSuffix;
+        Log.e("wfPath",wfPath);
         if(new File(wfPath).exists()) {
             try {
             	ClassLoader classLoader = WatchFace.class.getClassLoader();
                 Class<?> clazz = new DexClassLoader(wfPath,WearLauncherApp.getContext().getCacheDir().getAbsolutePath(),null,classLoader).loadClass(packageName+watchFaceClassName);
-                WatchFace watchFace = (WatchFace)clazz.getMethod("getWatchFace",Context.class,String.class).invoke(new Object[]{WearLauncherApp.getContext(),wfPath});
+                WatchFace watchFace = (WatchFace)clazz.getMethod("getWatchFace",Context.class,String.class).invoke(clazz,new Object[]{WearLauncherApp.getContext(),wfPath});
                 return watchFace;
             } catch(ClassNotFoundException err){
                 err.printStackTrace();
@@ -35,4 +37,5 @@ public class WatchFaceHelper {
         }
         return null;
     }
+    
 }

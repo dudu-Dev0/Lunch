@@ -14,7 +14,7 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-        
+        multiDexEnabled = true
         vectorDrawables { 
             useSupportLibrary = true
         }
@@ -48,4 +48,10 @@ dependencies {
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    //SwipeDrawer
+    implementation("cn.Leaqi:SwipeDrawer:1.6")
+    //glide
+    implementation("com.github.bumptech.glide:glide:4.13.2")
+    //Multidex
+    implementation("androidx.multidex:multidex:2.0.1")
 }

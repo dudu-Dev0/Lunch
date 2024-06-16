@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
+import androidx.multidex.MultiDex;
 import com.dudu.wearlauncher.util.SharedPreferencesUtil;
 public class WearLauncherApp extends Application {
     private static Context context;
@@ -13,6 +14,7 @@ public class WearLauncherApp extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        MultiDex.install(context);
         SharedPreferencesUtil.getInstance(context,"config");
     }
  

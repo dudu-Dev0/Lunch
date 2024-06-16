@@ -6,10 +6,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 import com.dudu.wearlauncher.R;
+import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
     ViewPager homeViewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +18,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         
         homeViewPager = findViewById(R.id.home_pager);
-        List<Fragment> fragmentList = List.of();
+        List<Fragment> fragmentList = List.of(new WatchFaceFragment(),new AppListFragment());
         ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager(),fragmentList);
         homeViewPager.setAdapter(adapter);
         

@@ -29,6 +29,7 @@ public abstract class WatchFace extends FrameLayout {
 
     public void updateStep(int i) {
     }
-
+    
+    
     public abstract void updateTime();
 }
