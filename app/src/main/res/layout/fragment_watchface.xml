@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     app:topLayout="@+id/topDrawer"
+    app:bottomLayout="@+id/bottomDrawer"
     app:shrinkRange="3"
     app:mode="cover">
 
@@ -13,7 +14,23 @@
         android:layout_width="match_parent"
         android:background="@android:color/black"
         android:id="@+id/topDrawer">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="MsgBox" />
+    </FrameLayout>
 
+    <FrameLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@android:color/black"
+        android:id="@+id/bottomDrawer">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="FastSettings" />
     </FrameLayout>
 
     <FrameLayout
@@ -23,7 +40,7 @@
             android:id="@+id/watchface_box"
             android:layout_height="match_parent"
             android:layout_width="match_parent">
-</FrameLayout>
+        </FrameLayout>
     </FrameLayout>
 
 </cn.leaqi.drawer.SwipeDrawer>

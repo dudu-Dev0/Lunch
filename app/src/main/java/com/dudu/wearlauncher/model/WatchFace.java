@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 import java.util.HashMap;
 
 public abstract class WatchFace extends FrameLayout {
+    
     public WatchFace(Context context) {
         super(context);
     }
