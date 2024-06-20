@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFace;
-import com.dudu.wearlauncher.util.WatchFaceHelper;
+import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import java.io.File;
 
 public class WatchFaceFragment extends Fragment{

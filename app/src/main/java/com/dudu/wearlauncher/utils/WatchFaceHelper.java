@@ -1,4 +1,4 @@
-package com.dudu.wearlauncher.util;
+package com.dudu.wearlauncher.utils;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;

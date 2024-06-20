@@ -10,7 +10,7 @@ import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceData;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
-import com.dudu.wearlauncher.util.WatchFaceHelper;
+import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import java.util.List;
 
 public class HomeActivity extends BaseActivity {

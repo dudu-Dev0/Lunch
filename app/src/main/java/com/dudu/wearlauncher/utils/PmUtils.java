@@ -1,4 +1,4 @@
-package com.dudu.wearlauncher.util;
+package com.dudu.wearlauncher.utils;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import com.dudu.wearlauncher.WearLauncherApp;

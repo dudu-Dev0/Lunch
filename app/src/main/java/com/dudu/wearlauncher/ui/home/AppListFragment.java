@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.R;
-import com.dudu.wearlauncher.util.PmUtils;
+import com.dudu.wearlauncher.utils.PmUtils;
 
 public class AppListFragment extends Fragment{
     RecyclerView recycler;

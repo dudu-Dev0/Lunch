@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.multidex.MultiDex;
-import com.dudu.wearlauncher.util.SharedPreferencesUtil;
+import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 public class WearLauncherApp extends Application {
     private static Context context;
     
