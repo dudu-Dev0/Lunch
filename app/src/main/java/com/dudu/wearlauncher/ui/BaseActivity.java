@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.dudu.wearlauncher.WearLauncherApp;
+import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 
 
