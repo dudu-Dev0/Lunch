@@ -19,3 +19,4 @@ rootProject.name = "WearLauncher"
 
 include(":app")
 include(":watchface-dev-utils")
+include(":watchface-example")

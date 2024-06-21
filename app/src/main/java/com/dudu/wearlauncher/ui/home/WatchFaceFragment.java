@@ -35,7 +35,7 @@ public class WatchFaceFragment extends Fragment{
         if(!new File(WatchFaceHelper.watchFaceFolder).exists()) {
         	new File(WatchFaceHelper.watchFaceFolder).mkdir();
         }
-        watchFace = WatchFaceHelper.getWatchFace("com.xtc.pisces","pisces");
+        watchFace = WatchFaceHelper.getWatchFace("com.dudu.watchface.example","watchface-example");
         if(watchFace != null) {
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
             watchFaceBox.addView(watchFace,layoutParams);
