@@ -1,44 +1,22 @@
 package com.dudu.watchface.example;
 
 import android.annotation.SuppressLint;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.graphics.PixelFormat;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Build;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.RemoteException;
-import android.os.Vibrator;
-import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dudu.watchface.example.R;;
+;
 import com.dudu.wearlauncher.model.WatchFace;
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Calendar;
 
 /*
@@ -98,7 +76,7 @@ public class WatchFaceImpl extends WatchFace {
     }
 
 
-    public void updateBattery(int i, int i2) {    //此函数在电池数值更新时执行，i是当前电量，i2是电池变红值
+    public void updateBattery(int i) {    //此函数在电池数值更新时执行，i是当前电量，i2是电池变红值
         tvBattery.setText(i+"%");
     }
 

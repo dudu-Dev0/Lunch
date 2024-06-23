@@ -33,7 +33,7 @@ public class ILog {
         //3 LogUtil.e
         //4 Caller
     	StackTraceElement st = Thread.currentThread().getStackTrace()[4];
-        return st.getClassName()+"."+st.getMethodName()+"[Line:"+st.getLineNumber()+"]"];
+        return st.getClassName()+"."+st.getMethodName()+"[Line:"+st.getLineNumber()+"]";
     }
     
 }
