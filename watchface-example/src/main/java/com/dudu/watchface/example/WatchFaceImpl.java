@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-;
+
 import com.dudu.wearlauncher.model.WatchFace;
 import java.io.IOException;
 import java.util.Calendar;
@@ -52,9 +52,9 @@ public class WatchFaceImpl extends WatchFace {
         centerLayout = findViewById(R.id.centerlayout);
 
         GifView gifView = new GifView(context);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(400, 200);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(DensityUtil.dip2px(context,60),DensityUtil.dip2px(context,30));
         layoutParams.gravity = Gravity.CENTER_VERTICAL+Gravity.END;
-        layoutParams.bottomMargin = 220;
+        layoutParams.bottomMargin = DensityUtil.dip2px(context,36);
         
         gifView.setLayoutParams(layoutParams);
         
