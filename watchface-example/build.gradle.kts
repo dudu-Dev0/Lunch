@@ -55,8 +55,8 @@ tasks.register<Zip>("packageDebugWatchface") {
             {
                 "name": "${project.name}",
                 "packageName": "${android.defaultConfig.applicationId}",
-                "displayName": "${watchfaceName}"
-                "versionCode": ${android.defaultConfig.versionCode}
+                "displayName": "${watchfaceName}",
+                "versionCode": ${android.defaultConfig.versionCode},
                 "author": "${author}"
             }
         """.trimIndent()
@@ -87,8 +87,8 @@ tasks.register<Zip>("packageReleaseWatchface") {
             {
                 "name": "${project.name}",
                 "packageName": "${android.defaultConfig.applicationId}",
-                "displayName": "${watchfaceName}"
-                "versionCode": ${android.defaultConfig.versionCode}
+                "displayName": "${watchfaceName}",
+                "versionCode": ${android.defaultConfig.versionCode},
                 "author": "${author}"
             }
         """.trimIndent()

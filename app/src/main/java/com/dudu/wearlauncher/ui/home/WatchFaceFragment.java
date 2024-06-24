@@ -40,6 +40,10 @@ public class WatchFaceFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         watchFaceBox = view.findViewById(R.id.watchface_box);
+        watchFaceBox.setOnClickListener(v->{
+            Intent intent = new Intent(requireActivity(),ChooseWatchFaceActivity.class);
+            startActivity(intent);
+        });
         if(!new File(WatchFaceHelper.watchFaceFolder).exists()) {
         	new File(WatchFaceHelper.watchFaceFolder).mkdir();
         }

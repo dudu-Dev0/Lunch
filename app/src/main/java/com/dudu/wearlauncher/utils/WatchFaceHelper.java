@@ -3,7 +3,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 import com.dudu.wearlauncher.WearLauncherApp;
-import com.dudu.wearlauncher.model.WatchFaceData;
+import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.google.gson.JsonObject;
 import dalvik.system.DexClassLoader;
 import java.io.File;
@@ -45,22 +45,34 @@ public class WatchFaceHelper {
         }
         return null;
     }
-    public static List<WatchFaceData> getAllWatchFace() throws JSONException{
+    public static List<WatchFaceInfo> getAllWatchFace() throws JSONException{
         File[] allFile = new File(watchFaceFolder).listFiles();
-        List<WatchFaceData> watchFaceList = new ArrayList<WatchFaceData>();
+        List<WatchFaceInfo> watchFaceList = new ArrayList<WatchFaceInfo>();
         for(File file : allFile) {
         	if(file.isDirectory()&&new File(file.getAbsolutePath()+"/"+file.getName()+watchFaceSuffix).exists()) {
         		File watchFaceManifest = new File(file.getAbsolutePath()+"/manifest.json");
                 JSONObject manifest = new JSONObject(new String(FilesKt.readBytes(watchFaceManifest),StandardCharsets.UTF_8));
-                WatchFaceData data = new WatchFaceData();
+                WatchFaceInfo data = new WatchFaceInfo();
                 data.name = manifest.getString("name");
                 data.displayName = manifest.getString("displayName");
                 data.packageName = manifest.getString("packageName");
                 data.author = manifest.getString("author");
+                data.versionCode = manifest.getInt("versionCode");
                 watchFaceList.add(data);
         	}
         }
         
     	return watchFaceList;
+    }
+    public static WatchFaceInfo getWatchFaceInfo(String name) throws JSONException{
+    	File watchFaceManifest = new File(watchFaceFolder+"/"+name+"/manifest.json");
+        JSONObject manifest = new JSONObject(new String(FilesKt.readBytes(watchFaceManifest),StandardCharsets.UTF_8));
+        WatchFaceInfo data = new WatchFaceInfo();
+        data.name = manifest.getString("name");
+        data.displayName = manifest.getString("displayName");
+        data.packageName = manifest.getString("packageName");
+        data.author = manifest.getString("author");
+        data.versionCode = manifest.getInt("versionCode");
+        return data;
     }
 }

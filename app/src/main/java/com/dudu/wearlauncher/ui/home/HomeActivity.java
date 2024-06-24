@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 import com.dudu.wearlauncher.R;
-import com.dudu.wearlauncher.model.WatchFaceData;
+import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
@@ -26,7 +26,7 @@ public class HomeActivity extends BaseActivity {
         homeViewPager.setAdapter(adapter);
         
         try {
-        	for(WatchFaceData data : WatchFaceHelper.getAllWatchFace()) {
+        	for(WatchFaceInfo data : WatchFaceHelper.getAllWatchFace()) {
         		Log.e("wf",data.name+";"+data.displayName);
         	}
         } catch(Exception err) {
