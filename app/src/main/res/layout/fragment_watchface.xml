@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     app:topLayout="@+id/topDrawer"
     app:bottomLayout="@+id/bottomDrawer"
-    app:shrinkRange="3"
     app:mode="cover">
 
     <FrameLayout

@@ -1,6 +1,7 @@
 package com.dudu.wearlauncher.ui.home;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
 import com.dudu.wearlauncher.utils.DensityUtil;
+import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import com.google.gson.JsonElement;
 import java.util.ArrayList;
@@ -26,14 +28,19 @@ public class ChooseWatchFaceActivity extends BaseActivity {
         try {
         	List<WatchFaceInfo> allWfList = WatchFaceHelper.getAllWatchFace();
             List<Fragment> fragmentList = new ArrayList<>();
+            String nowWatchFaceName = (String)SharedPreferencesUtil.getData(SharedPreferencesUtil.NOW_WATCHFACE,"watchface-example");
+            int nowWatchFacePosition = 0;
             for(WatchFaceInfo info : allWfList) {
             	fragmentList.add(new WatchFacePreviewFragment(info.name));
+                if(info.name.equals(nowWatchFaceName)) {
+                	nowWatchFacePosition = allWfList.indexOf(info);
+                }
             }
             ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager(),fragmentList);
             pager.setAdapter(adapter);
+            pager.setCurrentItem(nowWatchFacePosition);
         } catch(JSONException err) {
         	err.printStackTrace();
         }
-        
     }
 }

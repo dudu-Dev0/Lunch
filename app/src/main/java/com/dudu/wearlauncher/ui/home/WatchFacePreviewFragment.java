@@ -1,4 +1,5 @@
 package com.dudu.wearlauncher.ui.home;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
+import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import java.io.File;
 import org.json.JSONException;
@@ -49,5 +51,12 @@ public class WatchFacePreviewFragment extends Fragment{
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(img);
         text.setText(info.displayName);
+        img.setOnClickListener(v->{
+            SharedPreferencesUtil.putData(SharedPreferencesUtil.NOW_WATCHFACE,watchFaceName);
+            Intent intent = new Intent("com.dudu.wearlauncher.WatchFaceChange");
+            requireActivity().sendBroadcast(intent);
+            requireActivity().finish();
+            requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+        });
     }
 }
