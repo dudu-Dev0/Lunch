@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
@@ -21,6 +21,7 @@ import org.json.JSONException;
 
 public class WatchFacePreviewFragment extends Fragment{
     String watchFaceName;
+    WatchFaceInfo info;
     public WatchFacePreviewFragment(String wfName){
         watchFaceName = wfName;
     }
@@ -39,8 +40,7 @@ public class WatchFacePreviewFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageView img = view.findViewById(R.id.wf_pre_img);
         TextView text = view.findViewById(R.id.wf_name_txt);
-        WatchFaceInfo info = new WatchFaceInfo();
-        
+        ImageButton settingsBtn = view.findViewById(R.id.wf_settings_button);
         try {
         	info = WatchFaceHelper.getWatchFaceInfo(watchFaceName);
         } catch(JSONException err) {
@@ -57,6 +57,9 @@ public class WatchFacePreviewFragment extends Fragment{
             requireActivity().sendBroadcast(intent);
             requireActivity().finish();
             requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+        });
+        settingsBtn.setOnClickListener(v->{
+            
         });
     }
 }

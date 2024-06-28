@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.dudu.wearlauncher.R;
+import com.dudu.wearlauncher.WatchFaceBaseActivity;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;

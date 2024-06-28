@@ -43,7 +43,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.appIcon);
         holder.appName.setText(activityInfo.loadLabel(context.getPackageManager()));
-
+        
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setClassName(activityInfo.packageName,activityInfo.name);

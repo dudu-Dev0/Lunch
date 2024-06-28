@@ -28,5 +28,10 @@
             android:name=".ui.home.ChooseWatchFaceActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".WatchFaceBaseActivity"
+            android:exported="false">
+        </activity>
+        
     </application>
 </manifest>
