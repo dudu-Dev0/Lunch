@@ -1,0 +1,45 @@
+name: Build Launcher And Libraries
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build Launcher with Gradle
+      run: ./gradlew :app:assembleDebug
+    - name: Build Utils Library with Gradle
+      run: ./gradlew :watchface-dev-utils:bundleDebugAar
+    - name: Build Watchface Example with Gradle
+      run: ./gradlew :watchface-example:packageDebugWatchface
+    - name: Upload Launcher APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: Launcher-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
+    - name: Upload Utils AAR
+      uses: actions/upload-artifact@v4
+      with:
+        name: watchface-dev-utils
+        path: watchface-dev-utils/build/outputs/aar/watchface-dev-utils-debug.aar
+    - name: Upload Watchface Example Zip
+      uses: actions/upload-artifact@v4
+      with:
+        name: watchface-example
+        path: watchface-example/build/outputs/watchface/debug/watchface-example.zip
