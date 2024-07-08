@@ -16,6 +16,12 @@ import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
+
+
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
+
 import java.io.File;
 import org.json.JSONException;
 
@@ -47,7 +53,7 @@ public class WatchFacePreviewFragment extends Fragment{
         	err.printStackTrace();
         }
         Glide.with(requireActivity())
-            .load(new File(WatchFaceHelper.watchFaceFolder+"/"+watchFaceName+"/preview.png"))
+            .load(new File(watchFaceFolder+"/"+watchFaceName+"/preview.png"))
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(img);
         text.setText(info.displayName);

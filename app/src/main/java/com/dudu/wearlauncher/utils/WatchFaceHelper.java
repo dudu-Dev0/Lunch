@@ -1,4 +1,7 @@
 package com.dudu.wearlauncher.utils;
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,9 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WatchFaceHelper {
-    public static String watchFaceFolder = WearLauncherApp.getContext().getExternalFilesDir("watchface").getAbsolutePath();
-    public static String watchFaceSuffix = ".wf";
-    public static String watchFaceClassName = ".WatchFaceImpl";
     
     public static WatchFace getWatchFace(String packageName,String name) {
         String wfPath = watchFaceFolder + "/" + name + "/"+ name + watchFaceSuffix;

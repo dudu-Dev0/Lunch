@@ -19,11 +19,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.dudu.wearlauncher.R;
-import com.dudu.wearlauncher.WatchFaceBaseActivity;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
+
+
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
 
 import java.io.File;
 import org.json.JSONException;
@@ -55,8 +59,8 @@ public class WatchFaceFragment extends Fragment{
             requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             return false;
         });
-        if(!new File(WatchFaceHelper.watchFaceFolder).exists()) {
-        	new File(WatchFaceHelper.watchFaceFolder).mkdir();
+        if(!new File(watchFaceFolder).exists()) {
+        	new File(watchFaceFolder).mkdir();
         }
         refreshWatchFace();
         watchFaceChangeReceiver = new BroadcastReceiver(){

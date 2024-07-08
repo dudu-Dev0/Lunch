@@ -28,10 +28,13 @@ public abstract class WatchSurface extends ViewGroup{
         this.context = context;
         this.path = path;
         this.resources = initResources(context);
+        onCreate();
     }
     
     public abstract void onCreate();
-    public abstract void onDestory();
+    public void onDestory(){
+        
+    };
     
     public Resources initResources(Context context) {
         try {
@@ -49,7 +52,13 @@ public abstract class WatchSurface extends ViewGroup{
         LayoutInflater.from(context).inflate(getResources().getLayout(id),this);
     }
     
-    public abstract View getWatchSurface();
+    public ViewGroup getWatchSurface(String path,Context context){
+        this.path = path;
+        this.context = context;
+        this.resources = initResources(context);
+        onCreate();
+        return this;
+    };
 
     public Resources getResources() {
         return this.resources == null ? super.getResources() : this.resources;

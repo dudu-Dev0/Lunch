@@ -7,6 +7,9 @@ import java.util.HashMap;
 
 public abstract class WatchFace extends FrameLayout {
     
+    public static String watchFaceFolder = "/sdcard/Android/data/com.dudu.wearlauncher/files/watchface";
+    public static String watchFaceSuffix = ".wf";
+    public static String watchFaceClassName = ".WatchFaceImpl";
     public WatchFace(Context context) {
         super(context);
     }
