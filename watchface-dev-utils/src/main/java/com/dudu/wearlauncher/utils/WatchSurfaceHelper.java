@@ -29,7 +29,7 @@ public class WatchSurfaceHelper {
                 WatchSurface watchSurface = (WatchSurface)clazz.getMethod("getWatchSurface",Context.class,String.class).invoke(clazz,new Object[]{context,wfPath});
                 return watchSurface;
             } catch(Exception err){
-                ILog.e(err.getMessage());
+                ILog.e(err.toString());
             }
         }else{
             ILog.e("表盘不存在");

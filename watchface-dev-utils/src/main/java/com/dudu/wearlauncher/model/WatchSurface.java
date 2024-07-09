@@ -2,19 +2,20 @@ package com.dudu.wearlauncher.model;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.service.controls.templates.ControlTemplate;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-public abstract class WatchSurface extends ViewGroup{
+import android.widget.FrameLayout;
+public abstract class WatchSurface extends FrameLayout{
     /**
     *在表盘中实现类似activity的效果
     */
     private String path; //表盘路径(.wf)
     private Context context;
     private Resources resources;
-
+    
     public WatchSurface(Context context,String path) {
         this(context,null,path);
     }
@@ -35,7 +36,9 @@ public abstract class WatchSurface extends ViewGroup{
     public void onDestory(){
         
     };
-    
+    public Context getHostContext() {
+    	return context;
+    }
     public Resources initResources(Context context) {
         try {
             AssetManager assetManager = AssetManager.class.newInstance();
@@ -52,14 +55,6 @@ public abstract class WatchSurface extends ViewGroup{
         LayoutInflater.from(context).inflate(getResources().getLayout(id),this);
     }
     
-    public ViewGroup getWatchSurface(String path,Context context){
-        this.path = path;
-        this.context = context;
-        this.resources = initResources(context);
-        onCreate();
-        return this;
-    };
-
     public Resources getResources() {
         return this.resources == null ? super.getResources() : this.resources;
     }

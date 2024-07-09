@@ -22,6 +22,7 @@ import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
 
+import com.dudu.wearlauncher.utils.WatchSurfaceHelper;
 import java.io.File;
 import org.json.JSONException;
 
@@ -65,7 +66,7 @@ public class WatchFacePreviewFragment extends Fragment{
             requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         });
         settingsBtn.setOnClickListener(v->{
-            
+            WatchSurfaceHelper.startWsfActivity(requireActivity(),watchFaceName,info.packageName+".SettingsSurface");
         });
     }
 }
