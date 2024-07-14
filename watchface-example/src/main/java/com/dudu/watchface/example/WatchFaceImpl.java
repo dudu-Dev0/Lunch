@@ -25,9 +25,6 @@ import java.util.Calendar;
 */
 
 public class WatchFaceImpl extends WatchFace {
-    private static String path;
-    private final Context context;
-    private final Resources resources;
 
     private TextView tvBattery;
     private TextView tvStep;
@@ -38,9 +35,26 @@ public class WatchFaceImpl extends WatchFace {
     private ImageView ivBattery;
     private FrameLayout centerLayout;
 
+    public WatchFaceImpl(Context context, AttributeSet attributeSet, int i,String path) {
+        super(context, attributeSet, i,path);
+    }
+
+
+    public WatchFaceImpl(Context context,String path) {
+        this(context, null,path);
+    }
+
+    public WatchFaceImpl(Context context, AttributeSet attributeSet,String path) {
+        this(context, attributeSet,0,path);
+    }
+
+    public static FrameLayout getWatchFace(Context context, String str) {
+        return new WatchFaceImpl(context,str);
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
-    private void initView() {
-        LayoutInflater.from(context).inflate(getResources().getLayout(R.layout.layout_main), this);
+    public void initView() {
+        LayoutInflater.from(getHostContext()).inflate(getResources().getLayout(R.layout.layout_main), this);
 
         tvBattery = findViewById(R.id.tv_battery);
         tvStep = findViewById(R.id.tv_step);
@@ -51,21 +65,21 @@ public class WatchFaceImpl extends WatchFace {
         ivStep = findViewById(R.id.iv_step);
         centerLayout = findViewById(R.id.centerlayout);
 
-        GifView gifView = new GifView(context);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(DensityUtil.dip2px(context,60),DensityUtil.dip2px(context,30));
+        GifView gifView = new GifView(getHostContext());
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(DensityUtil.dip2px(getHostContext(),60),DensityUtil.dip2px(getHostContext(),30));
         layoutParams.gravity = Gravity.CENTER_VERTICAL+Gravity.END;
-        layoutParams.bottomMargin = DensityUtil.dip2px(context,36);
-        
+        layoutParams.bottomMargin = DensityUtil.dip2px(getHostContext(),36);
+
         gifView.setLayoutParams(layoutParams);
-        
+
         try {
         	gifView.setGifStream(getResources().getAssets().open("astr.gif"));
         } catch(IOException err) {
         	err.printStackTrace();
         }
-        
+
         centerLayout.addView(gifView);
-        
+
         ivBattery.setBackground(getResources().getDrawable(R.drawable.battery));
         ivStep.setBackground(getResources().getDrawable(R.drawable.steps));
         tvTime.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/DS-DIGI-1.ttf"));
@@ -74,7 +88,6 @@ public class WatchFaceImpl extends WatchFace {
         tvDate.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/DS-DIGIB-2.ttf"));
         tvWeek.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/DS-DIGIB-2.ttf"));
     }
-
 
     public void updateBattery(int i) {    //此函数在电池数值更新时执行，i是当前电量，i2是电池变红值
         tvBattery.setText(i+"%");
@@ -87,7 +100,7 @@ public class WatchFaceImpl extends WatchFace {
     public void updateTime() {    //此函数在时间更新时执行
         int hour;
         Calendar calendar = Calendar.getInstance();
-        if (DateFormat.is24HourFormat(context)) {
+        if (DateFormat.is24HourFormat(getHostContext())) {
             hour = calendar.get(11);
         } else {
             hour = calendar.get(10);
@@ -129,41 +142,6 @@ public class WatchFaceImpl extends WatchFace {
                 break;
         }
         tvWeek.setText(weekStr);
-    }
-    public Resources initResources(Context context) {
-        try {
-            AssetManager assetManager = AssetManager.class.newInstance();
-            assetManager.getClass().getMethod("addAssetPath", String.class).invoke(assetManager, path);
-            Resources resources = context.getResources();
-            return new Resources(assetManager, resources.getDisplayMetrics(), resources.getConfiguration());
-        } catch (Exception var5) {
-            var5.printStackTrace();
-            return null;
-        }
-    }
-
-    public WatchFaceImpl(Context context, AttributeSet attributeSet, int i) {
-        super(context, attributeSet, i);
-        this.context = context;
-        this.resources = initResources(context);
-        initView();
-    }
-
-    public WatchFaceImpl(Context context) {
-        this(context, null);
-    }
-
-    public WatchFaceImpl(Context context, AttributeSet attributeSet) {
-        this(context, attributeSet, 0);
-    }
-
-    public static FrameLayout getWatchFace(Context context, String str) {
-        path = str;
-        return new WatchFaceImpl(context);
-    }
-
-    public Resources getResources() {
-        return this.resources == null ? super.getResources() : this.resources;
     }
 
 }
