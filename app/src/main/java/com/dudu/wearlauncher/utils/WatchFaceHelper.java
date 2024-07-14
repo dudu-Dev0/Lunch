@@ -1,4 +1,5 @@
 package com.dudu.wearlauncher.utils;
+import com.blankj.utilcode.util.FileIOUtils;
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
@@ -51,7 +52,7 @@ public class WatchFaceHelper {
         for(File file : allFile) {
         	if(file.isDirectory()&&new File(file.getAbsolutePath()+"/"+file.getName()+watchFaceSuffix).exists()) {
         		File watchFaceManifest = new File(file.getAbsolutePath()+"/manifest.json");
-                JSONObject manifest = new JSONObject(new String(FilesKt.readBytes(watchFaceManifest),StandardCharsets.UTF_8));
+                JSONObject manifest = new JSONObject(FileIOUtils.readFile2String(watchFaceManifest));
                 WatchFaceInfo data = new WatchFaceInfo();
                 data.name = manifest.getString("name");
                 data.displayName = manifest.getString("displayName");
@@ -66,7 +67,7 @@ public class WatchFaceHelper {
     }
     public static WatchFaceInfo getWatchFaceInfo(String name) throws JSONException{
     	File watchFaceManifest = new File(watchFaceFolder+"/"+name+"/manifest.json");
-        JSONObject manifest = new JSONObject(new String(FilesKt.readBytes(watchFaceManifest),StandardCharsets.UTF_8));
+        JSONObject manifest = new JSONObject(FileIOUtils.readFile2String(watchFaceManifest));
         WatchFaceInfo data = new WatchFaceInfo();
         data.name = manifest.getString("name");
         data.displayName = manifest.getString("displayName");

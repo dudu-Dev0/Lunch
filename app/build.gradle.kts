@@ -54,6 +54,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.13.2")
     //Multidex
     implementation("androidx.multidex:multidex:2.0.1")
+    //UtilCode
+    implementation("com.blankj:utilcodex:1.31.1")
     //watchface-dev
     implementation(project(":watchface-dev-utils"))
 }

@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:label="桌面"
             android:name=".ui.home.HomeActivity"
             android:exported="true">
             <intent-filter>
@@ -22,6 +23,11 @@
                     android:name="android.intent.action.MAIN" />
                 <category
                     android:name="android.intent.category.LAUNCHER" />
+                <category
+                    android:name="android.intent.category.HOME" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+
             </intent-filter>
         </activity>
         <activity
@@ -32,6 +38,20 @@
             android:name=".ui.WatchSurfaceBaseActivity"
             android:exported="false">
         </activity>
-        
+        <activity
+            android:label="XTC专用"
+            android:name="com.xtc.i3launcher.module.home.view.activity.HomeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.MAIN" />
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+                <category
+                    android:name="android.intent.category.HOME" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
