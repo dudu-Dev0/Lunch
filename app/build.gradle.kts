@@ -1,4 +1,3 @@
-
 plugins {
     id("com.android.application")
     
@@ -7,7 +6,6 @@ plugins {
 android {
     namespace = "com.dudu.wearlauncher"
     compileSdk = 33
-    
     defaultConfig {
         applicationId = "com.dudu.wearlauncher"
         minSdk = 19

@@ -39,19 +39,25 @@
             android:exported="false">
         </activity>
         <activity
-            android:label="XTC专用"
+            android:label="小天才选这个!"
             android:name="com.xtc.i3launcher.module.home.view.activity.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action
                     android:name="android.intent.action.MAIN" />
                 <category
-                    android:name="android.intent.category.LAUNCHER" />
-                <category
                     android:name="android.intent.category.HOME" />
                 <category
                     android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <service android:name=".services.NotificationListenerService"
+                 android:exported="true"
+                 android:label="Notification Listener"
+                 android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService"/>
+            </intent-filter>
+        </service>
     </application>
 </manifest>

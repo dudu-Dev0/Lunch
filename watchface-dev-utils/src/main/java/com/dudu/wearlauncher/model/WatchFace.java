@@ -1,11 +1,10 @@
 package com.dudu.wearlauncher.model;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import java.util.HashMap;
 
 public abstract class WatchFace extends FrameLayout {
     

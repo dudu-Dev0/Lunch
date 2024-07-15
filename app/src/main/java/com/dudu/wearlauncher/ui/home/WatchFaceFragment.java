@@ -1,36 +1,31 @@
 package com.dudu.wearlauncher.ui.home;
 
-import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
+import com.dudu.wearlauncher.services.NotificationListenerService;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
-
-
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
+import org.json.JSONException;
 
 import java.io.File;
-import org.json.JSONException;
+
+import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
 
 public class WatchFaceFragment extends Fragment{
     WatchFace watchFace;
@@ -53,6 +48,15 @@ public class WatchFaceFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         watchFaceBox = view.findViewById(R.id.watchface_box);
+        RecyclerView msgView = view.findViewById(R.id.msg_list);
+
+
+        //Start Service
+        Intent serviceIntent = new Intent(requireActivity(), NotificationListenerService.class);
+        requireActivity().startService(serviceIntent);
+
+
+
         watchFaceBox.setOnLongClickListener(v->{
             Intent intent = new Intent(requireActivity(),ChooseWatchFaceActivity.class);
             startActivity(intent);
