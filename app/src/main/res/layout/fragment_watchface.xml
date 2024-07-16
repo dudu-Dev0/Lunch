@@ -20,7 +20,7 @@
             android:text="暂无消息"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/msg_list"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </FrameLayout>
 
