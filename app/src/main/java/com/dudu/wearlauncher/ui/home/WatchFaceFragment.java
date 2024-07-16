@@ -1,11 +1,13 @@
 package com.dudu.wearlauncher.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFace;
@@ -24,6 +27,7 @@ import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import org.json.JSONException;
 
 import java.io.File;
+import java.util.List;
 
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
 
@@ -31,9 +35,8 @@ public class WatchFaceFragment extends Fragment{
     WatchFace watchFace;
     FrameLayout watchFaceBox;
     FrameLayout.LayoutParams layoutParams;
-    BroadcastReceiver watchFaceChangeReceiver;
-    BroadcastReceiver batteryChangeReceiver;
-    BroadcastReceiver timeChangeReceiver;
+
+    BroadcastReceiver msgReceiver, msgRemovedReceiver, watchFaceChangeReceiver, batteryChangeReceiver, timeChangeReceiver;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,18 +47,21 @@ public class WatchFaceFragment extends Fragment{
         return inflater.inflate(R.layout.fragment_watchface, container, false);
     }
 
-    
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         watchFaceBox = view.findViewById(R.id.watchface_box);
         RecyclerView msgView = view.findViewById(R.id.msg_list);
 
 
+
         //Start Service
         Intent serviceIntent = new Intent(requireActivity(), NotificationListenerService.class);
         requireActivity().startService(serviceIntent);
-
-
+        MsgListAdapter msgListAdapter = new MsgListAdapter(requireActivity(), List.of(new NotificationListenerService().getActiveNotifications()));
+        msgView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        msgView.setAdapter(msgListAdapter);
 
         watchFaceBox.setOnLongClickListener(v->{
             Intent intent = new Intent(requireActivity(),ChooseWatchFaceActivity.class);
@@ -63,6 +69,25 @@ public class WatchFaceFragment extends Fragment{
             requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             return false;
         });
+
+        msgReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                StatusBarNotification sbn = intent.getParcelableExtra("sbn");
+                msgListAdapter.addSbn(sbn);
+            }
+        };
+        requireActivity().registerReceiver(msgReceiver, new IntentFilter("com.dudu.wearlauncher.NotificationReceived"));
+
+        msgRemovedReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                StatusBarNotification sbn = intent.getParcelableExtra("sbn");
+                msgListAdapter.removeSbn(sbn);
+            }
+        };
+        requireActivity().registerReceiver(msgRemovedReceiver, new IntentFilter("com.dudu.wearlauncher.NotificationRemoved"));
+
         if(!new File(watchFaceFolder).exists()) {
         	new File(watchFaceFolder).mkdir();
         }
@@ -120,6 +145,8 @@ public class WatchFaceFragment extends Fragment{
         requireActivity().unregisterReceiver(watchFaceChangeReceiver);
         requireActivity().unregisterReceiver(batteryChangeReceiver);
         requireActivity().unregisterReceiver(timeChangeReceiver);
+        requireActivity().unregisterReceiver(msgReceiver);
+        requireActivity().unregisterReceiver(msgRemovedReceiver);
     }
     public void updateTime(){
         if(watchFace!=null) {
