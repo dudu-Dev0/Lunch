@@ -5,7 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.service.notification.StatusBarNotification;
+import com.blankj.utilcode.util.AppUtils;
+import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.utils.ILog;
+
+import java.io.Serializable;
+import java.util.List;
 
 public class NotificationListenerService extends android.service.notification.NotificationListenerService {
 
@@ -29,7 +34,7 @@ public class NotificationListenerService extends android.service.notification.No
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
         Intent intent = new Intent("com.dudu.wearlauncher.NotificationReceived");
-        intent.putExtra("sbn", sbn);
+        intent.putExtra("notification", sbn2Notification(sbn));
         sendBroadcast(intent);
         ILog.v("Notification Received:" + sbn.getNotification().toString());
     }
@@ -38,11 +43,18 @@ public class NotificationListenerService extends android.service.notification.No
     public void onNotificationRemoved(StatusBarNotification sbn) {
         super.onNotificationRemoved(sbn);
         Intent intent = new Intent("com.dudu.wearlauncher.NotificationRemoved");
-        intent.putExtra("sbn", sbn);
+        intent.putExtra("notification", sbn2Notification(sbn));
         sendBroadcast(intent);
         ILog.v("Notification Removed:" + sbn.getNotification().toString());
     }
 
+    public Notification sbn2Notification(StatusBarNotification sbn) {
+        return new Notification(
+                sbn.getNotification().getSmallIcon(),
+                AppUtils.getAppName(sbn.getPackageName()),
+                sbn.getNotification().extras.getString(android.app.Notification.EXTRA_TITLE, "Title"),
+                sbn.getNotification().extras.getString(android.app.Notification.EXTRA_TEXT, "Content"));
+    }
     class NotificationServiceReceiver extends BroadcastReceiver {
 
         @Override
@@ -51,8 +63,12 @@ public class NotificationListenerService extends android.service.notification.No
                 NotificationListenerService.this.cancelAllNotifications();
             }
             if (intent.getStringExtra("command").equals("listAll")) {
+                List<Notification> list = List.of();
+                for (StatusBarNotification sbn : NotificationListenerService.this.getActiveNotifications()) {
+                    list.add(sbn2Notification(sbn));
+                }
                 Intent intent2 = new Intent("com.dudu.wearlauncher.ListAllNotification");
-                intent2.putExtra("sbnList", NotificationListenerService.this.getActiveNotifications());
+                intent2.putExtra("sbnList", (Serializable) list);
                 sendBroadcast(intent2);
             }
             if (intent.getStringExtra("command").equals("remove")) {

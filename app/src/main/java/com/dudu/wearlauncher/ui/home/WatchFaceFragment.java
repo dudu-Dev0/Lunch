@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Bundle;
-import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.R;
+import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
@@ -57,8 +57,8 @@ public class WatchFaceFragment extends Fragment{
         msgListAllReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                StatusBarNotification[] sbnList = (StatusBarNotification[]) intent.getParcelableArrayExtra("sbnList");
-                msgListAdapter = new MsgListAdapter(requireActivity(), List.of(sbnList));
+                List<Notification> list = (List<Notification>) intent.getSerializableExtra("sbnList");
+                msgListAdapter = new MsgListAdapter(requireActivity(), list);
                 msgView.setLayoutManager(new LinearLayoutManager(requireActivity()));
                 msgView.setAdapter(msgListAdapter);
             }
@@ -79,7 +79,7 @@ public class WatchFaceFragment extends Fragment{
         msgReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                StatusBarNotification sbn = intent.getParcelableExtra("sbn");
+                Notification sbn = (Notification) intent.getSerializableExtra("notification");
                 msgListAdapter.addSbn(sbn);
             }
         };
@@ -88,7 +88,7 @@ public class WatchFaceFragment extends Fragment{
         msgRemovedReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                StatusBarNotification sbn = intent.getParcelableExtra("sbn");
+                Notification sbn = (Notification) intent.getSerializableExtra("notification");
                 msgListAdapter.removeSbn(sbn);
             }
         };

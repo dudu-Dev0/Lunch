@@ -1,31 +1,28 @@
 package com.dudu.wearlauncher.ui.home;
 
-import android.app.Notification;
 import android.content.Context;
-import android.service.notification.StatusBarNotification;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.blankj.utilcode.util.AppUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dudu.wearlauncher.R;
+import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.widget.FormattedTextClock;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Date;
 import java.util.List;
 
 public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListHolder> {
     Context context;
-    List<StatusBarNotification> msgList;
+    List<Notification> msgList;
 
-    public MsgListAdapter(Context context, List<StatusBarNotification> msgList) {
+    public MsgListAdapter(Context context, List<Notification> msgList) {
         this.context = context;
         this.msgList = msgList;
     }
@@ -39,15 +36,15 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
 
     @Override
     public void onBindViewHolder(@NotNull MsgListHolder holder, int position) {
-        StatusBarNotification sbn = msgList.get(position);
-        Glide.with(context).load(sbn.getNotification().getSmallIcon())
+        Notification notification = msgList.get(position);
+        Glide.with(context).load(notification)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.msgImg);
-        holder.msgAppName.setText(AppUtils.getAppName(sbn.getPackageName()));
-        holder.msgTime.setOriginalTime(new Date(sbn.getPostTime()));
-        holder.msgTitle.setText(sbn.getNotification().extras.getString(Notification.EXTRA_TITLE, "Title"));
-        holder.msgContent.setText(sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TEXT, "Content"));
+        holder.msgAppName.setText(notification.appName);
+        //holder.msgTime.setOriginalTime(new Date(sbn.getPostTime()));
+        holder.msgTitle.setText(notification.title);
+        holder.msgContent.setText(notification.content);
     }
 
     @Override
@@ -55,12 +52,12 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
         return msgList.size();
     }
 
-    public void addSbn(StatusBarNotification sbn) {
+    public void addSbn(Notification sbn) {
         msgList.add(sbn);
         notifyItemInserted(getItemCount());
     }
 
-    public void removeSbn(StatusBarNotification sbn) {
+    public void removeSbn(Notification sbn) {
         try {
             int pos = msgList.indexOf(sbn);
             msgList.remove(sbn);
