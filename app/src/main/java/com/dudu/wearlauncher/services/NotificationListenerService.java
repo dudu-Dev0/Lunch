@@ -4,12 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Parcelable;
 import android.service.notification.StatusBarNotification;
 import com.blankj.utilcode.util.AppUtils;
 import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.utils.ILog;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationListenerService extends android.service.notification.NotificationListenerService {
@@ -52,8 +53,9 @@ public class NotificationListenerService extends android.service.notification.No
         return new Notification(
                 sbn.getNotification().getSmallIcon(),
                 AppUtils.getAppName(sbn.getPackageName()),
-                sbn.getNotification().extras.getString(android.app.Notification.EXTRA_TITLE, "Title"),
-                sbn.getNotification().extras.getString(android.app.Notification.EXTRA_TEXT, "Content"));
+                sbn.getNotification().extras.getCharSequence(android.app.Notification.EXTRA_TITLE, "Title").toString(),
+                sbn.getNotification().extras.getCharSequence(android.app.Notification.EXTRA_TEXT, "Content").toString(),
+                sbn.getPostTime());
     }
     class NotificationServiceReceiver extends BroadcastReceiver {
 
@@ -63,12 +65,12 @@ public class NotificationListenerService extends android.service.notification.No
                 NotificationListenerService.this.cancelAllNotifications();
             }
             if (intent.getStringExtra("command").equals("listAll")) {
-                List<Notification> list = List.of();
+                List<Notification> list = new ArrayList<>();
                 for (StatusBarNotification sbn : NotificationListenerService.this.getActiveNotifications()) {
                     list.add(sbn2Notification(sbn));
                 }
                 Intent intent2 = new Intent("com.dudu.wearlauncher.ListAllNotification");
-                intent2.putExtra("sbnList", (Serializable) list);
+                intent2.putParcelableArrayListExtra("list", (ArrayList<? extends Parcelable>) list);
                 sendBroadcast(intent2);
             }
             if (intent.getStringExtra("command").equals("remove")) {
