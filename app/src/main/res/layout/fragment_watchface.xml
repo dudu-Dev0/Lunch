@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     app:topLayout="@+id/topDrawer"
     app:bottomLayout="@+id/bottomDrawer"
+    app:topScroll="@id/msg_list"
+    app:topType="scrollY"
     app:mode="cover">
 
     <FrameLayout
