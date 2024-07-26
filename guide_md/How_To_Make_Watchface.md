@@ -5,9 +5,11 @@
 其中的结构如下
 > [watchface-name].zip
 >> preview.png\
-> > manifest.json\
-> > [watchface-name].wf
-> > Launcher在导入表盘时会将表盘解压至`/sdacrd/Android/data/com.dudu.wearlauncher/files/watchface`目录下
+>> manifest.json\
+>> [watchface-name].wf
+
+
+Launcher在导入表盘时会将表盘解压至`/sdacrd/Android/data/com.dudu.wearlauncher/files/watchface`目录下
 ### 搭建一个Android开发环境
 请自行配置`Android Studio、AndroidIDE、AIDE`之类的IDE
 ### 新建一个Android项目
