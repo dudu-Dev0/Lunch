@@ -1,10 +1,12 @@
 package com.dudu.wearlauncher.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -57,6 +59,13 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
         holder.msgTime.setOriginalTime(new Date(notification.time));
         holder.msgTitle.setText(notification.title);
         holder.msgContent.setText(notification.content);
+        holder.delBtn.setOnClickListener(v -> {
+            Intent intent = new Intent("com.dudu.wearlauncher.NOTIFICATION_LISTENER");
+            intent.putExtra("command", "cancelMsg");
+            intent.putExtra("key", notification.key);
+            context.sendBroadcast(intent);
+            removeSbn(notification);
+        });
     }
 
     @Override
@@ -83,6 +92,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
         ImageView msgImg;
         FormattedTextClock msgTime;
         TextView msgAppName, msgTitle, msgContent;
+        ImageButton delBtn;
         public MsgListHolder(View itemView) {
             super(itemView);
             msgImg = itemView.findViewById(R.id.msg_icon);
@@ -90,6 +100,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
             msgTime = itemView.findViewById(R.id.msg_time);
             msgTitle = itemView.findViewById(R.id.msg_title);
             msgContent = itemView.findViewById(R.id.msg_content);
+            delBtn = itemView.findViewById(R.id.del_msg_btn);
         }
     }
 }

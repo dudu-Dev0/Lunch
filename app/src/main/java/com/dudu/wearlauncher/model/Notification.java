@@ -10,6 +10,7 @@ public class Notification implements Parcelable {
     public String appName;
     public String title;
     public String content;
+    public String key;
     public static final Creator<Notification> CREATOR = new Creator<>() {
         @Override
         public Notification createFromParcel(Parcel in) {
@@ -26,12 +27,13 @@ public class Notification implements Parcelable {
     }
     public long time;
 
-    public Notification(Icon icon, String appName, String title, String content, long time) {
+    public Notification(Icon icon, String appName, String title, String content, long time, String key) {
         this.icon = icon;
         this.appName = appName;
         this.title = title;
         this.content = content;
         this.time = time;
+        this.key = key;
     }
 
     protected Notification(Parcel in) {
@@ -40,6 +42,7 @@ public class Notification implements Parcelable {
         appName = in.readString();
         title = in.readString();
         time = in.readLong();
+        key = in.readString();
     }
 
     @Override
@@ -54,5 +57,6 @@ public class Notification implements Parcelable {
         parcel.writeString(appName);
         parcel.writeString(title);
         parcel.writeLong(time);
+        parcel.writeString(key);
     }
 }

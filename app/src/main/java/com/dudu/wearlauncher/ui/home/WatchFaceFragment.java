@@ -16,13 +16,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
+import com.dudu.wearlauncher.widget.MyLinearLayoutManager;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
 import org.json.JSONException;
 
@@ -60,7 +60,7 @@ public class WatchFaceFragment extends Fragment{
             public void onReceive(Context context, Intent intent) {
                 List<Notification> list = intent.getParcelableArrayListExtra("list");
                 msgListAdapter = new MsgListAdapter(requireActivity(), list);
-                msgView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+                msgView.setLayoutManager(new MyLinearLayoutManager(requireActivity()));
                 msgView.setAdapter(msgListAdapter);
             }
         };

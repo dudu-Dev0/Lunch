@@ -55,7 +55,8 @@ public class NotificationListenerService extends android.service.notification.No
                 AppUtils.getAppName(sbn.getPackageName()),
                 sbn.getNotification().extras.getCharSequence(android.app.Notification.EXTRA_TITLE, "Title").toString(),
                 sbn.getNotification().extras.getCharSequence(android.app.Notification.EXTRA_TEXT, "Content").toString(),
-                sbn.getPostTime());
+                sbn.getPostTime(),
+                sbn.getKey());
     }
     class NotificationServiceReceiver extends BroadcastReceiver {
 
@@ -64,6 +65,11 @@ public class NotificationListenerService extends android.service.notification.No
             if (intent.getStringExtra("command").equals("clearAll")) {
                 NotificationListenerService.this.cancelAllNotifications();
             }
+            if (intent.getStringExtra("command").equals("cancelMsg")) {
+                String key = intent.getStringExtra("key");
+                NotificationListenerService.this.cancelNotification(key);
+            }
+
             if (intent.getStringExtra("command").equals("listAll")) {
                 List<Notification> list = new ArrayList<>();
                 for (StatusBarNotification sbn : NotificationListenerService.this.getActiveNotifications()) {
@@ -77,7 +83,6 @@ public class NotificationListenerService extends android.service.notification.No
                 String key = intent.getStringExtra("key");
                 NotificationListenerService.this.cancelNotification(key);
             }
-            ;
 
         }
     }
