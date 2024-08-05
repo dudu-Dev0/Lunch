@@ -12,14 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.ZipUtils;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
+import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import com.dudu.wearlauncher.widget.MyLinearLayoutManager;
@@ -27,7 +29,9 @@ import com.dudu.wearlauncher.widget.MyRecyclerView;
 import org.json.JSONException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
 
@@ -68,9 +72,7 @@ public class WatchFaceFragment extends Fragment{
 
         postGetAllNotification();
 
-        TextView emptyView = new TextView(requireActivity());
-        emptyView.setText("暂无消息");
-        msgView.setEmptyView(emptyView);
+        msgView.setEmptyView(view.findViewById(R.id.empty_list_text));
 
         watchFaceBox.setOnLongClickListener(v->{
             Intent intent = new Intent(requireActivity(),ChooseWatchFaceActivity.class);
@@ -100,7 +102,31 @@ public class WatchFaceFragment extends Fragment{
         if(!new File(watchFaceFolder).exists()) {
         	new File(watchFaceFolder).mkdir();
         }
-        refreshWatchFace();
+        if (Objects.requireNonNull(new File(watchFaceFolder).listFiles(File::isDirectory)).length == 0) {
+            try {
+                ILog.w("Listing asset files...");
+                String[] assetFiles = requireActivity().getAssets().list("builtin-watchfaces");
+                for (String assetFile : assetFiles) {
+                    new Thread(() -> {
+                        try {
+                            ILog.w("Copying " + assetFile + " And Unzipping...");
+                            File watchfaceZipFile = new File(watchFaceFolder + assetFile);
+                            FileIOUtils.writeFileFromIS(watchfaceZipFile, requireActivity().getAssets().open("builtin-watchfaces/" + assetFile));
+                            ILog.e("File has been wrote at " + watchFaceFolder + "/" + watchfaceZipFile.getName().replaceAll(".zip", ""));
+                            ZipUtils.unzipFile(watchfaceZipFile, new File(watchFaceFolder + "/" + assetFile.replaceAll(".zip", "")));
+                            refreshWatchFace();
+                        } catch (IOException e) {
+                            ILog.e(e.getMessage());
+                        }
+                    }).start();
+                }
+
+            } catch (IOException e) {
+                ILog.e(e.getMessage());
+            }
+        } else {
+            refreshWatchFace();
+        }
         watchFaceChangeReceiver = new BroadcastReceiver(){
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -119,7 +145,6 @@ public class WatchFaceFragment extends Fragment{
             }
         };
         requireActivity().registerReceiver(batteryChangeReceiver,new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        
         timeChangeReceiver = new BroadcastReceiver(){
             @Override
             public void onReceive(Context context, Intent intent) {

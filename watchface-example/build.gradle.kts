@@ -103,6 +103,9 @@ tasks.register<Zip>("packageReleaseWatchface") {
         println("Watchface created successful at ${buildDir}/outputs/watchface/release/${project.name}.zip !")
     }
 }
+tasks.whenTaskAdded {
+    if (name == "createDebugApkListingFileRedirect" || name == "createReleaseApkListingFileRedirect") enabled = false
+}
 tasks.register<Copy>("copyPreviewImageDebug") {
     mustRunAfter("createDebugApkListingFileRedirect")
     from("src/main/assets")

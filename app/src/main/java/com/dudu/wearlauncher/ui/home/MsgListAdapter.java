@@ -23,6 +23,7 @@ import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.widget.FormattedTextClock;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +65,6 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
             intent.putExtra("command", "cancelMsg");
             intent.putExtra("key", notification.key);
             context.sendBroadcast(intent);
-            removeSbn(notification);
         });
     }
 
@@ -74,6 +74,12 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
     }
 
     public void addSbn(Notification sbn) {
+        for (Notification notification : msgList) {
+            if (notification.key.equals(sbn.key)) {
+                Collections.replaceAll(msgList, notification, sbn);
+                return;
+            }
+        }
         msgList.add(sbn);
         notifyItemInserted(getItemCount());
     }

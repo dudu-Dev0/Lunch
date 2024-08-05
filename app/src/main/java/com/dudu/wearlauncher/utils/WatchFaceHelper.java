@@ -1,25 +1,22 @@
 package com.dudu.wearlauncher.utils;
-import com.blankj.utilcode.util.FileIOUtils;
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
+
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+import com.blankj.utilcode.util.FileIOUtils;
 import com.dudu.wearlauncher.WearLauncherApp;
-import com.dudu.wearlauncher.model.WatchFaceInfo;
-import com.google.gson.JsonObject;
-import dalvik.system.DexClassLoader;
-import java.io.File;
-import java.io.IOException;
 import com.dudu.wearlauncher.model.WatchFace;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import kotlin.io.FilesKt;
+import com.dudu.wearlauncher.model.WatchFaceInfo;
+import dalvik.system.DexClassLoader;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.dudu.wearlauncher.model.WatchFace.*;
 
 public class WatchFaceHelper {
     
@@ -47,7 +44,7 @@ public class WatchFaceHelper {
         return null;
     }
     public static List<WatchFaceInfo> getAllWatchFace() throws JSONException{
-        File[] allFile = new File(watchFaceFolder).listFiles();
+        File[] allFile = new File(watchFaceFolder).listFiles(File::isDirectory);
         List<WatchFaceInfo> watchFaceList = new ArrayList<WatchFaceInfo>();
         for(File file : allFile) {
         	if(file.isDirectory()&&new File(file.getAbsolutePath()+"/"+file.getName()+watchFaceSuffix).exists()) {
