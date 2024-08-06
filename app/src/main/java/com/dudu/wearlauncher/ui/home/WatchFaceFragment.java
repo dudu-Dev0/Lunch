@@ -7,11 +7,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -112,7 +113,7 @@ public class WatchFaceFragment extends Fragment{
                             ILog.w("Copying " + assetFile + " And Unzipping...");
                             File watchfaceZipFile = new File(watchFaceFolder + assetFile);
                             FileIOUtils.writeFileFromIS(watchfaceZipFile, requireActivity().getAssets().open("builtin-watchfaces/" + assetFile));
-                            ILog.e("File has been wrote at " + watchFaceFolder + "/" + watchfaceZipFile.getName().replaceAll(".zip", ""));
+                            //ILog.e("File has been wrote at " + watchFaceFolder + "/" + watchfaceZipFile.getName().replaceAll(".zip", ""));
                             ZipUtils.unzipFile(watchfaceZipFile, new File(watchFaceFolder + "/" + assetFile.replaceAll(".zip", "")));
                             refreshWatchFace();
                         } catch (IOException e) {
@@ -125,7 +126,12 @@ public class WatchFaceFragment extends Fragment{
                 ILog.e(e.getMessage());
             }
         } else {
-            refreshWatchFace();
+            try {
+                if (WatchFaceHelper.getAllWatchFace().isEmpty()) onWatchFaceLoadFailed();
+                else refreshWatchFace();
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
         }
         watchFaceChangeReceiver = new BroadcastReceiver(){
             @Override
@@ -172,12 +178,21 @@ public class WatchFaceFragment extends Fragment{
                 watchFaceBox.addView(watchFace,layoutParams);
                 updateTime();
             }else{
-                Log.e("","表盘加载失败");
+                throw new RuntimeException("Unexpected null watchface");
             }
-        } catch(JSONException err) {
-        	err.printStackTrace();
+        } catch (Exception err) {
+            onWatchFaceLoadFailed();
+            ILog.e("表盘加载失败:" + err.getMessage());
         }
        
+    }
+
+    private void onWatchFaceLoadFailed() {
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.gravity = Gravity.CENTER;
+        TextView tv = new TextView(requireActivity());
+        tv.setText("表盘加载失败");
+        watchFaceBox.addView(tv, lp);
     }
     @Override
     public void onDestroy() {

@@ -49,6 +49,7 @@ public class WatchFaceHelper {
         for(File file : allFile) {
         	if(file.isDirectory()&&new File(file.getAbsolutePath()+"/"+file.getName()+watchFaceSuffix).exists()) {
         		File watchFaceManifest = new File(file.getAbsolutePath()+"/manifest.json");
+                if (!watchFaceManifest.exists()) continue;
                 JSONObject manifest = new JSONObject(FileIOUtils.readFile2String(watchFaceManifest));
                 WatchFaceInfo data = new WatchFaceInfo();
                 data.name = manifest.getString("name");

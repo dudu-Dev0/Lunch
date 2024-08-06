@@ -17,8 +17,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_height="90dp"
         android:layout_width="90dp"
-        android:clickable="true"
         app:strokeColor="@color/cardBackgroundColorNormal"
+        app:cardBackgroundColor="@color/cardBackgroundColorNormal"
         app:strokeWidth="5dp"
         app:cardCornerRadius="10dp"
         android:focusable="true"

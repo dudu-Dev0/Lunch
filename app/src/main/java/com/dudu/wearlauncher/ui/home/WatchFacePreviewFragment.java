@@ -1,4 +1,5 @@
 package com.dudu.wearlauncher.ui.home;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,15 +18,12 @@ import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
+import com.dudu.wearlauncher.utils.WatchSurfaceHelper;
+import org.json.JSONException;
 
+import java.io.File;
 
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
-
-import com.dudu.wearlauncher.utils.WatchSurfaceHelper;
-import java.io.File;
-import org.json.JSONException;
 
 public class WatchFacePreviewFragment extends Fragment{
     String watchFaceName;
@@ -66,7 +65,12 @@ public class WatchFacePreviewFragment extends Fragment{
             requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         });
         settingsBtn.setOnClickListener(v->{
-            WatchSurfaceHelper.startWsfActivity(requireActivity(),watchFaceName,info.packageName+".SettingsSurface");
+            if (WatchSurfaceHelper.getWatchSurface(requireActivity(), watchFaceName, info.packageName + ".SettingsSurface") != null) {
+                WatchSurfaceHelper.startWsfActivity(requireActivity(), watchFaceName, info.packageName + ".SettingsSurface");
+            } else {
+                Toast.makeText(requireActivity(), "该表盘没有设置", Toast.LENGTH_SHORT).show();
+            }
         });
     }
+
 }

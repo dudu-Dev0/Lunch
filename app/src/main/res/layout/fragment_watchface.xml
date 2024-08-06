@@ -20,7 +20,8 @@
             android:id="@+id/empty_list_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No Notification Yet"/>
+            android:layout_gravity="center"
+            android:text="还没有消息哦"/>
         <com.dudu.wearlauncher.widget.MyRecyclerView
             android:id="@+id/msg_list"
             android:layout_width="match_parent"
