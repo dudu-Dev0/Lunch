@@ -63,8 +63,9 @@ public class WatchFaceHelper {
         
     	return watchFaceList;
     }
+
     public static WatchFaceInfo getWatchFaceInfo(String name) throws JSONException{
-    	File watchFaceManifest = new File(watchFaceFolder+"/"+name+"/manifest.json");
+        File watchFaceManifest = new File(watchFaceFolder+"/"+name+"/manifest.json");
         JSONObject manifest = new JSONObject(FileIOUtils.readFile2String(watchFaceManifest));
         WatchFaceInfo data = new WatchFaceInfo();
         data.name = manifest.getString("name");
@@ -74,4 +75,5 @@ public class WatchFaceHelper {
         data.versionCode = manifest.getInt("versionCode");
         return data;
     }
+
 }

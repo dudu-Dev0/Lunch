@@ -1,11 +1,13 @@
 package com.dudu.wearlauncher.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -14,6 +16,7 @@ import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
+import com.dudu.wearlauncher.ui.settings.ImportLocalWatchFaceActivity;
 import com.dudu.wearlauncher.utils.DensityUtil;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseWatchFaceActivity extends BaseActivity {
+    public static int FILE_CHOOSER_CODE = 114514;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,7 @@ public class ChooseWatchFaceActivity extends BaseActivity {
     }
 
     public static class Choose2ImportWatchFaceFragment extends Fragment {
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             return inflater.inflate(R.layout.fragment_watchface_preview, container, false);
@@ -66,6 +71,24 @@ public class ChooseWatchFaceActivity extends BaseActivity {
             view.findViewById(R.id.wf_pre_img).setScaleX(0.5F);
             view.findViewById(R.id.wf_pre_img).setScaleY(0.5F);
             ((TextView) view.findViewById(R.id.wf_name_txt)).setText("从本地导入表盘");
+            view.setOnClickListener(v->{
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.setType("application/zip");
+                requireActivity().startActivityForResult(intent,FILE_CHOOSER_CODE);
+            });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if (requestCode == FILE_CHOOSER_CODE){
+                Intent intent = new Intent(this, ImportLocalWatchFaceActivity.class);
+                intent.putExtra("zip_uri",data.getData());
+                startActivity(intent);
+                finish();
+            }
         }
     }
 }

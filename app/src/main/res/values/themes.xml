@@ -3,6 +3,9 @@
     <style name="Base.AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:textColor">#FFF</item>
         <item name="android:textSize">14sp</item>
+        <item name="colorPrimary">@color/theme_color</item>>
+        <item name="colorOnPrimary">#FFF</item>>
+        <item name="colorError">@color/red</item>>
         <item name="android:windowBackground">#000</item>
     </style>
 
