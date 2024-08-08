@@ -31,8 +31,8 @@ public class ImportLocalWatchFaceActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_local_watchface);
-        
-        String zipPath = getRealPathFromURI(this,getIntent().getParcelableExtra("zip_uri"));
+
+        String zipPath = getIntent().getStringExtra("zip_path");
 
         ILog.w("zipPath:"+zipPath);
         Toast.makeText(this,zipPath,Toast.LENGTH_SHORT).show();
@@ -53,8 +53,8 @@ public class ImportLocalWatchFaceActivity extends BaseActivity {
                     data.author = manifest.getString("author");
                     data.versionCode = manifest.getInt("versionCode");
                     ((TextView)findViewById(R.id.wf_name_txt)).setText(data.displayName);
-                    ((TextView)findViewById(R.id.wf_author_txt)).setText(data.author);
-                    ((TextView)findViewById(R.id.wf_version_txt)).setText(data.versionCode);
+                    ((TextView)findViewById(R.id.wf_author_txt)).setText("Author:"+data.author);
+                    ((TextView)findViewById(R.id.wf_version_txt)).setText("Version:"+data.versionCode);
                     findViewById(R.id.apply_btn).setOnClickListener(v->{
                         v.setEnabled(false);
                         ((MaterialButton)v).setText("请稍候...");
@@ -75,25 +75,11 @@ public class ImportLocalWatchFaceActivity extends BaseActivity {
         }
 
     }
-    /**
-     * Uri2path
-     */
-    public static String getRealPathFromURI(Context context, Uri contentURI) {
-        String result;
-        Cursor cursor = null;
-        try {
-            cursor = context.getContentResolver().query(contentURI, null, null, null, null);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-        if (cursor == null) {
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        File cache = getCacheDir();
+        FileUtils.deleteAllInDir(cache);
     }
 }

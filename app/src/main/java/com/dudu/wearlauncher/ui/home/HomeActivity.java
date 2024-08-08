@@ -1,5 +1,6 @@
 package com.dudu.wearlauncher.ui.home;
 
+import android.content.Intent;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
+import com.dudu.wearlauncher.services.NotificationListenerService;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
@@ -19,7 +21,9 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        
+
+        startService(new Intent(this, NotificationListenerService.class));
+
         homeViewPager = findViewById(R.id.home_pager);
         List<Fragment> fragmentList = List.of(new WatchFaceFragment(),new AppListFragment());
         ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager(),fragmentList);

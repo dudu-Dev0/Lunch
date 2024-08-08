@@ -115,6 +115,7 @@ public class WatchFaceFragment extends Fragment{
                             FileIOUtils.writeFileFromIS(watchfaceZipFile, requireActivity().getAssets().open("builtin-watchfaces/" + assetFile));
                             //ILog.e("File has been wrote at " + watchFaceFolder + "/" + watchfaceZipFile.getName().replaceAll(".zip", ""));
                             ZipUtils.unzipFile(watchfaceZipFile, new File(watchFaceFolder + "/" + assetFile.replaceAll(".zip", "")));
+                            watchfaceZipFile.delete();
                             refreshWatchFace();
                         } catch (IOException e) {
                             ILog.e(e.getMessage());

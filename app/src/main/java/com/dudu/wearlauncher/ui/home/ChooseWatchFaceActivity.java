@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+import com.blankj.utilcode.util.FileIOUtils;
 import com.bumptech.glide.Glide;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
@@ -18,11 +20,14 @@ import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
 import com.dudu.wearlauncher.ui.settings.ImportLocalWatchFaceActivity;
 import com.dudu.wearlauncher.utils.DensityUtil;
+import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +77,7 @@ public class ChooseWatchFaceActivity extends BaseActivity {
             view.findViewById(R.id.wf_pre_img).setScaleY(0.5F);
             ((TextView) view.findViewById(R.id.wf_name_txt)).setText("从本地导入表盘");
             view.setOnClickListener(v->{
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("application/zip");
                 requireActivity().startActivityForResult(intent,FILE_CHOOSER_CODE);
             });
@@ -84,10 +89,17 @@ public class ChooseWatchFaceActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
             if (requestCode == FILE_CHOOSER_CODE){
-                Intent intent = new Intent(this, ImportLocalWatchFaceActivity.class);
-                intent.putExtra("zip_uri",data.getData());
-                startActivity(intent);
-                finish();
+                try {
+                    File cacheZip = new File(getCacheDir(),System.currentTimeMillis()+".zip");
+                    FileIOUtils.writeFileFromIS(cacheZip,this.getContentResolver().openInputStream(data.getData()));
+                    Intent intent = new Intent(this, ImportLocalWatchFaceActivity.class);
+                    intent.putExtra("zip_path",cacheZip.getAbsolutePath());
+                    startActivity(intent);
+                    finish();
+                } catch (FileNotFoundException e) {
+                    ILog.e(e.getLocalizedMessage());
+                    Toast.makeText(this,"File Not Found",Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

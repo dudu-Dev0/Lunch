@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="82dp"
     android:layout_margin="2dp"
     app:autoClose="true"
     app:mainLayout="@id/item_msg_main_card"
@@ -14,7 +14,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_msg_main_card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:cardBackgroundColor="@color/cardBackgroundColorNormal"
         app:cardCornerRadius="12dp"
         app:contentPadding="6dp"
@@ -27,7 +27,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="28dp"
                 android:orientation="horizontal">
 
                 <ImageView
