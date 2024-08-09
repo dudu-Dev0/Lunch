@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 public class Notification implements Parcelable {
     public Icon icon;
     public String appName;
@@ -26,6 +28,19 @@ public class Notification implements Parcelable {
 
     }
     public long time;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Notification that = (Notification) o;
+        return Objects.equals(key, that.key);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(key);
+    }
 
     public Notification(Icon icon, String appName, String title, String content, long time, String key) {
         this.icon = icon;

@@ -61,8 +61,6 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
         holder.msgTitle.setText(notification.title);
         holder.msgContent.setText(notification.content);
         holder.delBtn.setOnClickListener(v -> {
-            msgList.remove(position);
-            notifyItemRemoved(position);    //防止删不干净（
             Intent intent = new Intent("com.dudu.wearlauncher.NOTIFICATION_LISTENER");
             intent.putExtra("command", "cancelMsg");
             intent.putExtra("key", notification.key);
@@ -87,13 +85,21 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
     }
 
     public void removeSbn(Notification sbn) {
-        try {
-            int pos = msgList.indexOf(sbn);
-            msgList.remove(sbn);
-            notifyItemRemoved(pos);
-        } catch (IndexOutOfBoundsException e) {
-            ILog.e(e.getMessage() + "sbn is not available,skipped");
+        //new Thread(()->{
+        while (true) {
+            try {
+                int pos = msgList.indexOf(sbn);
+                if (pos == -1) {
+                    break;
+                }
+                msgList.remove(sbn);
+                notifyItemRemoved(pos);
+            } catch (IndexOutOfBoundsException e) {
+                ILog.e(e.getMessage() + "sbn is not available,skipped");
+                break;
+            }
         }
+        //}).start();
     }
 
     public static class MsgListHolder extends RecyclerView.ViewHolder {

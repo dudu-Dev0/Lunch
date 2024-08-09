@@ -1,16 +1,12 @@
 package com.dudu.wearlauncher.ui.settings;
 
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.core.content.FileProvider;
-import androidx.core.net.UriKt;
-import com.blankj.utilcode.util.*;
+import com.blankj.utilcode.util.EncryptUtils;
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.ZipUtils;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.ui.BaseActivity;
@@ -21,7 +17,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
 
@@ -53,13 +48,17 @@ public class ImportLocalWatchFaceActivity extends BaseActivity {
                     data.author = manifest.getString("author");
                     data.versionCode = manifest.getInt("versionCode");
                     ((TextView)findViewById(R.id.wf_name_txt)).setText(data.displayName);
-                    ((TextView)findViewById(R.id.wf_author_txt)).setText("Author:"+data.author);
-                    ((TextView)findViewById(R.id.wf_version_txt)).setText("Version:"+data.versionCode);
+                    ((TextView) findViewById(R.id.wf_author_txt)).setText("作者:" + data.author);
+                    ((TextView) findViewById(R.id.wf_version_txt)).setText("版本:" + data.versionCode);
                     findViewById(R.id.apply_btn).setOnClickListener(v->{
                         v.setEnabled(false);
                         ((MaterialButton)v).setText("请稍候...");
-                        FileUtils.copy(tempWatchFace,new File(watchFaceFolder));
-                        FileUtils.rename(watchFaceFolder+"/"+md5,data.name);
+                        FileUtils.copy(tempWatchFace, new File(watchFaceFolder + "/" + md5));
+                        File finalDir = new File(watchFaceFolder + "/" + data.name);
+                        if (finalDir.exists()) {
+                            FileUtils.delete(finalDir);
+                        }
+                        new File(watchFaceFolder + "/" + md5).renameTo(finalDir);
                         Toast.makeText(this,"导入完成",Toast.LENGTH_SHORT).show();
                         finish();
                     });
