@@ -1,0 +1,32 @@
+package com.dudu.wearlauncher.widget;
+
+
+import android.content.Context;
+import android.util.AttributeSet;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
+import com.dudu.wearlauncher.R;
+import org.jetbrains.annotations.NotNull;
+
+public class SwitchIconButton extends AppCompatImageButton {
+    public SwitchIconButton(@NonNull @NotNull Context context) {
+        this(context, null);
+    }
+
+    public SwitchIconButton(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public SwitchIconButton(@NonNull @NotNull Context context, @Nullable @org.jetbrains.annotations.Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        setActivated(false);
+        setBackground(getResources().getDrawable(R.drawable.circle_bg_gray));
+        setOnClickListener(v -> {
+            //Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+            setActivated(!isActivated());
+        });
+        setScaleType(ScaleType.CENTER);
+    }
+
+}

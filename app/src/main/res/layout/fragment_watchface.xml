@@ -33,11 +33,14 @@
         android:layout_width="match_parent"
         android:background="@android:color/black"
         android:id="@+id/bottomDrawer">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <com.dudu.wearlauncher.widget.SwitchIconButton
+            android:layout_height="48dp"
+            android:layout_width="48dp"
             android:layout_gravity="center"
-            android:text="FastSettings" />
+            android:src="@drawable/wifi_selector">
+
+        </com.dudu.wearlauncher.widget.SwitchIconButton>
     </FrameLayout>
 
     <FrameLayout
