@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="52dp"
     android:layout_width="match_parent"
     android:layout_marginVertical="2dp"
-    android:background="@drawable/chip_background_medium">
+    app:rippleColor="@color/ripple_color"
+    app:cardCornerRadius="26dp"
+    app:cardBackgroundColor="@color/cardBackgroundColorNormal"
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_height="wrap_content"
@@ -34,4 +37,4 @@
 
     </LinearLayout>
 
-</FrameLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -15,6 +15,7 @@
         android:id="@+id/item_msg_main_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:rippleColor="@color/ripple_color"
         app:cardBackgroundColor="@color/cardBackgroundColorNormal"
         app:cardCornerRadius="12dp"
         app:contentPadding="6dp"
@@ -101,6 +102,8 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="center"
+            android:layout_marginHorizontal="5dp"
+            android:foreground="@drawable/ripple_effect"
             android:background="@drawable/circle_bg_red"
             android:src="@drawable/delete"/>
     </LinearLayout>

@@ -8,11 +8,12 @@
 
     <ImageButton
         android:id="@+id/wf_settings_button"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:layout_width="24dp"
         android:layout_gravity="center|top"
         android:src="@drawable/icon_settings"
-        android:background="@drawable/ripple_effect"
+        android:foreground="@drawable/ripple_effect"
+        android:background="@drawable/circle_bg_gray"
         android:layout_marginBottom="4dp" />
     <com.google.android.material.card.MaterialCardView
         android:layout_height="90dp"
@@ -47,6 +48,6 @@
         android:id="@+id/wf_name_txt"
         android:text=""
         android:layout_gravity="center"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="2dp" />
 
 </LinearLayout>
