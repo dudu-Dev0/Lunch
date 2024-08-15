@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <!--size android:height="48dp"/-->
+            <corners android:radius="24dp"/>
+            <solid android:color="@color/cardBackgroundColorNormal"/>
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="24dp"/>
+                <solid android:color="@android:color/white"/>
+            </shape>
+        </clip>
+
+    </item>
+
+</layer-list>

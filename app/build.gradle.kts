@@ -56,4 +56,5 @@ dependencies {
     implementation("com.blankj:utilcodex:1.31.1")
     //watchface-dev
     implementation(project(":watchface-dev-utils"))
+
 }

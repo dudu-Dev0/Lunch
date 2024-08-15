@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt">
+    <item
+        android:state_activated="true">
+        <aapt:attr name="android:drawable">
+            <vector
+                android:width="24dp"
+                android:height="24dp"
+                android:viewportWidth="960"
+                android:viewportHeight="960">
+                <path
+                    android:fillColor="@android:color/white"
+                    android:pathData="M80,880L880,80L880,880L80,880ZM273,800L800,800L800,274L273,800Z"/>
+            </vector>
+        </aapt:attr>
+    </item>
+    <item
+        android:state_activated="false">
+        <aapt:attr name="android:drawable">
+            <vector
+                android:width="24dp"
+                android:height="24dp"
+                android:viewportWidth="960"
+                android:viewportHeight="960">
+                <path
+                    android:fillColor="@android:color/white"
+                    android:pathData="M273,800L687,800L480,593L273,800ZM831,944L767,880L80,880L424,536L96,209L152,152L888,888L831,944ZM880,767L800,687L800,273L593,480L536,424L880,80L880,767ZM697,583L697,583L697,583ZM584,696L584,696L584,696Z"/>
+            </vector>
+        </aapt:attr>
+    </item>
+</selector>

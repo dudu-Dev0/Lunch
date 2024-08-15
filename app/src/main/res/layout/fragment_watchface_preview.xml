@@ -8,8 +8,8 @@
 
     <ImageButton
         android:id="@+id/wf_settings_button"
-        android:layout_height="14dp"
-        android:layout_width="24dp"
+        android:layout_height="18dp"
+        android:layout_width="32dp"
         android:layout_gravity="center|top"
         android:src="@drawable/icon_settings"
         android:foreground="@drawable/ripple_effect"
