@@ -79,9 +79,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.dudu.wearlauncher.widget.RoundedSeekBar
+            android:id="@+id/volume_seekbar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            app:left_icon="@drawable/delete"
+            app:left_icon="@drawable/icon_volume_0"
+            android:layout_margin="4dp"/>
+        <com.dudu.wearlauncher.widget.RoundedSeekBar
+            android:id="@+id/light_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:left_icon="@drawable/icon_light"
             android:layout_margin="4dp"/>
     </LinearLayout>
 

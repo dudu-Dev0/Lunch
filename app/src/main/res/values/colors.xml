@@ -4,4 +4,5 @@
     <color name="red">#FF0000</color>
     <color name="theme_color">#03a9f4</color>
     <color name="ripple_color">#33FFFFFF</color>
+    <color name="gray_light">#a9a9a9</color>
 </resources>

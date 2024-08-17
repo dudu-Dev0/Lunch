@@ -15,7 +15,7 @@ import com.dudu.wearlauncher.R;
 public class RoundedSeekBar extends FrameLayout {
     Drawable icon;
     SeekBar seekBar;
-
+    ImageView iconView;
     public RoundedSeekBar(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -29,8 +29,10 @@ public class RoundedSeekBar extends FrameLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundedSeekBar);
         icon = typedArray.getDrawable(R.styleable.RoundedSeekBar_left_icon);
         LayoutInflater.from(context).inflate(R.layout.widget_seek_bar, this);
-        ((ImageView) findViewById(R.id.seek_bar_icon)).setImageDrawable(icon);
         seekBar = findViewById(R.id.seek_bar);
+        iconView = findViewById(R.id.seek_bar_icon);
+        iconView.setImageDrawable(icon);
+        
 
     }
 
@@ -44,5 +46,13 @@ public class RoundedSeekBar extends FrameLayout {
 
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener listener) {
         seekBar.setOnSeekBarChangeListener(listener);
+    }
+
+    public void setIconDrawable(Drawable icon){
+        this.icon = icon;
+        iconView.setImageDrawable(icon);
+    }
+    public void setIconOnClickListener(OnClickListener listener) {
+    	iconView.setOnClickListener(listener);
     }
 }

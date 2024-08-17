@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -12,13 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.VolumeUtils;
 import com.blankj.utilcode.util.ZipUtils;
 import com.dudu.wearlauncher.R;
+import com.dudu.wearlauncher.listener.VolumeChangeObserver;
 import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
@@ -27,6 +31,7 @@ import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import com.dudu.wearlauncher.widget.MyLinearLayoutManager;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
+import com.dudu.wearlauncher.widget.RoundedSeekBar;
 import org.json.JSONException;
 
 import java.io.File;
@@ -44,6 +49,8 @@ public class WatchFaceFragment extends Fragment{
     MsgListAdapter msgListAdapter;
 
     BroadcastReceiver msgReceiver, msgRemovedReceiver, msgListAllReceiver, watchFaceChangeReceiver, batteryChangeReceiver, timeChangeReceiver;
+    
+    VolumeChangeObserver volumeObserver;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +66,44 @@ public class WatchFaceFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         watchFaceBox = view.findViewById(R.id.watchface_box);
         MyRecyclerView msgView = view.findViewById(R.id.msg_list);
+        RoundedSeekBar volumeSeekBar = view.findViewById(R.id.volume_seekbar);
+        RoundedSeekBar lightSeekBar = view.findViewById(R.id.light_seekbar);
+        
+        volumeObserver = new VolumeChangeObserver(requireActivity());
+        volumeObserver.registerReceiver();
+        
+        volumeObserver.setVolumeChangeListener(new VolumeChangeObserver.VolumeChangeListener(){
+            @Override
+            public void onVolumeChanged(int volume) {
+                if(Math.abs(((double)volume/volumeObserver.getMaxMusicVolume()*100)-volumeSeekBar.getProgress())>=10) {
+                	volumeSeekBar.setProgress((int)((double)volume/volumeObserver.getMaxMusicVolume()*100));
+                }
+                ILog.d("Volume Changed :"+volume+"Max:"+volumeObserver.getMaxMusicVolume());
+            }
+        });
+        
+        volumeSeekBar.setIconOnClickListener(v->{
+            VolumeUtils.setVolume(AudioManager.STREAM_MUSIC,0,AudioManager.FLAG_SHOW_UI);
+        });
+        
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @Override
+            public void onStartTrackingTouch(SeekBar arg0) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar arg0) {}
+            @Override
+            public void onProgressChanged(SeekBar arg0,int arg1,boolean arg2) {
+                if(arg1<=2) {
+                	volumeSeekBar.setIconDrawable(getResources().getDrawable(R.drawable.icon_volume_0));
+                }if(2<arg1&arg1<=50) {
+                	volumeSeekBar.setIconDrawable(getResources().getDrawable(R.drawable.icon_volume_1));
+                }if(arg1>50) {
+                	volumeSeekBar.setIconDrawable(getResources().getDrawable(R.drawable.icon_volume_2));
+                }
+                VolumeUtils.setVolume(AudioManager.STREAM_MUSIC,(int)((double)arg1/100*volumeObserver.getMaxMusicVolume()),AudioManager.FLAG_SHOW_UI);
+            }
+        });
+        volumeSeekBar.setProgress((int)((double)volumeObserver.getCurrentMusicVolume()/volumeObserver.getMaxMusicVolume()*100));
 
         msgListAllReceiver = new BroadcastReceiver() {
             @Override
@@ -198,6 +243,7 @@ public class WatchFaceFragment extends Fragment{
     @Override
     public void onDestroy() {
     	super.onDestroy();
+        volumeObserver.unregisterReceiver();
         requireActivity().unregisterReceiver(watchFaceChangeReceiver);
         requireActivity().unregisterReceiver(batteryChangeReceiver);
         requireActivity().unregisterReceiver(timeChangeReceiver);
