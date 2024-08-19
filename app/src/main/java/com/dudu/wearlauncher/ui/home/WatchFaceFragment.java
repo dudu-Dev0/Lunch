@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,10 +19,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.VolumeUtils;
 import com.blankj.utilcode.util.ZipUtils;
 import com.dudu.wearlauncher.R;
+import com.dudu.wearlauncher.listener.BrightnessObserver;
 import com.dudu.wearlauncher.listener.VolumeChangeObserver;
 import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.model.WatchFace;
@@ -51,6 +54,7 @@ public class WatchFaceFragment extends Fragment{
     BroadcastReceiver msgReceiver, msgRemovedReceiver, msgListAllReceiver, watchFaceChangeReceiver, batteryChangeReceiver, timeChangeReceiver;
     
     VolumeChangeObserver volumeObserver;
+    BrightnessObserver brightnessObserver;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +71,7 @@ public class WatchFaceFragment extends Fragment{
         watchFaceBox = view.findViewById(R.id.watchface_box);
         MyRecyclerView msgView = view.findViewById(R.id.msg_list);
         RoundedSeekBar volumeSeekBar = view.findViewById(R.id.volume_seekbar);
-        RoundedSeekBar lightSeekBar = view.findViewById(R.id.light_seekbar);
+        RoundedSeekBar brightnessSeekBar = view.findViewById(R.id.brightness_seekbar);
         
         volumeObserver = new VolumeChangeObserver(requireActivity());
         volumeObserver.registerReceiver();
@@ -104,6 +108,34 @@ public class WatchFaceFragment extends Fragment{
             }
         });
         volumeSeekBar.setProgress((int)((double)volumeObserver.getCurrentMusicVolume()/volumeObserver.getMaxMusicVolume()*100));
+
+        brightnessSeekBar.setProgress((int)((double)BrightnessObserver.getCurrectBrightness()/BrightnessObserver.getMaxBrightness()*100));
+        brightnessObserver = new BrightnessObserver(requireActivity(),new BrightnessObserver.BrightnessChangeListener(){
+            @Override
+            public void onBrightnessChanged(int brightness) {
+                int delta = 15;
+                if(Build.MANUFACTURER.equalsIgnoreCase("xiaomi")) {
+                	delta = 120;
+                }
+                if(Math.abs((double)brightnessSeekBar.getProgress()/100*BrightnessObserver.getMaxBrightness()-brightness)>delta) {
+                	brightnessSeekBar.setProgress((int)((double)brightness/BrightnessObserver.getMaxBrightness()*100));
+                    ILog.d("Brightness Changed :"+brightness+"Max:"+BrightnessObserver.getMaxBrightness());
+                }
+                
+            }
+            
+        });
+        brightnessObserver.register();
+        brightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @Override
+            public void onStartTrackingTouch(SeekBar arg0) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar arg0) {}
+            @Override
+            public void onProgressChanged(SeekBar arg0,int arg1,boolean arg2) {
+                BrightnessObserver.setBrightness((int)((double)arg1/100*BrightnessObserver.getMaxBrightness()));
+            }
+        });
 
         msgListAllReceiver = new BroadcastReceiver() {
             @Override
