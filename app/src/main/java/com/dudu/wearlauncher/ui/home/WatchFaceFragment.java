@@ -29,12 +29,15 @@ import com.dudu.wearlauncher.listener.VolumeChangeObserver;
 import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
+import com.dudu.wearlauncher.ui.home.fastsettings.MobileNetworkItem;
+import com.dudu.wearlauncher.ui.home.fastsettings.WifiSwitchItem;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import com.dudu.wearlauncher.widget.MyLinearLayoutManager;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
 import com.dudu.wearlauncher.widget.RoundedSeekBar;
+import com.dudu.wearlauncher.widget.SwitchIconButton;
 import org.json.JSONException;
 
 import java.io.File;
@@ -55,6 +58,8 @@ public class WatchFaceFragment extends Fragment{
     
     VolumeChangeObserver volumeObserver;
     BrightnessObserver brightnessObserver;
+    SwitchIconButton wifiButton,mobileNetworkButton,bluetoothButton;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,14 +73,20 @@ public class WatchFaceFragment extends Fragment{
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        
         watchFaceBox = view.findViewById(R.id.watchface_box);
         MyRecyclerView msgView = view.findViewById(R.id.msg_list);
         RoundedSeekBar volumeSeekBar = view.findViewById(R.id.volume_seekbar);
         RoundedSeekBar brightnessSeekBar = view.findViewById(R.id.brightness_seekbar);
+        wifiButton = view.findViewById(R.id.wifi_btn);
+        mobileNetworkButton = view.findViewById(R.id.mobile_network_btn);
+        bluetoothButton = view.findViewById(R.id.bluetooth_btn);
+        
+        wifiButton.attach(new WifiSwitchItem());
+        mobileNetworkButton.attach(new MobileNetworkItem());
         
         volumeObserver = new VolumeChangeObserver(requireActivity());
         volumeObserver.registerReceiver();
-        
         volumeObserver.setVolumeChangeListener(new VolumeChangeObserver.VolumeChangeListener(){
             @Override
             public void onVolumeChanged(int volume) {
