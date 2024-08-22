@@ -29,6 +29,7 @@ import com.dudu.wearlauncher.listener.VolumeChangeObserver;
 import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
+import com.dudu.wearlauncher.ui.home.fastsettings.BluetoothItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.MobileNetworkItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.WifiSwitchItem;
 import com.dudu.wearlauncher.utils.ILog;
@@ -84,6 +85,7 @@ public class WatchFaceFragment extends Fragment{
         
         wifiButton.attach(new WifiSwitchItem());
         mobileNetworkButton.attach(new MobileNetworkItem());
+        bluetoothButton.attach(new BluetoothItem());
         
         volumeObserver = new VolumeChangeObserver(requireActivity());
         volumeObserver.registerReceiver();

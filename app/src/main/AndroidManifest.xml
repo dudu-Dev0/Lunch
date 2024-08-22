@@ -8,25 +8,26 @@
         tools:ignore="QueryAllPackagesPermission" />
     <uses-permission
         android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
-        tools:ignore="ProtectedPermissions"/>
+        tools:ignore="ProtectedPermissions" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"/>
+        android:maxSdkVersion="32" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
-        tools:ignore="ScopedStorage"/>
+        tools:ignore="ScopedStorage" />
     <uses-permission
-        android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+        android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission
-        android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
+        android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <application
         android:name="com.dudu.wearlauncher.WearLauncherApp"
         android:allowBackup="true"
@@ -76,12 +77,13 @@
                     android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <service android:name=".services.NotificationListenerService"
-                 android:exported="true"
-                 android:label="Notification Listener"
-                 android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+        <service
+            android:name=".services.NotificationListenerService"
+            android:exported="true"
+            android:label="Notification Listener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService"/>
+                <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
     </application>
