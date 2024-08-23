@@ -59,7 +59,7 @@ public abstract class WatchFace extends FrameLayout {
     public void dealScreenOn() {
     }
 
-    public void updateBattery(int i) {
+    public void updateBattery(int i, int batteryStatus) {
     }
 
     public void updateStep(int i) {

@@ -16,13 +16,10 @@ import android.widget.TextView;
 
 
 import com.dudu.wearlauncher.model.WatchFace;
+import com.dudu.wearlauncher.utils.ILog;
 import java.io.IOException;
 import java.util.Calendar;
 
-/*
-* 自定义表盘的切换速度视代码量而定，不要在build.gradle里引用库，它们无法被正常调用，只会增大包体和减慢切换速度
-* 另外，也别开启minifyEnabled，一压缩就把你整个程序全缩没了
-*/
 
 public class WatchFaceImpl extends WatchFace {
 
@@ -53,6 +50,7 @@ public class WatchFaceImpl extends WatchFace {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
     public void initView() {
         LayoutInflater.from(getHostContext()).inflate(getResources().getLayout(R.layout.layout_main), this);
 
@@ -88,15 +86,15 @@ public class WatchFaceImpl extends WatchFace {
         tvDate.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/DS-DIGIB-2.ttf"));
         tvWeek.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/DS-DIGIB-2.ttf"));
     }
-
-    public void updateBattery(int i) {    //此函数在电池数值更新时执行，i是当前电量，i2是电池变红值
+    @Override
+    public void updateBattery(int i,int status) {    //此函数在电池数值更新时执行，i是当前电量，status是电池状态
         tvBattery.setText(i+"%");
     }
-
-    public void updateStep(int i) {
+    @Override
+    public void updateStep(int i) {    //步数步数更新时调用
         tvStep.setText(i);
     }
-
+    @Override
     public void updateTime() {    //此函数在时间更新时执行
         int hour;
         Calendar calendar = Calendar.getInstance();
@@ -112,7 +110,7 @@ public class WatchFaceImpl extends WatchFace {
         String minute = String.valueOf(calendar.get(12));
         String month = String.valueOf(calendar.get(2) + 1);
         String day = String.valueOf(calendar.get(5));
-        Log.i("debug-dial", month + "月" + day + "日，星期" + week + "，" + hour + ":" + minute);
+        ILog.i(month + "月" + day + "日，星期" + week + "，" + hour + ":" + minute);
 
         if (minute.indexOf(0)!=0&&minute.length()!=2) minute = "0" + minute;
         if (month.indexOf(0)!=0&&month.length()!=2) month = "0" + month;

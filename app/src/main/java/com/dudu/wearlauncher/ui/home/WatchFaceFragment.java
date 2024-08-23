@@ -237,8 +237,9 @@ public class WatchFaceFragment extends Fragment{
             public void onReceive(Context context, Intent intent) {
                 int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
                 int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN);
                 int battery = level * 100 / scale;
-                updateBattery(battery);
+                updateBattery(battery,status);
             }
         };
         requireActivity().registerReceiver(batteryChangeReceiver,new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
@@ -302,9 +303,9 @@ public class WatchFaceFragment extends Fragment{
         }
     }
 
-    public void updateBattery(int i){
+    public void updateBattery(int i,int batteryStatus){
         if(watchFace!=null) {
-            watchFace.updateBattery(i);
+            watchFace.updateBattery(i,batteryStatus);
             //lwatchFaceBox.updateViewLayout(watchFace,layoutParams);    //电池更新
         }
     }

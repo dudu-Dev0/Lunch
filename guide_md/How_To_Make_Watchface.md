@@ -11,7 +11,7 @@
 
 Launcher在导入表盘时会将表盘解压至`/sdacrd/Android/data/com.dudu.wearlauncher/files/watchface`目录下
 ### 搭建一个Android开发环境
-请自行配置`Android Studio、AndroidIDE、AIDE`之类的IDE
+请自行配置`Android Studio、AndroidIDE`之类的IDE
 ### 新建一个Android项目
 各项配置随你喜好
 注意要使用Kotlin DSL(.kts) Gradle(便于下一步添加构建脚本)
@@ -152,18 +152,18 @@ include(":<module-name>")
 ```java
 LayoutInflater.from(getHostContext()).inflate(getResources().getLayout(R.layout.layout_main), this);
 ```
-> 需要注意的是获取所有资源文件请使用getResource()对应方法
+> 需要注意的是获取表盘内的资源文件请使用getResource()对应方法
 > 例如drawable资源：getResources().getDrawable(R.drawable.your_drawable)
-> 千万不要直接使用id值获取资源（findView除外）
+> 千万不要直接使用id值获取资源（findView除外），这可能会获取错误的资源id
 ### 获取View
 布局中的view可以直接使用`findViewById(R.id.your_view)`获取
 
 ### 关于WatchFace中的一些方法
-1. `updateBattery(int i)`无需自行调用，该方法会在电池更新时被启动器调用，`i`为电池电量，可以重写该方法以实现电量更新
+1. `updateBattery(int i,int batteryStatus)`无需自行调用，该方法会在电池更新时被启动器调用，`i`为电池电量，'batteryStatus'为电池状态(详见'BatteryManager')，可以重写该方法以实现电量更新
 2. `updateStep(int i)`无需自行调用，和`updateBattery`一样，可以实现步数更新
 3. `updateTime()`同上，可实现时间更新，有这些方法，表盘不需要自行设置监听器
 4. `getResource()`返回一个Resource对象，用于获取表盘自带资源文件
 5. `getHostContext()`返回一个Context对象，它是启动器的Context，可以用于一些需要context的操作
 
 ## 总结
-以上就是表盘开发的一些注意事项，如果您有Android开发经验，表盘开发一定会更加容易。你也可以参考启动器的[表盘示例](https://github.com/dudu-Dev0/WearLauncher/tree/main/watchface-example/src/main/java/com/dudu/watchface/example)
+以上就是表盘开发的一些注意事项，开发时请善用搜索引擎。你也可以参考启动器的[表盘示例](https://github.com/dudu-Dev0/WearLauncher/tree/main/watchface-example/src/main/java/com/dudu/watchface/example)
