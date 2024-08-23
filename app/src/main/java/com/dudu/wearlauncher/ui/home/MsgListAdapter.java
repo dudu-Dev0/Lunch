@@ -1,5 +1,6 @@
 package com.dudu.wearlauncher.ui.home;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,8 @@ import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.widget.FormattedTextClock;
+import com.google.android.material.card.MaterialCardView;
+import java.util.concurrent.CancellationException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -60,11 +63,21 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
         holder.msgTime.setOriginalTime(new Date(notification.time));
         holder.msgTitle.setText(notification.title);
         holder.msgContent.setText(notification.content);
+        
         holder.delBtn.setOnClickListener(v -> {
             Intent intent = new Intent("com.dudu.wearlauncher.NOTIFICATION_LISTENER");
             intent.putExtra("command", "cancelMsg");
             intent.putExtra("key", notification.key);
             context.sendBroadcast(intent);
+        });
+        
+        holder.msgCard.setOnClickListener(v->{
+            try{
+                notification.intent.send();
+            }catch(PendingIntent.CanceledException e){
+                ILog.e("打开PendingIntent失败"+e.getMessage());
+            }
+            
         });
     }
 
@@ -107,6 +120,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
         FormattedTextClock msgTime;
         TextView msgAppName, msgTitle, msgContent;
         ImageButton delBtn;
+        MaterialCardView msgCard;
         public MsgListHolder(View itemView) {
             super(itemView);
             msgImg = itemView.findViewById(R.id.msg_icon);
@@ -115,6 +129,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
             msgTitle = itemView.findViewById(R.id.msg_title);
             msgContent = itemView.findViewById(R.id.msg_content);
             delBtn = itemView.findViewById(R.id.del_msg_btn);
+            msgCard = itemView.findViewById(R.id.item_msg_main_card);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.dudu.wearlauncher.model;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -13,6 +15,7 @@ public class Notification implements Parcelable {
     public String title;
     public String content;
     public String key;
+    public PendingIntent intent;
     public static final Creator<Notification> CREATOR = new Creator<>() {
         @Override
         public Notification createFromParcel(Parcel in) {
@@ -42,13 +45,14 @@ public class Notification implements Parcelable {
         return Objects.hashCode(key);
     }
 
-    public Notification(Icon icon, String appName, String title, String content, long time, String key) {
+    public Notification(Icon icon, String appName, String title, String content, long time, String key, PendingIntent intent) {
         this.icon = icon;
         this.appName = appName;
         this.title = title;
         this.content = content;
         this.time = time;
         this.key = key;
+        this.intent = intent;
     }
 
     protected Notification(Parcel in) {
@@ -58,6 +62,7 @@ public class Notification implements Parcelable {
         title = in.readString();
         time = in.readLong();
         key = in.readString();
+        intent = in.readParcelable(PendingIntent.class.getClassLoader());
     }
 
     @Override
@@ -73,5 +78,6 @@ public class Notification implements Parcelable {
         parcel.writeString(title);
         parcel.writeLong(time);
         parcel.writeString(key);
+        parcel.writeParcelable(intent,i);
     }
 }

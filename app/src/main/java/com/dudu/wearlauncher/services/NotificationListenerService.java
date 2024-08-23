@@ -70,13 +70,15 @@ public class NotificationListenerService extends android.service.notification.No
     }
 
     public Notification sbn2Notification(StatusBarNotification sbn) {
+        
         return new Notification(
                 sbn.getNotification().getSmallIcon(),
                 AppUtils.getAppName(sbn.getPackageName()),
                 sbn.getNotification().extras.getCharSequence(android.app.Notification.EXTRA_TITLE, "Title").toString(),
                 sbn.getNotification().extras.getCharSequence(android.app.Notification.EXTRA_TEXT, "Content").toString(),
                 sbn.getPostTime(),
-                sbn.getKey());
+                sbn.getKey(),
+                sbn.getNotification().contentIntent);
     }
 
     private void ensureCollectorRunning() {
