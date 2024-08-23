@@ -32,12 +32,15 @@ public class MobileNetworkItem extends FastSettingsItem {
         @Override
         public void onClick(boolean checked) {
             if(RootUtil.isAccessGiven()) {
-                String enabled = "disable";
-                if(!checked) {
-                	enabled = "enable";
-                }
-                ShellUtils.CommandResult result = ShellUtils.execCmd("svc data "+enabled,true);
-                ILog.w("Success:"+result.successMsg+" Err:"+result.errorMsg);
+                new Thread(()->{
+                    String enabled = "disable";
+                        if (!checked) {
+                            enabled = "enable";
+                        }
+                    ShellUtils.CommandResult result = ShellUtils.execCmd("svc data "+enabled,true);
+                    ILog.w("Success:"+result.successMsg+" Err:"+result.errorMsg);
+                }).start();
+                
             }else if(RootUtil.isSystemApplication(WearLauncherApp.getContext(),AppUtils.getAppPackageName())) {
             	MobileDataUtil.setMobileDataEnabled(WearLauncherApp.getContext(),!checked);
                 ILog.w("使用系统应用权限修改移动网络设置");

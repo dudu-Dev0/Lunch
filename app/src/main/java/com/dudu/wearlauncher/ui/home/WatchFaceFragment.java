@@ -266,9 +266,9 @@ public class WatchFaceFragment extends Fragment{
             WatchFaceInfo wfInfo = WatchFaceHelper.getWatchFaceInfo((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.NOW_WATCHFACE,"watchface-example"));
             watchFace = WatchFaceHelper.getWatchFace(wfInfo.packageName,wfInfo.name);
             if(watchFace != null) {
-                watchFace.setOnClickListener(v->{
+                //watchFace.setOnClickListener(v->{
                     //覆盖原Listener防止打不开表盘切换界面
-                });
+                //});
                 layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
                 watchFaceBox.addView(watchFace,layoutParams);
                 updateTime();

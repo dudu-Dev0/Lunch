@@ -35,13 +35,17 @@ public class WifiSwitchItem extends FastSettingsItem {
                 @Override
                 public void onClick(boolean checked) {
                     if (RootUtil.isAccessGiven()) {
-                        String enabled = "disable";
-                        if (!checked) {
-                            enabled = "enable";
-                        }
-                        ShellUtils.CommandResult result =
+                        new Thread(()->{
+                            
+                            String enabled = "disable";
+                            if (!checked) {
+                                enabled = "enable";
+                            }
+                            ShellUtils.CommandResult result =
                                 ShellUtils.execCmd("svc wifi " + enabled, true);
-                        ILog.w("Success:" + result.successMsg + " Err:" + result.errorMsg);
+                            ILog.w("Success:"+result.successMsg+" Err:"+result.errorMsg);
+                        }).start();
+                        
                     } else {
                         ILog.w("尝试直接设置开启");
                         if (!wifiManager.setWifiEnabled(!checked)) {
