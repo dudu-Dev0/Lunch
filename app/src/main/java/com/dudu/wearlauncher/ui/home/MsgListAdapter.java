@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.Notification;
+import com.dudu.wearlauncher.utils.DensityUtil;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.widget.FormattedTextClock;
 import com.google.android.material.card.MaterialCardView;
@@ -52,11 +53,10 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
         Glide.with(context).load(notification.icon.loadDrawable(context))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .apply(RequestOptions.circleCropTransform())
-                //.override(DensityUtil.dip2px(context,10),DensityUtil.dip2px(context,10))
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull @NotNull Drawable resource, @Nullable @org.jetbrains.annotations.Nullable Transition<? super Drawable> transition) {
-                        holder.msgImg.setForeground(resource);
+                        holder.msgImg.setImageDrawable(resource);
                     }
                 });
         holder.msgAppName.setText(notification.appName);
@@ -75,6 +75,8 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
             try{
                 notification.intent.send();
             }catch(PendingIntent.CanceledException e){
+                ILog.e("打开PendingIntent失败"+e.getMessage());
+            }catch(NullPointerException e){
                 ILog.e("打开PendingIntent失败"+e.getMessage());
             }
             

@@ -40,6 +40,7 @@ public class FormattedTextClock extends androidx.appcompat.widget.AppCompatTextV
 
     public void setOriginalTime(Date time) {
         this.originalTime = time;
+        updateClock();
     }
 
     private void updateClock() {

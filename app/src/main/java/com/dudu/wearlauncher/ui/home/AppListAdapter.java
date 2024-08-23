@@ -3,6 +3,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,12 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
             } catch (Exception e){
                 e.printStackTrace();
             }
+        });
+        holder.itemView.setOnLongClickListener(v->{
+            Uri uri = Uri.fromParts("package", activityInfo.packageName, null);
+            Intent intent = new Intent(Intent.ACTION_DELETE, uri);
+            context.startActivity(intent);
+            return false;
         });
     }
 
