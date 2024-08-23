@@ -12,14 +12,21 @@ import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
 import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
 
 public class WatchSurfaceHelper {
-    public static void startWsfActivity(Context context,String watchFaceName,String wsfClassName) {
+    public static void startWsfActivity(Context context,String wfName,Class<?> surfaceClazz) {
         Intent intent = new Intent(context,WatchSurfaceBaseActivity.class);
-        intent.putExtra("wfName",watchFaceName);
-        intent.putExtra("wsfClassName",wsfClassName);
+        intent.putExtra("wfName",wfName);
+        intent.putExtra("wsfClassName",surfaceClazz.getCanonicalName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+    public static void startWsfActivity(Context context,String wfName,String watchSurfaceName) {
+        Intent intent = new Intent(context,WatchSurfaceBaseActivity.class);
+        intent.putExtra("wfName",wfName);
+        intent.putExtra("wsfClassName",watchSurfaceName);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
     public static WatchSurface getWatchSurface(Context context,String watchFaceName,String wsfClassName) {
-    	
         String wfPath = watchFaceFolder + "/" + watchFaceName + "/"+ watchFaceName + watchFaceSuffix;
         ILog.e(wfPath);
         if(new File(wfPath).exists()) {

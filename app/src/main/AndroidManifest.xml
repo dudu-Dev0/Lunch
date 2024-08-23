@@ -53,6 +53,23 @@
             </intent-filter>
         </activity>
         <activity
+            android:label="Lunch设置"
+            android:name=".ui.settings.SettingsActivity"
+            android:icon="@mipmap/ic_settings_launcher"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.MAIN" />
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+                <category
+                    android:name="android.intent.category.HOME" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.home.ChooseWatchFaceActivity"
             android:exported="false">
         </activity>

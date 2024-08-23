@@ -21,13 +21,30 @@ Launcher在导入表盘时会将表盘解压至`/sdacrd/Android/data/com.dudu.we
 注意这里module的名字将会作为表盘的唯一标识符，请注意不要和已有表盘一样，否则会产生冲突
 在module根目录下有一个build.gradle.kts文件
 打开后在`android`闭包下有个`defaultConfig`闭包里面有`applicationId`，这里的值是表盘的包名，将会被写入`manifest.json`中
-我们在文件尾部插入如下代码
+
+首先启用BuildConfig
+```kotlin
+android{
+    ...
+    buildFeatures.buildConfig=true
+    ...
+}
+```
+我们在文件头部插入如下代码
 ```kotlin
 //表盘在桌面内显示的名称
 val watchfaceName = "数码太空人"
 //表盘作者
 val author = "dudu"
-
+```
+然后在`defaultConfig`闭包中插入如下代码
+```kotlin
+buildConfigField("String","DISPLAY_NAME","\"$watchfaceName\"")
+buildConfigField("String","AUTHOR","\"$author\"")
+buildConfigField("String","WATCHFACE_NAME","\"${project.name}\"")
+```
+最后在文件尾部加入如下代码
+```kotlin
 tasks.register<Zip>("packageDebugWatchface") {
     group = "build"
     description = "构建debug表盘文件"

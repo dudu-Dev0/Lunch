@@ -14,14 +14,6 @@ public class SettingsSurface extends WatchSurface{
         super(context,path);
     }
 
-    public SettingsSurface(Context context, AttributeSet attributeSet,String path) {
-        super(context,attributeSet,path);
-    }
-
-    public SettingsSurface(Context context, AttributeSet attributeSet, int i,String path) {
-        super(context,attributeSet,i,path);
-    }
-    
     @Override
     public void onCreate() {
         setContentView(R.layout.settings_layout);

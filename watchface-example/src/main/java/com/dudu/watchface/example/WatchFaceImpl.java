@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.utils.ILog;
+import com.dudu.wearlauncher.utils.WatchSurfaceHelper;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -32,17 +33,9 @@ public class WatchFaceImpl extends WatchFace {
     private ImageView ivBattery;
     private FrameLayout centerLayout;
 
-    public WatchFaceImpl(Context context, AttributeSet attributeSet, int i,String path) {
-        super(context, attributeSet, i,path);
-    }
-
 
     public WatchFaceImpl(Context context,String path) {
-        this(context, null,path);
-    }
-
-    public WatchFaceImpl(Context context, AttributeSet attributeSet,String path) {
-        this(context, attributeSet,0,path);
+        super(context, null,path);
     }
 
     public static FrameLayout getWatchFace(Context context, String str) {
@@ -53,7 +46,11 @@ public class WatchFaceImpl extends WatchFace {
     @Override
     public void initView() {
         LayoutInflater.from(getHostContext()).inflate(getResources().getLayout(R.layout.layout_main), this);
-
+/*
+        setOnClickListener(v->{
+            WatchSurfaceHelper.startWsfActivity(getHostContext(),BuildConfig.WATCHFACE_NAME,SettingsSurface.class);
+        });
+*/
         tvBattery = findViewById(R.id.tv_battery);
         tvStep = findViewById(R.id.tv_step);
         tvTime = findViewById(R.id.tv_time);

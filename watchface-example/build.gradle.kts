@@ -3,6 +3,11 @@ plugins {
     id("com.android.application")
 }
 
+//表盘在桌面内显示的名称
+val watchfaceName = "数码太空人"
+//表盘作者
+val author = "dudu"
+
 android {
     namespace = "com.dudu.watchface.example"
     compileSdk = 33 
@@ -13,13 +18,16 @@ android {
         versionCode = 1
         versionName = "1.0"
         multiDexEnabled = false
+        buildConfigField("String","DISPLAY_NAME","\"$watchfaceName\"")
+        buildConfigField("String","AUTHOR","\"$author\"")
+        buildConfigField("String","WATCHFACE_NAME","\"${project.name}\"")
     }
     
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
+    buildFeatures.buildConfig=true
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -35,10 +43,6 @@ dependencies {
 }
 
 
-//表盘在桌面内显示的名称
-val watchfaceName = "数码太空人"
-//表盘作者
-val author = "dudu"
     
 tasks.register<Zip>("packageDebugWatchface") {
     group = "build"
