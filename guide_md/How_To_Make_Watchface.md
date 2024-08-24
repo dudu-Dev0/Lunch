@@ -138,19 +138,11 @@ include(":<module-name>")
 
 ## 开发表盘
 在`./<your-module-name>/src/main/java/<your-package-name>/`下新建java文件,
-名叫`WatchFaceImpl`继承自`com.dudu.wearlauncher.model.WatchFace`并重写父类的构造方法
+名叫`WatchFaceImpl`继承自`com.dudu.wearlauncher.model.WatchFace`并实现父类的构造方法
 ```java
-    public WatchFaceImpl(Context context, AttributeSet attributeSet, int i,String path) {
-        super(context, attributeSet, i,path);
-    }
-
 
     public WatchFaceImpl(Context context,String path) {
-        this(context, null,path);
-    }
-
-    public WatchFaceImpl(Context context, AttributeSet attributeSet,String path) {
-        this(context, attributeSet,0,path);
+        super(context,path);
     }
 
 ```
@@ -183,4 +175,4 @@ LayoutInflater.from(getHostContext()).inflate(getResources().getLayout(R.layout.
 5. `getHostContext()`返回一个Context对象，它是启动器的Context，可以用于一些需要context的操作
 
 ## 总结
-以上就是表盘开发的一些注意事项，开发时请善用搜索引擎。你也可以参考启动器的[表盘示例](https://github.com/dudu-Dev0/WearLauncher/tree/main/watchface-example/src/main/java/com/dudu/watchface/example)
+以上就是表盘开发的一些注意事项，开发时请善用搜索引擎。你也可以参考启动器的[表盘示例](https://github.com/dudu-Dev0/Lunch/tree/main/watchface-example/src/main/java/com/dudu/watchface/example)

@@ -11,7 +11,7 @@ android {
         minSdk = 23
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0"
+        versionName = "Chip"
         multiDexEnabled = true
         vectorDrawables { 
             useSupportLibrary = true
@@ -56,5 +56,6 @@ dependencies {
     implementation("com.blankj:utilcodex:1.31.1")
     //watchface-dev
     implementation(project(":watchface-dev-utils"))
-
+    //bugly
+    implementation("com.tencent.bugly:crashreport:4.1.9")
 }

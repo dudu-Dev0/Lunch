@@ -2,11 +2,16 @@ package com.dudu.wearlauncher;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.multidex.MultiDex;
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.CrashUtils;
+import com.blankj.utilcode.util.RomUtils;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 public class WearLauncherApp extends Application {
     private static Context context;
     
@@ -15,6 +20,10 @@ public class WearLauncherApp extends Application {
         super.onCreate();
         context = getApplicationContext();
         MultiDex.install(context);
+        CrashReport.initCrashReport(context,"87aac51b62",false);
+        CrashReport.setDeviceId(context,Build.ID);
+        CrashReport.setDeviceId(context,Build.MODEL);
+        CrashReport.setAppVersion(context,AppUtils.getAppVersionName()+"("+AppUtils.getAppVersionCode()+")");
         SharedPreferencesUtil.getInstance(context,"config");
     }
  
