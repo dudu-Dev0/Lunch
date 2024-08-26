@@ -1,4 +1,5 @@
 package com.dudu.wearlauncher.ui.home;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dudu.wearlauncher.R;
+
 import java.util.List;
 
 
