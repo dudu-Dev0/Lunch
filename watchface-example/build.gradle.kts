@@ -39,7 +39,7 @@ android {
 
 dependencies {
     //watchface-dev
-    implementation(project(":watchface-dev-utils"))
+    compileOnly(project(":watchface-dev-utils"))
 }
 
 

@@ -127,7 +127,7 @@ tasks.register<Copy>("copyPreviewImageRelease") {
 将`watchface-dev-utils.aar`放在module的libs文件夹下
 并在build.gradle.kts中的`dependencies`闭包下加入
 ```kotlin
-implementation(files("./libs/watchface-dev-utils.aar"))
+compileOnly(files("./libs/watchface-dev-utils.aar"))
 ```
 
 最后在项目的settings.gradle.kts导入module

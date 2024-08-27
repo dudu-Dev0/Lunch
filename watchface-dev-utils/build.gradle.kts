@@ -10,5 +10,6 @@ android {
 
 
 dependencies {
-
+    //UtilCode
+    implementation("com.blankj:utilcodex:1.31.1")
 }
