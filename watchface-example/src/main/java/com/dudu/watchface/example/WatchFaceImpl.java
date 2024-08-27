@@ -2,22 +2,16 @@ package com.dudu.watchface.example;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.text.format.DateFormat;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.utils.ILog;
-import com.dudu.wearlauncher.utils.WatchSurfaceHelper;
+
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -36,10 +30,6 @@ public class WatchFaceImpl extends WatchFace {
 
     public WatchFaceImpl(Context context,String path) {
         super(context, null,path);
-    }
-
-    public static FrameLayout getWatchFace(Context context, String str) {
-        return new WatchFaceImpl(context,str);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

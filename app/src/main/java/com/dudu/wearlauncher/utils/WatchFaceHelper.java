@@ -12,7 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,19 +26,12 @@ public class WatchFaceHelper {
             try {
             	ClassLoader classLoader = WatchFace.class.getClassLoader();
                 Class<?> clazz = new DexClassLoader(wfPath,WearLauncherApp.getContext().getCacheDir().getAbsolutePath(),null,classLoader).loadClass(packageName+watchFaceClassName);
-                WatchFace watchFace = (WatchFace)clazz.getMethod("getWatchFace",Context.class,String.class).invoke(clazz,new Object[]{WearLauncherApp.getContext(),wfPath});
-                return watchFace;
-            } catch(ClassNotFoundException err){
-                err.printStackTrace();
-            } catch(NoSuchMethodException err){
-                err.printStackTrace();
-            } catch(IllegalAccessException err){
-                err.printStackTrace();
-            } catch(InvocationTargetException err){
-                err.printStackTrace();
+                return (WatchFace) clazz.getConstructor(Context.class, String.class).newInstance(WearLauncherApp.getContext(), wfPath);
+            } catch (Exception e) {
+                ILog.e("表盘获取错误：" + e.getMessage());
             }
         }else{
-            Toast.makeText(WearLauncherApp.getContext(),"表盘不存在",Toast.LENGTH_SHORT);
+            Toast.makeText(WearLauncherApp.getContext(), "表盘不存在", Toast.LENGTH_SHORT).show();
         }
         return null;
     }

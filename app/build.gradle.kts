@@ -8,7 +8,7 @@ android {
     compileSdk = 33
     defaultConfig {
         applicationId = "com.dudu.wearlauncher"
-        minSdk = 23
+        minSdk = 19
         targetSdk = 33
         versionCode = 1
         versionName = "Chip"

@@ -1,7 +1,6 @@
 package com.dudu.watchface.example;
+
 import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.dudu.wearlauncher.model.WatchSurface;
@@ -25,8 +24,5 @@ public class SettingsSurface extends WatchSurface{
         super.onDestory();
         Toast.makeText(getHostContext(),"onDestory",Toast.LENGTH_SHORT).show();
     }
-    
-    public static FrameLayout getWatchSurface(Context context,String watchFacePath) {
-        return new SettingsSurface(context,watchFacePath);
-    }
+
 }

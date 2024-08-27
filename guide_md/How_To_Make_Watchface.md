@@ -146,14 +146,6 @@ include(":<module-name>")
     }
 
 ```
-添加方法`getWatchFace()`
->Launcher将会通过这个函数获取表盘，其中context是启动器的context，str是表盘`.wf`文件的绝对路径
-
-```java
-    public static FrameLayout getWatchFace(Context context, String str) {
-        return new WatchFaceImpl(context,str);
-    }
-```
 最后重写`initView()`方法，这个函数将会自动被调用，所以请在其中写表盘主要逻辑
 ### 加载布局
 请使用`LayoutInflator`加载布局
