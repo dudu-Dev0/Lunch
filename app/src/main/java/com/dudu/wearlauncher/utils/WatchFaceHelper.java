@@ -29,6 +29,7 @@ public class WatchFaceHelper {
                 return (WatchFace) clazz.getConstructor(Context.class, String.class).newInstance(WearLauncherApp.getContext(), wfPath);
             } catch (Exception e) {
                 ILog.e("表盘获取错误：" + e.getCause());
+                e.printStackTrace();
             }
         }else{
             Toast.makeText(WearLauncherApp.getContext(), "表盘不存在", Toast.LENGTH_SHORT).show();

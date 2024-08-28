@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import com.dudu.wearlauncher.utils.ILog;
+import dalvik.system.DexClassLoader;
 
 import java.lang.reflect.Field;
 
@@ -59,6 +60,10 @@ public abstract class WatchFace extends FrameLayout {
             Field field = context.getClass().getDeclaredField("mResources");
             field.setAccessible(true);
             field.set(context, getResources());
+            Field mClassLoader = context.getClass().getDeclaredField("mClassLoader");
+            mClassLoader.setAccessible(true);
+            mClassLoader.set(context, new DexClassLoader(path, context.getCacheDir().getAbsolutePath(), null, this.getClass().getClassLoader()));
+            this.context = context;
             ILog.e("replace resources succeed");
         } catch (Exception e) {
             ILog.e("replace resources failed");
