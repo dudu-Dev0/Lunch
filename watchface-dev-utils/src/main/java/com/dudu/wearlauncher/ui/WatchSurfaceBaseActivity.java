@@ -46,6 +46,10 @@ public class WatchSurfaceBaseActivity extends Activity{
         
         return newContext;
     }
-   
-    
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        wsf.onActivityResult(requestCode, resultCode, data);
+    }
 }

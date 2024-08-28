@@ -1,5 +1,6 @@
 package com.dudu.wearlauncher.model;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.AttributeSet;
@@ -38,8 +39,11 @@ public abstract class WatchSurface extends FrameLayout{
     public abstract void onCreate();
 
     public void onDestroy() {
-        
-    };
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    }
     public Context getHostContext() {
     	return context;
     }
