@@ -25,7 +25,13 @@ public class DataSaver {
             }
         }).start();
     }
-
+    public void put(String key, boolean value){
+        try {
+            dataJson.put(key, value);
+        } catch (JSONException e) {
+            ILog.e("are u sure data.json is A JSON FILE???");
+        }
+    }
     public void put(String key, String value) {
         try {
             dataJson.put(key, value);
@@ -56,6 +62,15 @@ public class DataSaver {
         } catch (JSONException e) {
             ILog.e(e.getMessage());
         }
+    }
+
+    public boolean get(String key, boolean defaultValue){
+        try {
+            return dataJson.getBoolean(key);
+        } catch (JSONException e) {
+            return defaultValue;
+        }
+
     }
 
     public String get(String key, String defaultValue) {
