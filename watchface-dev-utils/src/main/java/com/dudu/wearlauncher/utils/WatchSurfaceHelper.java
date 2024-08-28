@@ -35,7 +35,8 @@ public class WatchSurfaceHelper {
                 Class<?> clazz = new DexClassLoader(wfPath,context.getCacheDir().getAbsolutePath(),null,classLoader).loadClass(wsfClassName);
                 return (WatchSurface) clazz.getConstructor(Context.class, String.class).newInstance(context, wfPath);
             } catch(Exception err){
-                ILog.e(err.toString());
+                ILog.e(String.valueOf(err.getCause()));
+                err.printStackTrace();
             }
         }else{
             ILog.e("表盘不存在");
