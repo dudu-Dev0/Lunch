@@ -42,4 +42,9 @@ public class WatchSurfaceHelper {
         }
         return null;
     }
+
+    public static void requestRefreshWatchface(Context context) {
+        Intent intent = new Intent("com.dudu.wearlauncher.WatchFaceChange");
+        context.sendBroadcast(intent);
+    }
 }

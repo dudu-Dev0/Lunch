@@ -11,6 +11,9 @@
 
     <style name="AppTheme" parent="Base.AppTheme"/>
 
+    <style name="AppThemeNoSwipe" parent="Base.AppTheme">
+    </style>
+
     <style name="ButtonStyle" parent="Widget.Material3.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">32dp</item>
