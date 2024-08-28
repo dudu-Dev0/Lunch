@@ -9,10 +9,6 @@ import com.dudu.wearlauncher.model.WatchSurface;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.WatchSurfaceHelper;
 
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceSuffix;
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceClassName;
-
 public class WatchSurfaceBaseActivity extends Activity{
     WatchSurface wsf;
     @Override
@@ -26,7 +22,7 @@ public class WatchSurfaceBaseActivity extends Activity{
     }
     @Override
     protected void onDestroy() {
-        wsf.onDestory();
+        wsf.onDestroy();
         super.onDestroy();
     }
     @Override

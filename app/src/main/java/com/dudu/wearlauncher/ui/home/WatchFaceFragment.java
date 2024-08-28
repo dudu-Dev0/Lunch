@@ -19,7 +19,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.VolumeUtils;
 import com.blankj.utilcode.util.ZipUtils;
@@ -277,7 +276,7 @@ public class WatchFaceFragment extends Fragment{
             }
         } catch (Exception err) {
             onWatchFaceLoadFailed();
-            ILog.e("表盘加载失败:" + err.getMessage());
+            ILog.e("表盘加载失败:" + err);
         }
        
     }

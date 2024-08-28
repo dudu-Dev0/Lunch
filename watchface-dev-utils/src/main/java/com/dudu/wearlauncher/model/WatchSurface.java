@@ -2,12 +2,13 @@ package com.dudu.wearlauncher.model;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.service.controls.templates.ControlTemplate;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import com.dudu.wearlauncher.utils.ILog;
+
+import java.lang.reflect.Field;
+
 public abstract class WatchSurface extends FrameLayout{
     /**
     *在表盘中实现类似activity的效果
@@ -29,11 +30,13 @@ public abstract class WatchSurface extends FrameLayout{
         this.context = context;
         this.path = path;
         this.resources = initResources(context);
+        replaceContextResources(this.context);
         onCreate();
     }
     
     public abstract void onCreate();
-    public void onDestory(){
+
+    public void onDestroy() {
         
     };
     public Context getHostContext() {
@@ -50,7 +53,22 @@ public abstract class WatchSurface extends FrameLayout{
             return null;
         }
     }
-    
+
+    /**
+     * @param context
+     */
+    public void replaceContextResources(Context context) {
+        try {
+            Field field = context.getClass().getDeclaredField("mResources");
+            field.setAccessible(true);
+            field.set(context, getResources());
+            ILog.e("replace resources succeed");
+        } catch (Exception e) {
+            ILog.e("replace resources failed");
+            e.printStackTrace();
+        }
+    }
+
     public void setContentView(int id) {
         LayoutInflater.from(context).inflate(getResources().getLayout(id),this);
     }

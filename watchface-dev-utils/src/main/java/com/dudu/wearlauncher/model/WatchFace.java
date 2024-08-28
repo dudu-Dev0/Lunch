@@ -5,6 +5,9 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+import com.dudu.wearlauncher.utils.ILog;
+
+import java.lang.reflect.Field;
 
 public abstract class WatchFace extends FrameLayout {
     
@@ -29,6 +32,7 @@ public abstract class WatchFace extends FrameLayout {
         this.context = context;
         this.path = path;
         this.resources = initResources(context);
+        replaceContextResources(this.context);
         initView();
     }
 
@@ -47,6 +51,20 @@ public abstract class WatchFace extends FrameLayout {
         }
     }
 
+    /**
+     * @param context
+     */
+    public void replaceContextResources(Context context) {
+        try {
+            Field field = context.getClass().getDeclaredField("mResources");
+            field.setAccessible(true);
+            field.set(context, getResources());
+            ILog.e("replace resources succeed");
+        } catch (Exception e) {
+            ILog.e("replace resources failed");
+            e.printStackTrace();
+        }
+    }
     public Resources getResources() {
         return this.resources == null ? super.getResources() : this.resources;
     }

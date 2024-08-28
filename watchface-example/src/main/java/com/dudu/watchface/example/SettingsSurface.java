@@ -20,8 +20,8 @@ public class SettingsSurface extends WatchSurface{
         ((TextView)findViewById(R.id.testtv)).setText("Test");
     }
     @Override
-    public void onDestory() {
-        super.onDestory();
+    public void onDestroy() {
+        super.onDestroy();
         Toast.makeText(getHostContext(),"onDestory",Toast.LENGTH_SHORT).show();
     }
 

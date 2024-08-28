@@ -28,7 +28,7 @@ public class WatchFaceHelper {
                 Class<?> clazz = new DexClassLoader(wfPath,WearLauncherApp.getContext().getCacheDir().getAbsolutePath(),null,classLoader).loadClass(packageName+watchFaceClassName);
                 return (WatchFace) clazz.getConstructor(Context.class, String.class).newInstance(WearLauncherApp.getContext(), wfPath);
             } catch (Exception e) {
-                ILog.e("表盘获取错误：" + e.getMessage());
+                ILog.e("表盘获取错误：" + e.getCause());
             }
         }else{
             Toast.makeText(WearLauncherApp.getContext(), "表盘不存在", Toast.LENGTH_SHORT).show();
