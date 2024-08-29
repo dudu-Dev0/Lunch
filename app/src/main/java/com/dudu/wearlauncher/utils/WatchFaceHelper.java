@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 import com.blankj.utilcode.util.FileIOUtils;
+import com.dudu.wearlauncher.WearLauncherApp;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import dalvik.system.DexClassLoader;
@@ -25,7 +26,7 @@ public class WatchFaceHelper {
             try {
             	ClassLoader classLoader = WatchFace.class.getClassLoader();
                 Class<?> clazz = new DexClassLoader(wfPath, context.getCacheDir().getAbsolutePath(), null, classLoader).loadClass(packageName + watchFaceClassName);
-                return (WatchFace) clazz.getConstructor(Context.class, String.class).newInstance(context, wfPath);
+                return (WatchFace) clazz.getConstructor(Context.class, String.class).newInstance(WearLauncherApp.getContext(), wfPath);
             } catch (Exception e) {
                 ILog.e("表盘获取错误：" + e.getCause());
                 e.printStackTrace();

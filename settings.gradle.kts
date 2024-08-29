@@ -15,7 +15,7 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "WearLauncher"
+rootProject.name = "Lunch"
 
 include(":app")
 include(":watchface-dev-utils")

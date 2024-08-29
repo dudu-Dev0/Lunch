@@ -17,7 +17,7 @@ public class WatchSurfaceBaseActivity extends Activity{
         Intent intent = getIntent();
         String wfName = intent.getStringExtra("wfName");
         String wsfClassName = intent.getStringExtra("wsfClassName");
-        wsf = WatchSurfaceHelper.getWatchSurface(this,wfName,wsfClassName);
+        wsf = WatchSurfaceHelper.getWatchSurface(this.getApplicationContext().getApplicationContext(),wfName,wsfClassName);
         setContentView(wsf);
     }
     @Override
@@ -31,19 +31,20 @@ public class WatchSurfaceBaseActivity extends Activity{
     }
     public static Context getFitDisplayContext(Context old){
         Context newContext = old;
-        
+
         float density = old.getResources().getDisplayMetrics().widthPixels/360; //获取放大dpi倍数
-        
+
         try{
             //DisplayMetrics displayMetrics = old.getResources().getDisplayMetrics();
             Configuration configuration = old.getResources().getConfiguration();
+            configuration.smallestScreenWidthDp = 320;
             configuration.densityDpi = (int)(/*displayMetrics.densityDpi*/320 * density);    //锁死dpi为320，防止设备默认dpi不同导致界面出问题
             newContext = old.createConfigurationContext(configuration);
         }catch (Exception e){
             Toast.makeText(newContext, "调整缩放失败, 请联系开发者", Toast.LENGTH_SHORT).show();
             ILog.e("调整dpi:不支持application");
         }
-        
+
         return newContext;
     }
 

@@ -16,22 +16,24 @@ public class DataSaver {
     public DataSaver(String watchfaceName) {
         this.watchfaceName = watchfaceName;
         dataJsonFile = new File(watchFaceFolder + "/" + watchfaceName + "/data.json");
-        new Thread(() -> {
-            if (!dataJsonFile.exists()) FileIOUtils.writeFileFromString(dataJsonFile, new JSONObject().toString());
-            try {
-                dataJson = new JSONObject(FileIOUtils.readFile2String(dataJsonFile));
-            } catch (JSONException e) {
-                ILog.e("are u sure data.json is A JSON FILE???");
-            }
-        }).start();
+        //new Thread(() -> {
+        if (!dataJsonFile.exists()) FileIOUtils.writeFileFromString(dataJsonFile, new JSONObject().toString());
+        try {
+            dataJson = new JSONObject(FileIOUtils.readFile2String(dataJsonFile));
+        } catch (JSONException e) {
+            ILog.e("are u sure data.json is A JSON FILE???");
+        }
+        //}).start();
     }
-    public void put(String key, boolean value){
+
+    public void put(String key, boolean value) {
         try {
             dataJson.put(key, value);
         } catch (JSONException e) {
             ILog.e("are u sure data.json is A JSON FILE???");
         }
     }
+
     public void put(String key, String value) {
         try {
             dataJson.put(key, value);
@@ -64,7 +66,7 @@ public class DataSaver {
         }
     }
 
-    public boolean get(String key, boolean defaultValue){
+    public boolean get(String key, boolean defaultValue) {
         try {
             return dataJson.getBoolean(key);
         } catch (JSONException e) {
@@ -77,6 +79,7 @@ public class DataSaver {
         try {
             return dataJson.getString(key);
         } catch (JSONException e) {
+            e.printStackTrace();
             return defaultValue;
         }
     }
@@ -106,8 +109,8 @@ public class DataSaver {
     }
 
     public void apply() {
-        new Thread(() -> {
-            FileIOUtils.writeFileFromString(dataJsonFile, dataJson.toString());
-        }).start();
+        //new Thread(() -> {
+        FileIOUtils.writeFileFromString(dataJsonFile, dataJson.toString());
+        //}).start();
     }
 }
