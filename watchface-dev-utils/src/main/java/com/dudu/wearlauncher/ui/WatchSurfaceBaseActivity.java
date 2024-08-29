@@ -17,7 +17,7 @@ public class WatchSurfaceBaseActivity extends Activity{
         Intent intent = getIntent();
         String wfName = intent.getStringExtra("wfName");
         String wsfClassName = intent.getStringExtra("wsfClassName");
-        wsf = WatchSurfaceHelper.getWatchSurface(this.getApplicationContext().getApplicationContext(),wfName,wsfClassName);
+        wsf = WatchSurfaceHelper.getWatchSurface(this, wfName, wsfClassName);
         setContentView(wsf);
     }
     @Override
