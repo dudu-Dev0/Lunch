@@ -263,7 +263,7 @@ public class WatchFaceFragment extends Fragment{
     	watchFaceBox.removeAllViews();
         try {
             WatchFaceInfo wfInfo = WatchFaceHelper.getWatchFaceInfo((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.NOW_WATCHFACE,"watchface-example"));
-            watchFace = WatchFaceHelper.getWatchFace(wfInfo.packageName,wfInfo.name);
+            watchFace = WatchFaceHelper.getWatchFace(requireActivity(), wfInfo.packageName, wfInfo.name);
             if(watchFace != null) {
                 //watchFace.setOnClickListener(v->{
                     //覆盖原Listener防止打不开表盘切换界面

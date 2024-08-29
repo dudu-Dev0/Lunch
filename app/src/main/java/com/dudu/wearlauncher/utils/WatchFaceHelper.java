@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 import com.blankj.utilcode.util.FileIOUtils;
-import com.dudu.wearlauncher.WearLauncherApp;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import dalvik.system.DexClassLoader;
@@ -18,21 +17,21 @@ import java.util.List;
 import static com.dudu.wearlauncher.model.WatchFace.*;
 
 public class WatchFaceHelper {
-    
-    public static WatchFace getWatchFace(String packageName,String name) {
+
+    public static WatchFace getWatchFace(Context context, String packageName, String name) {
         String wfPath = watchFaceFolder + "/" + name + "/"+ name + watchFaceSuffix;
         Log.e("wfPath",wfPath);
         if(new File(wfPath).exists()) {
             try {
             	ClassLoader classLoader = WatchFace.class.getClassLoader();
-                Class<?> clazz = new DexClassLoader(wfPath,WearLauncherApp.getContext().getCacheDir().getAbsolutePath(),null,classLoader).loadClass(packageName+watchFaceClassName);
-                return (WatchFace) clazz.getConstructor(Context.class, String.class).newInstance(WearLauncherApp.getContext(), wfPath);
+                Class<?> clazz = new DexClassLoader(wfPath, context.getCacheDir().getAbsolutePath(), null, classLoader).loadClass(packageName + watchFaceClassName);
+                return (WatchFace) clazz.getConstructor(Context.class, String.class).newInstance(context, wfPath);
             } catch (Exception e) {
                 ILog.e("表盘获取错误：" + e.getCause());
                 e.printStackTrace();
             }
         }else{
-            Toast.makeText(WearLauncherApp.getContext(), "表盘不存在", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "表盘不存在", Toast.LENGTH_SHORT).show();
         }
         return null;
     }
