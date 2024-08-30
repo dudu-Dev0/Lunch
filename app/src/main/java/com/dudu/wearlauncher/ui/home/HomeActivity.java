@@ -43,7 +43,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int i) {
-                if (i == 0) {
+                if (i != 0) {
                     watchFaceFragment.getWatchFace().onWatchfaceInvisible();
                 } else {
                     watchFaceFragment.getWatchFace().onWatchfaceVisible();
