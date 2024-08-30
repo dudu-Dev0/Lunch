@@ -1,5 +1,6 @@
 package com.dudu.wearlauncher.ui.home;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -77,9 +77,13 @@ public class ChooseWatchFaceActivity extends BaseActivity {
             view.findViewById(R.id.wf_pre_img).setScaleY(0.5F);
             ((TextView) view.findViewById(R.id.wf_name_txt)).setText("从本地导入表盘");
             view.setOnClickListener(v->{
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("application/zip");
-                requireActivity().startActivityForResult(intent,FILE_CHOOSER_CODE);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("application/zip");
+                    requireActivity().startActivityForResult(intent, FILE_CHOOSER_CODE);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(requireActivity(), "请安装FileManager!", Toast.LENGTH_SHORT).show();
+                }
             });
         }
     }
