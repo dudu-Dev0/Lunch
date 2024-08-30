@@ -54,7 +54,7 @@ public class WatchFaceFragment extends Fragment{
 
     MsgListAdapter msgListAdapter;
 
-    BroadcastReceiver msgReceiver, msgRemovedReceiver, msgListAllReceiver, watchFaceChangeReceiver, batteryChangeReceiver, timeChangeReceiver;
+    BroadcastReceiver msgReceiver, msgRemovedReceiver, msgListAllReceiver, watchFaceChangeReceiver, batteryChangeReceiver, timeChangeReceiver, screenStatusChangeReceiver;
     
     VolumeChangeObserver volumeObserver;
     BrightnessObserver brightnessObserver;
@@ -148,6 +148,27 @@ public class WatchFaceFragment extends Fragment{
                 BrightnessObserver.setBrightness((int)((double)arg1/100*BrightnessObserver.getMaxBrightness()));
             }
         });
+
+        screenStatusChangeReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case Intent.ACTION_USER_PRESENT:
+                        watchFace.onScreenOn();
+                        break;
+                    case Intent.ACTION_SCREEN_OFF:
+                        watchFace.onScreenOff();
+                        break;
+                    case Intent.ACTION_SCREEN_ON:
+                        break;
+                }
+            }
+        };
+        IntentFilter screenStatusChangeFilter = new IntentFilter();
+        screenStatusChangeFilter.addAction(Intent.ACTION_SCREEN_ON);
+        screenStatusChangeFilter.addAction(Intent.ACTION_USER_PRESENT);
+        screenStatusChangeFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        requireActivity().registerReceiver(screenStatusChangeReceiver, screenStatusChangeFilter);
 
         msgListAllReceiver = new BroadcastReceiver() {
             @Override
@@ -288,15 +309,21 @@ public class WatchFaceFragment extends Fragment{
         tv.setText("表盘加载失败");
         watchFaceBox.addView(tv, lp);
     }
+
+    public WatchFace getWatchFace() {
+        return this.watchFace;
+    }
     @Override
     public void onDestroy() {
     	super.onDestroy();
         volumeObserver.unregisterReceiver();
+        brightnessObserver.unregister();
         requireActivity().unregisterReceiver(watchFaceChangeReceiver);
         requireActivity().unregisterReceiver(batteryChangeReceiver);
         requireActivity().unregisterReceiver(timeChangeReceiver);
         requireActivity().unregisterReceiver(msgReceiver);
         requireActivity().unregisterReceiver(msgRemovedReceiver);
+        requireActivity().unregisterReceiver(screenStatusChangeReceiver);
     }
     public void updateTime(){
         if(watchFace!=null) {

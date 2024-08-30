@@ -78,15 +78,25 @@
         <activity
             android:name="com.xtc.i3launcher.module.home.view.activity.HomeActivity"
             android:exported="true"
-            android:label="小天才选这个!">
+            android:label="小天才选这个">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.HOME"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
+        <activity-alias
+            android:name="XTCHomeDisabled"
+            android:exported="true"
+            android:enabled="false"
+            android:label="小天才选这个"
+            android:targetActivity="com.xtc.i3launcher.module.home.view.activity.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity-alias>
         <service
             android:name=".services.NotificationListenerService"
             android:exported="true"
