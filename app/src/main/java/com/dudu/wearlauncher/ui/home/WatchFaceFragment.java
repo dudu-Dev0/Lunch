@@ -301,6 +301,7 @@ public class WatchFaceFragment extends Fragment{
         } catch (Exception err) {
             onWatchFaceLoadFailed();
             ILog.e("表盘加载失败:" + err);
+            FileIOUtils.writeFileFromString(watchFaceFolder + "/" + System.currentTimeMillis() + "watchface.log", err.toString());
         }
        
     }
