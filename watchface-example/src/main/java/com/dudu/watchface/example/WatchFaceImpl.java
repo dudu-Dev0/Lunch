@@ -5,10 +5,10 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.format.DateFormat;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.dudu.wearlauncher.WatchfaceLayoutInflater;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.utils.ILog;
 
@@ -35,7 +35,7 @@ public class WatchFaceImpl extends WatchFace {
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void initView() {
-        LayoutInflater.from(getHostContext()).inflate(getResources().getLayout(R.layout.layout_main), this);
+        WatchfaceLayoutInflater.from(getHostContext(), getClass().getClassLoader()).inflate(getResources().getLayout(R.layout.layout_main), this);
 /*
         setOnClickListener(v->{
             WatchSurfaceHelper.startWsfActivity(getHostContext(),BuildConfig.WATCHFACE_NAME,SettingsSurface.class);

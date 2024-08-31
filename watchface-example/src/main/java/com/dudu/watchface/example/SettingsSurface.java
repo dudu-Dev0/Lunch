@@ -15,7 +15,7 @@ public class SettingsSurface extends WatchSurface{
 
     @Override
     public void onCreate() {
-        setContentView(R.layout.settings_layout);
+        setContentView(R.layout.settings_layout, this.getClass().getClassLoader());
         ILog.w("Surface onCreate Running!!!");
         ((TextView)findViewById(R.id.testtv)).setText("Test");
     }

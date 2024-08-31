@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
 import com.dudu.wearlauncher.model.WatchSurface;
@@ -18,6 +19,9 @@ public class WatchSurfaceBaseActivity extends Activity{
         String wfName = intent.getStringExtra("wfName");
         String wsfClassName = intent.getStringExtra("wsfClassName");
         wsf = WatchSurfaceHelper.getWatchSurface(this, wfName, wsfClassName);
+        if (wsf != null) {
+            wsf.setBackgroundColor(Color.BLACK);
+        }
         setContentView(wsf);
     }
     @Override

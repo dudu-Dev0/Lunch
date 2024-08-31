@@ -1,11 +1,12 @@
 package com.dudu.wearlauncher.model;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.FrameLayout;
+import com.dudu.wearlauncher.WatchfaceLayoutInflater;
 import com.dudu.wearlauncher.utils.ILog;
 import dalvik.system.DexClassLoader;
 
@@ -78,8 +79,8 @@ public abstract class WatchSurface extends FrameLayout{
         }
     }
 
-    public void setContentView(int id) {
-        LayoutInflater.from(context).inflate(getResources().getLayout(id),this);
+    public void setContentView(int id, ClassLoader classLoader) {
+        WatchfaceLayoutInflater.from(context, classLoader).inflate(getResources().getLayout(id), this);
     }
     
     public Resources getResources() {
