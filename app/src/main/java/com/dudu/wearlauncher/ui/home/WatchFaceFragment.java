@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import cn.leaqi.drawer.SwipeDrawer;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.VolumeUtils;
 import com.blankj.utilcode.util.ZipUtils;
@@ -51,6 +52,7 @@ public class WatchFaceFragment extends Fragment{
     WatchFace watchFace;
     FrameLayout watchFaceBox;
     FrameLayout.LayoutParams layoutParams;
+    SwipeDrawer swipeDrawer;
 
     MsgListAdapter msgListAdapter;
 
@@ -81,6 +83,7 @@ public class WatchFaceFragment extends Fragment{
         wifiButton = view.findViewById(R.id.wifi_btn);
         mobileNetworkButton = view.findViewById(R.id.mobile_network_btn);
         bluetoothButton = view.findViewById(R.id.bluetooth_btn);
+        swipeDrawer = view.findViewById(R.id.swipe_drawer);
         
         wifiButton.attach(new WifiSwitchItem());
         mobileNetworkButton.attach(new MobileNetworkItem());
@@ -312,6 +315,10 @@ public class WatchFaceFragment extends Fragment{
 
     public WatchFace getWatchFace() {
         return this.watchFace;
+    }
+
+    public SwipeDrawer getSwipeDrawer() {
+        return this.swipeDrawer;
     }
     @Override
     public void onDestroy() {

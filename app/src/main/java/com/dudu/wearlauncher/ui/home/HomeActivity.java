@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import com.blankj.utilcode.util.RomUtils;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.services.NotificationListenerService;
@@ -86,6 +85,7 @@ public class HomeActivity extends BaseActivity {
     public void onBackPressed() {
         if(!isDestroyed()) {
         	homeViewPager.setCurrentItem(0);
+            if (watchFaceFragment.getSwipeDrawer() != null) watchFaceFragment.getSwipeDrawer().closeDrawer();
         }
     }
     
