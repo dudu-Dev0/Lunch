@@ -37,12 +37,12 @@
         android:orientation="vertical"
         android:id="@+id/bottomDrawer">
 
-        <ImageView
+        <!--ImageView
             android:layout_width="30dp"
             android:layout_height="4dp"
             android:src="@drawable/circle_bg_gray"
             android:layout_gravity="center"
-            android:layout_margin="4dp"/>
+            android:layout_margin="4dp"/-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="wrap_content"

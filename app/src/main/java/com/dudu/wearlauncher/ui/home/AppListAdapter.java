@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dudu.wearlauncher.R;
 
+import com.dudu.wearlauncher.utils.DensityUtil;
 import java.util.List;
 
 
@@ -46,7 +48,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.appIcon);
         holder.appName.setText(activityInfo.loadLabel(context.getPackageManager()));
-        
+        holder.appName.setMaxWidth(DensityUtil.dip2px(context,90));
+        holder.appSwitch.setVisibility(View.GONE);
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setClassName(activityInfo.packageName,activityInfo.name);
@@ -73,11 +76,13 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
     public static class AppListHolder extends RecyclerView.ViewHolder{
         ImageView appIcon;
         TextView appName;
+        Switch appSwitch;
 
         public AppListHolder(@NonNull View itemView) {
             super(itemView);
             appName = itemView.findViewById(R.id.app_name);
             appIcon = itemView.findViewById(R.id.app_icon);
+            appSwitch = itemView.findViewById(R.id.app_switch);
         }
     }
 }

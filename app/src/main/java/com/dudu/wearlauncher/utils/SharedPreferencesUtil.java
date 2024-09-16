@@ -25,6 +25,7 @@ public class SharedPreferencesUtil {
     private static SharedPreferences sp;
     public static String SCREEN_TYPE = "screen_type";
     public static String NOW_WATCHFACE = "now_watchface";
+    public static String HIDDEN_ACTIVITIES = "hidden_activities";
     
     	
  
