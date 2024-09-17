@@ -90,13 +90,15 @@ public class HomeActivity extends BaseActivity {
     }
     
     private void checkIsXTC() {
-        if (!Build.BRAND.equalsIgnoreCase("XTC")) {
-            PackageManager pm = getPackageManager();
-            ComponentName originComponentName = new ComponentName(this, com.xtc.i3launcher.module.home.view.activity.HomeActivity.class);
-            ComponentName disabledComponentName = new ComponentName(this, "com.dudu.wearlauncher.XTCHomeDisabled");
-            pm.setComponentEnabledSetting(originComponentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-            pm.setComponentEnabledSetting(disabledComponentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-
+        PackageManager pm = getPackageManager();
+        ComponentName xtcComponentName = new ComponentName(this, com.xtc.i3launcher.module.home.view.activity.HomeActivity.class);
+        ComponentName normalComponentName = new ComponentName(this,HomeActivity.class);
+        if (!Build.BRAND.equalsIgnoreCase("XTC")||!Build.MANUFACTURER.equalsIgnoreCase("XTC")) {
+            pm.setComponentEnabledSetting(xtcComponentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+            pm.setComponentEnabledSetting(normalComponentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        }else{
+            pm.setComponentEnabledSetting(xtcComponentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+            pm.setComponentEnabledSetting(normalComponentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         }
     }
 }
