@@ -26,16 +26,23 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
 
     Context context;
     List<ResolveInfo> appList;
+    String mode;
 
-    public AppListAdapter(Context context, List<ResolveInfo> appList) {
+    public AppListAdapter(Context context, List<ResolveInfo> appList,String mode) {
         this.context = context;
         this.appList = appList;
+        this.mode = mode;
     }
 
     @NonNull
     @Override
     public AppListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(this.context).inflate(R.layout.item_app,parent,false);
+        View view = null;
+        if(mode.equals("linear")) {
+        	view = LayoutInflater.from(this.context).inflate(R.layout.item_app_linear,parent,false);
+        }if(mode.equals("grid")) {
+        	view = LayoutInflater.from(this.context).inflate(R.layout.item_app_grid,parent,false);
+        }
         return new AppListHolder(view);
     }
 
@@ -47,9 +54,11 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.appIcon);
-        holder.appName.setText(activityInfo.loadLabel(context.getPackageManager()));
-        holder.appName.setMaxWidth(DensityUtil.dip2px(context,90));
-        holder.appSwitch.setVisibility(View.GONE);
+        if(mode.equals("linear")) {
+        	holder.appName.setText(activityInfo.loadLabel(context.getPackageManager()));
+            holder.appName.setMaxWidth(DensityUtil.dip2px(context,90));
+            holder.appSwitch.setVisibility(View.GONE);
+        }
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setClassName(activityInfo.packageName,activityInfo.name);

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.R;
@@ -53,8 +54,13 @@ public class AppListFragment extends Fragment{
                 iterator.remove();
             }
         }
-        adapter = new AppListAdapter(requireActivity(), appList);
-        recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        adapter = new AppListAdapter(requireActivity(), appList, (String)SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear"));
+        if(SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear").equals("linear")) {
+        	recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        }if(SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear").equals("grid")) {
+        	recycler.setLayoutManager(new GridLayoutManager(requireActivity(),3));
+        }
+        
         recycler.setAdapter(adapter);
         
         BroadcastReceiver receiver = new BroadcastReceiver(){

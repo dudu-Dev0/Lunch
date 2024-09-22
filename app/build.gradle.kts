@@ -57,4 +57,6 @@ dependencies {
     implementation(project(":watchface-dev-utils"))
     //bugly
     implementation("com.tencent.bugly:crashreport:4.1.9")
+    //XRadioGroup
+    implementation("com.github.fodroid:XRadioGroup:v1.5")
 }

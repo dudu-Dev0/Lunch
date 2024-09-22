@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/black">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="应用列表设置"
+        android:textColor="@color/theme_color"
+        android:textStyle="bold" />
+    <me.shihao.library.XRadioGroup
+        android:id="@+id/settings_app_list_radio_group"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="2dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_app_list_linear"
+            android:layout_height="52dp"
+            android:layout_width="match_parent"
+            android:layout_margin="2dp"
+            app:rippleColor="@color/ripple_color"
+            app:cardCornerRadius="26dp"
+            app:cardBackgroundColor="@color/cardBackgroundColorNormal"
+            app:strokeWidth="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container_app_list_linear"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:text="线性视图"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="21dp"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+                <RadioButton
+                    android:id="@+id/linear_list_radio_btn"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="0sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_app_list_grid"
+            android:layout_height="52dp"
+            android:layout_width="match_parent"
+            android:layout_margin="2dp"
+            app:rippleColor="@color/ripple_color"
+            app:cardCornerRadius="26dp"
+            app:cardBackgroundColor="@color/cardBackgroundColorNormal"
+            app:strokeWidth="0dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container_app_list_grid"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:text="宫格视图"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="21dp"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+                <RadioButton
+                    android:id="@+id/grid_list_radio_btn"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="0sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </me.shihao.library.XRadioGroup>
+</LinearLayout>

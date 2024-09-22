@@ -18,7 +18,7 @@ import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
-import com.dudu.wearlauncher.ui.settings.HiddenActivitiesSettings;
+import com.dudu.wearlauncher.ui.settings.HiddenActivitiesSettingsActivity;
 import com.dudu.wearlauncher.ui.settings.ImportLocalWatchFaceActivity;
 import com.dudu.wearlauncher.utils.DensityUtil;
 import com.dudu.wearlauncher.utils.ILog;
@@ -87,7 +87,7 @@ public class ChooseWatchFaceActivity extends BaseActivity {
                 }
             });
             view.setOnLongClickListener(v->{
-                Intent intent = new Intent(requireActivity(),HiddenActivitiesSettings.class);
+                Intent intent = new Intent(requireActivity(),HiddenActivitiesSettingsActivity.class);
                 requireActivity().startActivity(intent);
                 return false;
             });

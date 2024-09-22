@@ -51,7 +51,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
     public void onBindViewHolder(@NotNull MsgListHolder holder, int position) {
         Notification notification = msgList.get(position);
         Glide.with(context).load(notification.icon.loadDrawable(context))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .apply(RequestOptions.circleCropTransform())
                 .into(new SimpleTarget<Drawable>() {
                     @Override

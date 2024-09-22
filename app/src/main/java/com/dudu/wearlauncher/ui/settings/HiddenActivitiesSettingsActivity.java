@@ -10,7 +10,7 @@ import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.utils.PmUtils;
 import java.util.List;
 
-public class HiddenActivitiesSettings extends BaseActivity{
+public class HiddenActivitiesSettingsActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

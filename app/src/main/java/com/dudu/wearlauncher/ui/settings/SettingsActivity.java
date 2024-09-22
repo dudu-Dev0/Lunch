@@ -13,6 +13,9 @@ public class SettingsActivity extends BaseActivity{
         findViewById(R.id.card_settings_about).setOnClickListener(v -> {
             startActivity(new Intent(this, AboutActivity.class));
         });
+        findViewById(R.id.card_settings_app_list).setOnClickListener(v -> {
+            startActivity(new Intent(this, AppListSettingsActivity.class));
+        });
     }
     
 }

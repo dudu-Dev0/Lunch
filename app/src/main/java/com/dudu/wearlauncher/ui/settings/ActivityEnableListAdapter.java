@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.dudu.wearlauncher.R;
 
 import com.dudu.wearlauncher.utils.DensityUtil;
@@ -46,7 +49,7 @@ public class ActivityEnableListAdapter extends RecyclerView.Adapter<ActivityEnab
     @NonNull
     @Override
     public ActivityEnableListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(this.context).inflate(R.layout.item_app,parent,false);
+        View view = LayoutInflater.from(this.context).inflate(R.layout.item_app_linear,parent,false);
         return new ActivityEnableListHolder(view);
     }
 
@@ -56,9 +59,14 @@ public class ActivityEnableListAdapter extends RecyclerView.Adapter<ActivityEnab
 
 
         Glide.with(context).load(activityInfo.loadIcon(context.getPackageManager()))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .apply(RequestOptions.circleCropTransform())
-                .into(holder.appIcon);
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                        holder.appIcon.setImageDrawable(resource);
+                    }
+                });
         holder.appName.setText(activityInfo.loadLabel(context.getPackageManager()));
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent();
