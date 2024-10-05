@@ -59,4 +59,6 @@ dependencies {
     implementation("com.tencent.bugly:crashreport:4.1.9")
     //XRadioGroup
     implementation("com.github.fodroid:XRadioGroup:v1.5")
+    //overScroll
+    implementation(files("./libs/overscroll.jar"))
 }

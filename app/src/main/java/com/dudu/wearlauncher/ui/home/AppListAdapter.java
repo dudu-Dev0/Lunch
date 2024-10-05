@@ -51,7 +51,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
         ActivityInfo activityInfo = appList.get(position).activityInfo;
 
         Glide.with(context).load(activityInfo.loadIcon(context.getPackageManager()))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.appIcon);
         if(mode.equals("linear")) {

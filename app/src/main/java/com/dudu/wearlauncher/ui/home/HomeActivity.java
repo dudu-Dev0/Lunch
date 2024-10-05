@@ -13,6 +13,8 @@ import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.services.NotificationListenerService;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
+import com.dudu.wearlauncher.ui.home.pagertransformer.CubicOverturnTransformer;
+import com.dudu.wearlauncher.ui.home.pagertransformer.XTCTrans;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 
 import java.util.List;
@@ -35,6 +37,7 @@ public class HomeActivity extends BaseActivity {
         List<Fragment> fragmentList = List.of(watchFaceFragment, new AppListFragment());
         ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager(),fragmentList);
         homeViewPager.setAdapter(adapter);
+        homeViewPager.setPageTransformer(false,new CubicOverturnTransformer());
 
         homeViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

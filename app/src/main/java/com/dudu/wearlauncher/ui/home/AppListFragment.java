@@ -20,13 +20,14 @@ import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.PmUtils;
 
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
+import com.dudu.wearlauncher.widget.MyRecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 public class AppListFragment extends Fragment{
-    RecyclerView recycler;
+    MyRecyclerView recycler;
     AppListAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class AppListFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recycler = view.findViewById(R.id.recycler);
+        recycler.getOverScrollDelegate().setOverScrollType(true,true);
         List<ResolveInfo> appList = PmUtils.getAllApps();
         Iterator<ResolveInfo> iterator = appList.iterator();
         List<String> hiddenList = new ArrayList();
