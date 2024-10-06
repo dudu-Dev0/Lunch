@@ -9,6 +9,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.utils.OverScrollDelegate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.OverScrollable {
     private View mEmptyView;
@@ -148,6 +150,7 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
     @Override
     public void draw(Canvas canvas) {
         mOverScrollDelegate.draw(canvas);
+        scaleBottom();
     }
 
     @Override
@@ -188,4 +191,40 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
         if(super.fling(arg0,arg1))mOverScrollDelegate.recyclerViewAbsorbGlows(arg0,arg1);
         return super.fling(arg0,arg1);
     }
+    
+    
+    private void scaleBottom() {
+        int scrollY = getScrollY();
+        int measuredHeight = getMeasuredHeight();
+        for (View view : listChild()) {
+            if (view.getVisibility() == 0) {
+                int top = view.getTop();
+                int bottom = view.getBottom();
+                int height = view.getHeight();
+                int width = view.getWidth();
+                int i = scrollY + measuredHeight;
+                if (bottom >= scrollY) {
+                    if (top <= i) {
+                        top = (bottom <= i || top >= i) ? height : i - top;
+                        float f = ((((float) top) * 0.19999999f) / ((float) height)) + 0.8f;
+                        view.setPivotX(((float) width) / 2.0f);
+                        view.setPivotY(0.0f);
+                        view.setScaleX(f);
+                        view.setScaleY(f);
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    private List<View> listChild() {
+        int childCount = getChildCount();
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < childCount; i++) {
+            arrayList.add(getChildAt(i));
+        }
+        return arrayList;
+    }
+    
 }

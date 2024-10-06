@@ -2,9 +2,12 @@ package com.dudu.wearlauncher.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.utils.ILog;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyLinearLayoutManager extends LinearLayoutManager {
     /**
@@ -58,4 +61,5 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
             ILog.e(err.toString());
         }
     }
+    
 }

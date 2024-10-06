@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dudu.wearlauncher.R;
 
+import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.utils.DensityUtil;
 import java.util.List;
 
@@ -53,6 +54,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
         Glide.with(context).load(activityInfo.loadIcon(context.getPackageManager()))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .apply(RequestOptions.circleCropTransform())
+                .override(DensityUtil.dip2px(context,48),DensityUtil.dip2px(context,48))
+                .thumbnail(0.12f)
                 .into(holder.appIcon);
         if(mode.equals("linear")) {
         	holder.appName.setText(activityInfo.loadLabel(context.getPackageManager()));
@@ -73,6 +76,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
             Uri uri = Uri.fromParts("package", activityInfo.packageName, null);
             Intent intent = new Intent(Intent.ACTION_DELETE, uri);
             context.startActivity(intent);
+            ((BaseActivity)context).overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             return false;
         });
     }

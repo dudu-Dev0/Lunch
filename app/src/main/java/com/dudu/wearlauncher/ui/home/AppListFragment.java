@@ -43,8 +43,18 @@ public class AppListFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recycler = view.findViewById(R.id.recycler);
-        recycler.getOverScrollDelegate().setOverScrollType(true,true);
-        List<ResolveInfo> appList = PmUtils.getAllApps();
+        refreshAppList();
+        BroadcastReceiver receiver = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context arg0, Intent intent) {
+                refreshAppList();
+            }
+            
+        };
+        requireActivity().registerReceiver(receiver,new IntentFilter("com.dudu.wearlauncher.REFESH_APP_LIST"));
+    }
+    private void refreshAppList() {
+    	List<ResolveInfo> appList = PmUtils.getAllApps();
         Iterator<ResolveInfo> iterator = appList.iterator();
         List<String> hiddenList = new ArrayList();
         hiddenList.addAll(Arrays.asList(getActivity().getResources().getStringArray(R.array.hidden_activities)));
@@ -64,15 +74,6 @@ public class AppListFragment extends Fragment{
         }
         
         recycler.setAdapter(adapter);
-        
-        BroadcastReceiver receiver = new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context arg0, Intent intent) {
-                onViewCreated(view,null);
-            }
-            
-        };
-        requireActivity().registerReceiver(receiver,new IntentFilter("com.dudu.wearlauncher.REFESH_APP_LIST"));
     }
     
 }

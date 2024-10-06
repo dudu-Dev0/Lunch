@@ -61,6 +61,8 @@ public class ActivityEnableListAdapter extends RecyclerView.Adapter<ActivityEnab
         Glide.with(context).load(activityInfo.loadIcon(context.getPackageManager()))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .apply(RequestOptions.circleCropTransform())
+                .override(DensityUtil.dip2px(context,48),DensityUtil.dip2px(context,48))
+                .thumbnail(0.12f)
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
