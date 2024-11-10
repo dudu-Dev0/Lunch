@@ -23,10 +23,12 @@ public class SharedPreferencesUtil {
  
     private static SharedPreferencesUtil util;
     private static SharedPreferences sp;
+    public static String FIRST_START = "first_start";
     public static String SCREEN_TYPE = "screen_type";
     public static String NOW_WATCHFACE = "now_watchface";
     public static String HIDDEN_ACTIVITIES = "hidden_activities";
     public static String APP_LIST_STYLE = "app_list_style";
+    public static String ICON_PACK = "icon_pack";
     
     	
  

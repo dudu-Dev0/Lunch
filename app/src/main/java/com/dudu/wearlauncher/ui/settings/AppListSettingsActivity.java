@@ -22,7 +22,7 @@ public class AppListSettingsActivity extends BaseActivity{
         for(int i = 0; i < radioGroup.getChildCount(); ++i) {
                 	MaterialCardView card = (MaterialCardView)radioGroup.getChildAt(i);
                     ConstraintLayout container = (ConstraintLayout)card.getChildAt(0);
-                    container.setOnClickListener(v->{
+                    card.setOnClickListener(v->{
                         ((RadioButton)container.getChildAt(1)).setChecked(true);
             });
         }

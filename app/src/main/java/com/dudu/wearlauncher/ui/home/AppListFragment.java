@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.utils.ILog;
+import com.dudu.wearlauncher.utils.IconPackLoader;
 import com.dudu.wearlauncher.utils.PmUtils;
 
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class AppListFragment extends Fragment{
     MyRecyclerView recycler;
@@ -66,7 +70,17 @@ public class AppListFragment extends Fragment{
                 iterator.remove();
             }
         }
-        adapter = new AppListAdapter(requireActivity(), appList, (String)SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear"));
+        Map<String,Drawable> iconMap = new HashMap<>();
+        
+        if(!SharedPreferencesUtil.getData(SharedPreferencesUtil.ICON_PACK,"default").equals("default")){
+            try {
+            	iconMap = IconPackLoader.getIconMap((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.ICON_PACK,"default"));
+            } catch(Exception err) {
+            	ILog.e(err.toString());
+            }
+            
+        }
+        adapter = new AppListAdapter(requireActivity(), appList, iconMap, (String)SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear"));
         if(SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear").equals("linear")) {
         	recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
         }if(SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear").equals("grid")) {

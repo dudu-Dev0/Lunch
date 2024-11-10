@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="52dp"
+    android:layout_width="match_parent"
+    app:rippleColor="@color/ripple_color"
+    android:layout_margin="2dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@color/cardBackgroundColorNormal"
+    app:cardCornerRadius="26dp"
+    android:id="@+id/card_icon_pack">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/container_icon_pack">
+
+        <ImageView
+            android:layout_height="32dp"
+            android:layout_width="32dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/circle_bg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/icon_pack_image" />
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon_pack_image"
+            android:id="@+id/icon_pack_name"
+            android:text=""
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:clickable="false"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="0sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/icon_pack_radio_btn" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

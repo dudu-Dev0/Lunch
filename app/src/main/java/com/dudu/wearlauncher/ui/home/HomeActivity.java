@@ -15,6 +15,8 @@ import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
 import com.dudu.wearlauncher.ui.home.pagertransformer.CubicOverturnTransformer;
 import com.dudu.wearlauncher.ui.home.pagertransformer.XTCTrans;
+import com.dudu.wearlauncher.ui.settings.RequestPermissonActivity;
+import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        checkIsFirstStart();
         checkIsXTC();
 
         startService(new Intent(this, NotificationListenerService.class));
@@ -103,5 +106,12 @@ public class HomeActivity extends BaseActivity {
             pm.setComponentEnabledSetting(xtcComponentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
             pm.setComponentEnabledSetting(normalComponentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         }
+    }
+    private void checkIsFirstStart() {
+    	if((Boolean)SharedPreferencesUtil.getData(SharedPreferencesUtil.FIRST_START,true)) {
+    		
+            Intent intent = new Intent(this,RequestPermissonActivity.class);
+            startActivity(intent);
+    	}
     }
 }

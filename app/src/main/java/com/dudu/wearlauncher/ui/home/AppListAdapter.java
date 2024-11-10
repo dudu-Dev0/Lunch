@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +21,24 @@ import com.dudu.wearlauncher.R;
 
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.utils.DensityUtil;
+import com.dudu.wearlauncher.utils.ILog;
 import java.util.List;
+import java.util.Map;
 
 
 public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListHolder> {
 
     Context context;
     List<ResolveInfo> appList;
+    Map<String,Drawable> iconMap;
     String mode;
 
-    public AppListAdapter(Context context, List<ResolveInfo> appList,String mode) {
+    public AppListAdapter(Context context, List<ResolveInfo> appList,Map<String,Drawable> iconMap,String mode) {
         this.context = context;
         this.appList = appList;
+        this.iconMap = iconMap;
         this.mode = mode;
+        
     }
 
     @NonNull
@@ -51,7 +57,13 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
     public void onBindViewHolder(@NonNull AppListHolder holder, int position) {
         ActivityInfo activityInfo = appList.get(position).activityInfo;
 
-        Glide.with(context).load(activityInfo.loadIcon(context.getPackageManager()))
+        Drawable icon;
+        if(iconMap.containsKey(activityInfo.packageName+"/"+activityInfo.name)) {
+            icon = iconMap.get(activityInfo.packageName+"/"+activityInfo.name);
+        }else{
+            icon = activityInfo.loadIcon(context.getPackageManager());
+        }
+        Glide.with(context).load(icon)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .apply(RequestOptions.circleCropTransform())
                 .override(DensityUtil.dip2px(context,48),DensityUtil.dip2px(context,48))
