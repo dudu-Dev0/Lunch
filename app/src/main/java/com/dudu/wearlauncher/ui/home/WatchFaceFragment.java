@@ -89,6 +89,8 @@ public class WatchFaceFragment extends Fragment{
         mobileNetworkButton.attach(new MobileNetworkItem());
         bluetoothButton.attach(new BluetoothItem());
         
+        
+        volumeSeekBar.setProgress((int)((double)volumeObserver.getCurrentMusicVolume()/volumeObserver.getMaxMusicVolume()*100));
         volumeObserver = new VolumeChangeObserver(requireActivity());
         volumeObserver.registerReceiver();
         volumeObserver.setVolumeChangeListener(new VolumeChangeObserver.VolumeChangeListener(){
@@ -102,7 +104,7 @@ public class WatchFaceFragment extends Fragment{
         });
         
         volumeSeekBar.setIconOnClickListener(v->{
-            VolumeUtils.setVolume(AudioManager.STREAM_MUSIC,0,AudioManager.FLAG_SHOW_UI);
+            VolumeUtils.setVolume(AudioManager.STREAM_MUSIC,0,AudioManager.FLAG_VIBRATE);
         });
         
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -122,7 +124,7 @@ public class WatchFaceFragment extends Fragment{
                 VolumeUtils.setVolume(AudioManager.STREAM_MUSIC,(int)((double)arg1/100*volumeObserver.getMaxMusicVolume()),AudioManager.FLAG_SHOW_UI);
             }
         });
-        volumeSeekBar.setProgress((int)((double)volumeObserver.getCurrentMusicVolume()/volumeObserver.getMaxMusicVolume()*100));
+        
 
         brightnessSeekBar.setProgress((int)((double)BrightnessObserver.getCurrectBrightness()/BrightnessObserver.getMaxBrightness()*100));
         brightnessObserver = new BrightnessObserver(requireActivity(),new BrightnessObserver.BrightnessChangeListener(){
