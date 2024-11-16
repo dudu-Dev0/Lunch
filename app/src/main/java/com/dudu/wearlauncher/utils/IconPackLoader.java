@@ -32,9 +32,10 @@ public class IconPackLoader {
         }
         return packList;
     }
-    public static Map<String,Drawable> getIconMap(String packageName) throws PackageManager.NameNotFoundException,RuntimeException,IOException{
+    public static Map<String,Drawable> getIconMap(String packageName,Context context) throws PackageManager.NameNotFoundException,RuntimeException,IOException{
         Context iconPackContext = WearLauncherApp.getContext().createPackageContext(packageName,Context.CONTEXT_IGNORE_SECURITY);
         Resources iconPackResources = iconPackContext.getResources();
+        List<String> appList = PackageManagerEx.getAppComponentList(context);
         HashMap<String,Drawable> iconMap = new HashMap<>();
         int appfilterXmlId = iconPackResources.getIdentifier("appfilter","xml",packageName);
         if(appfilterXmlId==0) {
@@ -44,21 +45,19 @@ public class IconPackLoader {
         try{
             int event = appfilterParser.getEventType();
             while(event!=XmlPullParser.END_DOCUMENT) {
-                switch(event){
-                    case XmlPullParser.START_TAG:
-                        if(appfilterParser.getName().equals("item")) {
-                            String component = appfilterParser.getAttributeValue(null,"component");
-                            if(!component.contains("ComponentInfo{")) {
-                                continue;
-                            }
-                            String drawableName = appfilterParser.getAttributeValue(null,"drawable");
+                if(event==XmlPullParser.START_TAG){
+                    if(appfilterParser.getName().equals("item")) {
+                        String component = appfilterParser.getAttributeValue(null,"component");
+                        if(component.contains("ComponentInfo{")) {
                             component = component.substring(component.indexOf("{")+1,component.indexOf("}"));
-                            Drawable drawable = iconPackResources.getDrawable(iconPackResources.getIdentifier(drawableName,"drawable",packageName));
-                            iconMap.put(component,drawable);
-                            ILog.w("Map:"+component);
+                            if(appList.contains(component)) {
+                            	String drawableName = appfilterParser.getAttributeValue(null,"drawable");
+                                Drawable drawable = iconPackResources.getDrawable(iconPackResources.getIdentifier(drawableName,"drawable",packageName));
+                                iconMap.put(component,drawable);
+                                ILog.w("Map:"+component);
+                            }
                         }
-                        break;
-                    default:
+                    }
                 }
             	event=appfilterParser.next();
             }

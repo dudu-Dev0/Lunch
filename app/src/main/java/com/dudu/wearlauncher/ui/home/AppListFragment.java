@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.IconPackLoader;
+import com.dudu.wearlauncher.utils.PackageManagerEx;
 import com.dudu.wearlauncher.utils.PmUtils;
 
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
@@ -58,23 +59,12 @@ public class AppListFragment extends Fragment{
         requireActivity().registerReceiver(receiver,new IntentFilter("com.dudu.wearlauncher.REFESH_APP_LIST"));
     }
     private void refreshAppList() {
-    	List<ResolveInfo> appList = PmUtils.getAllApps();
-        Iterator<ResolveInfo> iterator = appList.iterator();
-        List<String> hiddenList = new ArrayList();
-        hiddenList.addAll(Arrays.asList(getActivity().getResources().getStringArray(R.array.hidden_activities)));
-        ILog.w("hiddenActivities:"+SharedPreferencesUtil.getData(SharedPreferencesUtil.HIDDEN_ACTIVITIES,""));
-        hiddenList.addAll(Arrays.asList(((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.HIDDEN_ACTIVITIES,"")).split(":")));
-        while (iterator.hasNext()) {
-            ResolveInfo info = iterator.next();
-            if (hiddenList.contains(info.activityInfo.packageName + "/" + info.activityInfo.name)) {
-                iterator.remove();
-            }
-        }
+    	List<ResolveInfo> appList = PackageManagerEx.getAppList(requireActivity());
         Map<String,Drawable> iconMap = new HashMap<>();
         
         if(!SharedPreferencesUtil.getData(SharedPreferencesUtil.ICON_PACK,"default").equals("default")){
             try {
-            	iconMap = IconPackLoader.getIconMap((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.ICON_PACK,"default"));
+            	iconMap = IconPackLoader.getIconMap((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.ICON_PACK,"default"),requireActivity());
             } catch(Exception err) {
             	ILog.e(err.toString());
             }
