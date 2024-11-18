@@ -89,10 +89,9 @@ public class WatchFaceFragment extends Fragment{
         mobileNetworkButton.attach(new MobileNetworkItem());
         bluetoothButton.attach(new BluetoothItem());
         
-        
-        volumeSeekBar.setProgress((int)((double)volumeObserver.getCurrentMusicVolume()/volumeObserver.getMaxMusicVolume()*100));
         volumeObserver = new VolumeChangeObserver(requireActivity());
         volumeObserver.registerReceiver();
+        volumeSeekBar.setProgress((int)((double)volumeObserver.getCurrentMusicVolume()/volumeObserver.getMaxMusicVolume()*100));
         volumeObserver.setVolumeChangeListener(new VolumeChangeObserver.VolumeChangeListener(){
             @Override
             public void onVolumeChanged(int volume) {
