@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/black">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="控制中心设置"
+        android:textColor="@color/theme_color"
+        android:textStyle="bold" />
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_margin="4dp">
+
+                <com.dudu.wearlauncher.widget.SwitchIconButton
+                    android:id="@+id/settings_btn_1"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/wifi_selector"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.dudu.wearlauncher.widget.SwitchIconButton
+                    android:id="@+id/settings_btn_2"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/mobile_network_selector"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/settings_btn_1"
+                    app:layout_constraintEnd_toStartOf="@id/settings_btn_3" />
+
+                <com.dudu.wearlauncher.widget.SwitchIconButton
+                    android:id="@+id/settings_btn_3"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/bluetooth_selector"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:layout_height="2dp"
+                android:layout_width="match_parent"
+                android:background="@color/cardBackgroundColorNormal" />
+            <GridLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:rowCount="2"
+                android:columnCount="3">
+
+                <com.dudu.wearlauncher.widget.SwitchIconButton
+                    android:id="@+id/settings_wifi_btn"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/wifi_selector"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_gravity="center" />
+
+                <com.dudu.wearlauncher.widget.SwitchIconButton
+                    android:id="@+id/settings_mobile_network_btn"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/mobile_network_selector"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_gravity="center" />
+
+                <com.dudu.wearlauncher.widget.SwitchIconButton
+                    android:id="@+id/settings_bluetooth_btn"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/bluetooth_selector"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_gravity="center" />
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
