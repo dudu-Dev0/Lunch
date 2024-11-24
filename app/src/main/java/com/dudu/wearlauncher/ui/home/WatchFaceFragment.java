@@ -306,6 +306,13 @@ public class WatchFaceFragment extends Fragment{
                 layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
                 watchFaceBox.addView(watchFace,layoutParams);
                 updateTime();
+                BatteryManager batteryManager = (BatteryManager)requireActivity().getSystemService(Context.BATTERY_SERVICE);
+                if(Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {
+                	updateBattery(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY),BatteryManager.BATTERY_STATUS_DISCHARGING);
+                }else{
+                    updateBattery(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY),batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_STATUS));
+                }
+                
             }else{
                 throw new RuntimeException("Unexpected null watchface");
             }
