@@ -50,7 +50,7 @@
             android:layout_margin="4dp">
 
             <com.dudu.wearlauncher.widget.SwitchIconButton
-                android:id="@+id/wifi_btn"
+                android:id="@+id/setting_center_btn1"
                 android:layout_height="48dp"
                 android:layout_width="48dp"
                 android:src="@drawable/wifi_selector"
@@ -59,17 +59,17 @@
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <com.dudu.wearlauncher.widget.SwitchIconButton
-                android:id="@+id/mobile_network_btn"
+                android:id="@+id/setting_center_btn2"
                 android:layout_height="48dp"
                 android:layout_width="48dp"
                 android:src="@drawable/mobile_network_selector"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/wifi_btn"
-                app:layout_constraintEnd_toStartOf="@id/bluetooth_btn"/>
+                app:layout_constraintStart_toEndOf="@id/setting_center_btn1"
+                app:layout_constraintEnd_toStartOf="@id/setting_center_btn3"/>
 
             <com.dudu.wearlauncher.widget.SwitchIconButton
-                android:id="@+id/bluetooth_btn"
+                android:id="@+id/setting_center_btn3"
                 android:layout_height="48dp"
                 android:layout_width="48dp"
                 android:src="@drawable/bluetooth_selector"

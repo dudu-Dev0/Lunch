@@ -3,6 +3,7 @@ package com.dudu.watchface.example;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.BatteryManager;
 import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.widget.FrameLayout;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.dudu.wearlauncher.WatchfaceLayoutInflater;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.utils.ILog;
+import com.dudu.watchface.example.R;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -65,8 +67,8 @@ public class WatchFaceImpl extends WatchFace {
 
         centerLayout.addView(gifView);
 
-        ivBattery.setBackground(getResources().getDrawable(R.drawable.battery));
-        ivStep.setBackground(getResources().getDrawable(R.drawable.steps));
+        ivBattery.setImageResource(R.drawable.battery);
+        ivStep.setImageResource(R.drawable.steps);
         tvTime.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/DS-DIGI-1.ttf"));
         tvStep.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/DS-DIGIB-2.ttf"));
         tvBattery.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "fonts/DS-DIGIB-2.ttf"));
@@ -76,6 +78,11 @@ public class WatchFaceImpl extends WatchFace {
     @Override
     public void updateBattery(int i,int status) {    //此函数在电池数值更新时执行，i是当前电量，status是电池状态
         tvBattery.setText(i+"%");
+        if (status == BatteryManager.BATTERY_STATUS_CHARGING){
+            ivBattery.setImageResource(R.drawable.charging);
+        }else {
+            ivBattery.setImageResource(R.drawable.battery);
+        }
     }
     @Override
     public void updateStep(int i) {    //步数步数更新时调用

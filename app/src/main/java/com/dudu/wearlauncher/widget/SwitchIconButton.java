@@ -10,12 +10,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.FastSettingsItem;
+import com.dudu.wearlauncher.ui.home.fastsettings.NullItem;
 import com.dudu.wearlauncher.utils.ILog;
 import com.google.android.material.internal.CheckableImageButton;
 import org.jetbrains.annotations.NotNull;
 
 public class SwitchIconButton extends CheckableImageButton {
     FastSettingsItem item;
+    public FastSettingsItem getFastSettingsItem() {
+    	if(item!=null) {
+    		return item;
+    	}
+        return new NullItem();
+    }
     public SwitchIconButton(@NonNull @NotNull Context context) {
         this(context, null);
     }
@@ -47,29 +54,29 @@ public class SwitchIconButton extends CheckableImageButton {
     }
 
     public void attach(FastSettingsItem item) {
-        item.button = this;
-        if (item.action == FastSettingsItem.ItemAction.ACTION_METHOD_CLICK) {
+        this.item = item;
+        item.setButton(this);
             setOnClickListener(
                     v -> {
-                        item.touchListener.onClick(isActivated());
+                        item.getTouchListener().onClick(isActivated());
                         setActivated(!isActivated());
                     });
             setOnLongClickListener(
                     v -> {
-                        item.touchListener.onLongClick(isActivated());
+                        item.getTouchListener().onLongClick(isActivated());
                         return false;
                     });
             
-        }
-        if(item.action == FastSettingsItem.ItemAction.ACTION_OPEN_ACTIVITY) {
-        	Intent intent = new Intent();
-            intent.setClassName(item.targetPackage,item.targetActivity);
-            getContext().startActivity(intent);
-        }
-        if (item.drawable != null) {
-            setImageDrawable(item.drawable);
+        
+        if (item.getDrawable() != null) {
+            setImageDrawable(item.getDrawable());
         }
         item.registerStateObserver(getContext());
+    }
+    @Override
+    protected void onDetachedFromWindow() {
+        if(item != null) item.unregisterStateObserver();
+        super.onDetachedFromWindow();
     }
     
 }

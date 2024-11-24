@@ -109,7 +109,7 @@ public class HomeActivity extends BaseActivity {
     }
     private void checkIsFirstStart() {
     	if((Boolean)SharedPreferencesUtil.getData(SharedPreferencesUtil.FIRST_START,true)) {
-    		
+    		SharedPreferencesUtil.putData(SharedPreferencesUtil.SETTING_CENTER,"[{\"button\":\"button_wifi\"},{\"button\":\"button_mobiledata\"},{\"button\":\"button_bluetooth\"}]");
             Intent intent = new Intent(this,RequestPermissonActivity.class);
             startActivity(intent);
     	}

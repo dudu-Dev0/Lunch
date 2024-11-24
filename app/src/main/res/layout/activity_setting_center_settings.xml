@@ -60,10 +60,12 @@
                 android:layout_width="match_parent"
                 android:background="@color/cardBackgroundColorNormal" />
             <GridLayout
+                android:id="@+id/btn_grid_list"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:rowCount="2"
-                android:columnCount="3">
+                android:columnCount="3"
+                android:layout_margin="4dp">
 
                 <com.dudu.wearlauncher.widget.SwitchIconButton
                     android:id="@+id/settings_wifi_btn"

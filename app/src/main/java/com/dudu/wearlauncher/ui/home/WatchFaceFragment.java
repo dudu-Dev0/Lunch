@@ -33,12 +33,14 @@ import com.dudu.wearlauncher.ui.home.fastsettings.BluetoothItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.MobileNetworkItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.WifiSwitchItem;
 import com.dudu.wearlauncher.utils.ILog;
+import com.dudu.wearlauncher.utils.SettingCenterManager;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 import com.dudu.wearlauncher.widget.MyLinearLayoutManager;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
 import com.dudu.wearlauncher.widget.RoundedSeekBar;
 import com.dudu.wearlauncher.widget.SwitchIconButton;
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.File;
@@ -60,7 +62,7 @@ public class WatchFaceFragment extends Fragment{
     
     VolumeChangeObserver volumeObserver;
     BrightnessObserver brightnessObserver;
-    SwitchIconButton wifiButton,mobileNetworkButton,bluetoothButton;
+    SwitchIconButton btn1,btn2,btn3;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,14 +82,22 @@ public class WatchFaceFragment extends Fragment{
         MyRecyclerView msgView = view.findViewById(R.id.msg_list);
         RoundedSeekBar volumeSeekBar = view.findViewById(R.id.volume_seekbar);
         RoundedSeekBar brightnessSeekBar = view.findViewById(R.id.brightness_seekbar);
-        wifiButton = view.findViewById(R.id.wifi_btn);
-        mobileNetworkButton = view.findViewById(R.id.mobile_network_btn);
-        bluetoothButton = view.findViewById(R.id.bluetooth_btn);
+        btn1 = view.findViewById(R.id.setting_center_btn1);
+        btn2 = view.findViewById(R.id.setting_center_btn2);
+        btn3 = view.findViewById(R.id.setting_center_btn3);
         swipeDrawer = view.findViewById(R.id.swipe_drawer);
         
-        wifiButton.attach(new WifiSwitchItem());
-        mobileNetworkButton.attach(new MobileNetworkItem());
-        bluetoothButton.attach(new BluetoothItem());
+        try {
+        	JSONArray oldArray = new JSONArray((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.SETTING_CENTER,"[{\"button\":\"button_wifi\"},{\"button\":\"button_mobiledata\"},{\"button\":\"button_bluetooth\"}]"));
+            btn1.attach(SettingCenterManager.getButtonInstance(oldArray.getJSONObject(0).getString("button")));
+            btn2.attach(SettingCenterManager.getButtonInstance(oldArray.getJSONObject(1).getString("button")));
+            btn3.attach(SettingCenterManager.getButtonInstance(oldArray.getJSONObject(2).getString("button")));
+        } catch(Exception err) {
+            err.printStackTrace();
+            btn1.attach(new WifiSwitchItem());
+            btn2.attach(new MobileNetworkItem());
+            btn3.attach(new BluetoothItem());    
+        }
         
         volumeObserver = new VolumeChangeObserver(requireActivity());
         volumeObserver.registerReceiver();

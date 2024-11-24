@@ -29,6 +29,7 @@ public class SharedPreferencesUtil {
     public static String HIDDEN_ACTIVITIES = "hidden_activities";
     public static String APP_LIST_STYLE = "app_list_style";
     public static String ICON_PACK = "icon_pack";
+    public static String SETTING_CENTER = "setting_center";
     
     	
  

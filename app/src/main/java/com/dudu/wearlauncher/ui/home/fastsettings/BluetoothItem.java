@@ -15,22 +15,21 @@ import com.dudu.wearlauncher.model.FastSettingsItem;
 import com.dudu.wearlauncher.utils.BluetoothManager;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.RootUtil;
+import com.dudu.wearlauncher.widget.SwitchIconButton;
 
 public class BluetoothItem extends FastSettingsItem {
-    public BluetoothItem() {
-        super.action = action;
-        super.touchListener = touchListener;
-        super.drawable = drawable;
-        super.targetActivity = targetActivity;
-        super.targetPackage = targetPackage;
-        super.settingsName = settingsName;
+    @Override
+    public Drawable getDrawable() {
+        return WearLauncherApp.getContext().getResources().getDrawable(R.drawable.bluetooth_selector);
     }
-
-    public ItemAction action = ItemAction.ACTION_METHOD_CLICK;
-    public Drawable drawable =
-            WearLauncherApp.getContext().getResources().getDrawable(R.drawable.bluetooth_selector);
-    public ButtonItemListener touchListener =
-            new ButtonItemListener() {
+    @Override
+    public String getSettingsName() {
+        return "蓝牙";
+    }
+    
+    @Override
+    public ButtonItemListener getTouchListener() {
+        return new ButtonItemListener() {
                 @Override
                 public void onClick(boolean checked) {
                     if (RootUtil.isSystemApplication(
@@ -65,6 +64,8 @@ public class BluetoothItem extends FastSettingsItem {
                     WearLauncherApp.getContext().startActivity(intent);
                 }
             };
+        };
+    
     public BluetoothObserver observer;
 
     @Override
@@ -76,12 +77,16 @@ public class BluetoothItem extends FastSettingsItem {
 
                     @Override
                     public void onEnabled() {
+                    
                         button.setActivated(true);
+                        
                     }
 
                     @Override
                     public void onDisabled() {
+                    
                         button.setActivated(false);
+                        
                     }
 
                     @Override

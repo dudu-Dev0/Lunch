@@ -15,18 +15,24 @@ import com.dudu.wearlauncher.model.FastSettingsItem;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.MobileDataUtil;
 import com.dudu.wearlauncher.utils.RootUtil;
+import com.dudu.wearlauncher.widget.SwitchIconButton;
 
 public class MobileNetworkItem extends FastSettingsItem {
-    
-    public MobileNetworkItem(){
-        super.action = action;
-        super.touchListener = touchListener;
-        super.drawable = drawable;
-        super.targetActivity = targetActivity;
-        super.targetPackage = targetPackage;
-        super.settingsName = settingsName;
+    @Override
+    public Drawable getDrawable() {
+        return drawable;
     }
-    public ItemAction action = ItemAction.ACTION_METHOD_CLICK;
+    @Override
+    public ButtonItemListener getTouchListener() {
+        return touchListener;
+    }
+    @Override
+    public String getSettingsName() {
+        return "移动数据";
+    }
+    
+    
+    
     public Drawable drawable = WearLauncherApp.getContext().getResources().getDrawable(R.drawable.mobile_network_selector);
     public ButtonItemListener touchListener = new ButtonItemListener(){
         @Override
@@ -71,12 +77,16 @@ public class MobileNetworkItem extends FastSettingsItem {
             
             @Override
             public void onStateEnabled(){
+        
                 button.setActivated(true);
+                
             }
             
             @Override
             public void onStateDisabled(){
+                
                 button.setActivated(false);
+                
             }
             
         });

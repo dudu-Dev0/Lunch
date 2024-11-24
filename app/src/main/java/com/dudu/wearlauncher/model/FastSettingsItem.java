@@ -2,26 +2,25 @@ package com.dudu.wearlauncher.model;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import com.dudu.wearlauncher.widget.SwitchIconButton;
+import java.util.ArrayList;
+import java.util.List;
 
-public class FastSettingsItem {
-    public FastSettingsItem() {
-    	
-    }
+public abstract class FastSettingsItem {
     public interface ButtonItemListener{
         void onClick(boolean checked);
         void onLongClick(boolean checked);
     }
-    public enum ItemAction{
-        ACTION_METHOD_CLICK,
-        ACTION_OPEN_ACTIVITY
-    }
     public SwitchIconButton button;
-    public ItemAction action;
     public Drawable drawable;
     public ButtonItemListener touchListener;
     public String settingsName;
-    public String targetActivity;
-    public String targetPackage;
     public void registerStateObserver(Context context){};
     public void unregisterStateObserver(){};
+    public void setButton(SwitchIconButton button) {
+    	this.button = button;
+    }
+    public abstract Drawable getDrawable();
+    public abstract String getSettingsName();
+    public abstract ButtonItemListener getTouchListener();
+    
 }

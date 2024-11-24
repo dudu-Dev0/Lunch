@@ -13,19 +13,23 @@ import com.dudu.wearlauncher.listener.WLANListener;
 import com.dudu.wearlauncher.model.FastSettingsItem;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.RootUtil;
+import com.dudu.wearlauncher.widget.SwitchIconButton;
 
 public class WifiSwitchItem extends FastSettingsItem {
-    public WifiSwitchItem() {
-        super.action = action;
-        super.touchListener = touchListener;
-        super.drawable = drawable;
-        super.targetActivity = targetActivity;
-        super.targetPackage = targetPackage;
-        super.settingsName = settingsName;
+    @Override
+    public Drawable getDrawable() {
+        return drawable;
+    }
+    @Override
+    public ButtonItemListener getTouchListener() {
+        return touchListener;
+    }
+    @Override
+    public String getSettingsName() {
+        return "WIFI";
     }
 
     public static int WIFI_CODE = 1919810;
-    public ItemAction action = ItemAction.ACTION_METHOD_CLICK;
     public Drawable drawable =
             WearLauncherApp.getContext().getResources().getDrawable(R.drawable.wifi_selector);
     private WifiManager wifiManager =
@@ -82,7 +86,9 @@ public class WifiSwitchItem extends FastSettingsItem {
 
                     @Override
                     public void onStateEnabled() {
-                        button.setActivated(true);
+                        
+                    	button.setActivated(true);
+                        
                     }
 
                     @Override
@@ -93,12 +99,16 @@ public class WifiSwitchItem extends FastSettingsItem {
 
                     @Override
                     public void onStateDisabled() {
+                        
                         button.setActivated(false);
+                        
                     }
 
                     @Override
                     public void onStateUnknow() {
+                        
                         button.setEnabled(false);
+                        
                     }
                 });
     }
