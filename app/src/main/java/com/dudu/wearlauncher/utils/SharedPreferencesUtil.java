@@ -30,6 +30,7 @@ public class SharedPreferencesUtil {
     public static String APP_LIST_STYLE = "app_list_style";
     public static String ICON_PACK = "icon_pack";
     public static String SETTING_CENTER = "setting_center";
+    public static String SHOWING_WATCHFACE_LIST ="watchface_list";
     
     	
  

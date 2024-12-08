@@ -49,11 +49,16 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int i) {
-                if (watchFaceFragment.getWatchFace() == null) return;
-                if (i != 0) {
-                    watchFaceFragment.getWatchFace().onWatchfaceInvisible();
-                } else {
-                    watchFaceFragment.getWatchFace().onWatchfaceVisible();
+                try {
+                    if (watchFaceFragment.getWatchFace() == null) return;
+                    if (i != 0) {
+                        watchFaceFragment.getWatchFace().onWatchfaceInvisible();
+                    } else {
+                        watchFaceFragment.getWatchFace().onWatchfaceVisible();
+                    }
+                        
+                } catch(Exception err) {
+                	
                 }
             }
 
@@ -62,25 +67,26 @@ public class HomeActivity extends BaseActivity {
             }
         });
 
-        try {
-        	for(WatchFaceInfo data : WatchFaceHelper.getAllWatchFace()) {
-        		Log.e("wf",data.name+";"+data.displayName);
-        	}
-        } catch(Exception err) {
-        	err.printStackTrace();
-        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (watchFaceFragment.getWatchFace() != null) watchFaceFragment.getWatchFace().onWatchfaceInvisible();
+        try {
+            if (watchFaceFragment.getWatchFace() != null) watchFaceFragment.getWatchFace().onWatchfaceInvisible();
+        } catch(Exception err) {
+        	
+        }   
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (watchFaceFragment.getWatchFace() != null) watchFaceFragment.getWatchFace().onWatchfaceVisible();
+        try {
+            if (watchFaceFragment.getWatchFace() != null) watchFaceFragment.getWatchFace().onWatchfaceVisible();
+        } catch(Exception err) {
+        	
+        }
     }
 
     @Override

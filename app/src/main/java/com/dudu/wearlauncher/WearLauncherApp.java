@@ -37,7 +37,7 @@ public class WearLauncherApp extends Application {
     public static Context getFitDisplayContext(Context old){
         Context newContext = old;
 
-        float density = (float) context.getResources().getDisplayMetrics().widthPixels / 320; //获取放大dpi倍数
+        float density = (float) old.getResources().getDisplayMetrics().widthPixels / 320; //获取放大dpi倍数
         try{
             //DisplayMetrics displayMetrics = old.getResources().getDisplayMetrics();
             Configuration configuration = old.getResources().getConfiguration();

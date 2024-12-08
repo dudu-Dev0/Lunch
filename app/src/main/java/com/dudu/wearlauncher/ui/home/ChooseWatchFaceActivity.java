@@ -18,8 +18,8 @@ import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
+import com.dudu.wearlauncher.ui.settings.AddWatchfaceActivity;
 import com.dudu.wearlauncher.ui.settings.HiddenActivitiesSettingsActivity;
-import com.dudu.wearlauncher.ui.settings.ImportLocalWatchFaceActivity;
 import com.dudu.wearlauncher.utils.DensityUtil;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
@@ -41,21 +41,21 @@ public class ChooseWatchFaceActivity extends BaseActivity {
         ViewPager pager = findViewById(R.id.wf_choose_vp);
         pager.setPageMargin(DensityUtil.dip2px(this, 15));
         try {
-            List<WatchFaceInfo> allWfList = WatchFaceHelper.getAllWatchFace();
+            List<String> packageList = SharedPreferencesUtil.getListData(SharedPreferencesUtil.SHOWING_WATCHFACE_LIST,String.class);
             List<Fragment> fragmentList = new ArrayList<>();
             String nowWatchFaceName = (String) SharedPreferencesUtil.getData(SharedPreferencesUtil.NOW_WATCHFACE, "watchface-example");
             int nowWatchFacePosition = 0;
-            for (WatchFaceInfo info : allWfList) {
-                fragmentList.add(new WatchFacePreviewFragment(info.name));
-                if (info.name.equals(nowWatchFaceName)) {
-                    nowWatchFacePosition = allWfList.indexOf(info);
+            for (String packageName : packageList) {
+                fragmentList.add(new WatchFacePreviewFragment(packageName));
+                if (packageName.equals(nowWatchFaceName)) {
+                    nowWatchFacePosition = packageList.indexOf(packageName);
                 }
             }
             fragmentList.add(new Choose2ImportWatchFaceFragment());
             ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager(), fragmentList);
             pager.setAdapter(adapter);
             pager.setCurrentItem(nowWatchFacePosition);
-        } catch (JSONException err) {
+        } catch (Exception err) {
             err.printStackTrace();
         }
     }
@@ -76,15 +76,11 @@ public class ChooseWatchFaceActivity extends BaseActivity {
                     .into((ImageView) view.findViewById(R.id.wf_pre_img));
             view.findViewById(R.id.wf_pre_img).setScaleX(0.5F);
             view.findViewById(R.id.wf_pre_img).setScaleY(0.5F);
-            ((TextView) view.findViewById(R.id.wf_name_txt)).setText("从本地导入表盘");
+            ((TextView) view.findViewById(R.id.wf_name_txt)).setText("添加表盘");
             view.setOnClickListener(v->{
-                try {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("application/zip");
-                    requireActivity().startActivityForResult(intent, FILE_CHOOSER_CODE);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(requireActivity(), "请安装FileManager!", Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(requireActivity(),AddWatchfaceActivity.class);
+                requireActivity().startActivity(intent);
+                requireActivity().finish();
             });
             view.setOnLongClickListener(v->{
                 Intent intent = new Intent(requireActivity(),HiddenActivitiesSettingsActivity.class);
@@ -94,23 +90,4 @@ public class ChooseWatchFaceActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK){
-            if (requestCode == FILE_CHOOSER_CODE){
-                try {
-                    File cacheZip = new File(getCacheDir(),System.currentTimeMillis()+".zip");
-                    FileIOUtils.writeFileFromIS(cacheZip,this.getContentResolver().openInputStream(data.getData()));
-                    Intent intent = new Intent(this, ImportLocalWatchFaceActivity.class);
-                    intent.putExtra("zip_path",cacheZip.getAbsolutePath());
-                    startActivity(intent);
-                    finish();
-                } catch (FileNotFoundException e) {
-                    ILog.e(e.getLocalizedMessage());
-                    Toast.makeText(this,"File Not Found",Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
 }

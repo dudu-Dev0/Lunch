@@ -19,12 +19,11 @@ import com.dudu.wearlauncher.WearLauncherApp;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
-import com.dudu.wearlauncher.utils.WatchSurfaceHelper;
+import java.io.IOException;
 import org.json.JSONException;
 
 import java.io.File;
 
-import static com.dudu.wearlauncher.model.WatchFace.watchFaceFolder;
 
 public class WatchFacePreviewFragment extends Fragment{
     String watchFaceName;
@@ -49,12 +48,12 @@ public class WatchFacePreviewFragment extends Fragment{
         TextView text = view.findViewById(R.id.wf_name_txt);
         ImageButton settingsBtn = view.findViewById(R.id.wf_settings_button);
         try {
-        	info = WatchFaceHelper.getWatchFaceInfo(watchFaceName);
-        } catch(JSONException err) {
+        	info = WatchFaceHelper.getWatchfaceByPackage(watchFaceName);
+        } catch(Exception err) {
         	err.printStackTrace();
         }
         Glide.with(requireActivity())
-            .load(new File(watchFaceFolder+"/"+watchFaceName+"/preview.png"))
+            .load(info.preview)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(img);
         text.setText(info.displayName);
@@ -66,8 +65,10 @@ public class WatchFacePreviewFragment extends Fragment{
             requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         });
         settingsBtn.setOnClickListener(v->{
-            if (WatchSurfaceHelper.getWatchSurface(WearLauncherApp.getContext(), watchFaceName, info.packageName + ".SettingsSurface") != null) {
-                WatchSurfaceHelper.startWsfActivity(WearLauncherApp.getContext(), watchFaceName, info.packageName + ".SettingsSurface");
+            if (info.settingsActivityName!=null) {
+                Intent intent = new Intent();
+                intent.setClassName(watchFaceName,info.settingsActivityName);
+                requireActivity().startActivity(intent);
             } else {
                 Toast.makeText(requireActivity(), "该表盘没有设置", Toast.LENGTH_SHORT).show();
             }

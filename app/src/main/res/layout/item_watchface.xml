@@ -1,47 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:orientation="vertical">
-
-    <ImageButton
-        android:id="@+id/wf_settings_button"
-        android:layout_height="18dp"
-        android:layout_width="32dp"
-        android:layout_gravity="center|top"
-        android:src="@drawable/icon_settings"
-        android:foreground="@drawable/ripple_effect"
-        android:background="@drawable/circle_bg_gray"
-        android:layout_marginBottom="4dp" />
     <com.google.android.material.card.MaterialCardView
-        android:layout_height="90dp"
-        android:layout_width="90dp"
+        android:layout_height="74dp"
+        android:layout_width="74dp"
+        app:rippleColor="@color/ripple_color"
         app:strokeColor="@color/cardBackgroundColorNormal"
         app:cardBackgroundColor="@color/cardBackgroundColorNormal"
         app:strokeWidth="2dp"
         app:cardCornerRadius="10dp"
         android:focusable="true"
         android:layout_gravity="center">
-
         <ImageView
+            android:id="@+id/watchface_preview_iv"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
             android:layout_gravity="center"
-            android:layout_height="85dp"
-            android:layout_width="85dp"
-            android:id="@+id/wf_pre_img"
             android:adjustViewBounds="true"
             android:scaleType="fitXY" />
-
     </com.google.android.material.card.MaterialCardView>
-
     <TextView
+        android:id="@+id/watchface_name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:singleLine="true"
-        android:id="@+id/wf_name_txt"
-        android:text=""
-        android:layout_gravity="center"
-        android:layout_marginTop="2dp" />
+        android:lines="1"
+        android:maxWidth="74dp"
+        android:layout_gravity="center" />
 
 </LinearLayout>
