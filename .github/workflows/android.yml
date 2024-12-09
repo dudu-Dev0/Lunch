@@ -27,7 +27,7 @@ jobs:
     - name: Build Utils Library with Gradle
       run: ./gradlew :watchface-dev-utils:bundleDebugAar
     - name: Build Watchface Example with Gradle
-      run: ./gradlew :watchface-example:packageDebugWatchface
+      run: ./gradlew :watchface-example:assembleDebug
     - name: Upload Launcher APK
       uses: actions/upload-artifact@v4
       with:
@@ -38,8 +38,8 @@ jobs:
       with:
         name: watchface-dev-utils
         path: watchface-dev-utils/build/outputs/aar/watchface-dev-utils-debug.aar
-    - name: Upload Watchface Example Zip
+    - name: Upload Watchface Example
       uses: actions/upload-artifact@v4
       with:
         name: watchface-example
-        path: watchface-example/build/outputs/watchface/debug/watchface-example.zip
+        path: watchface-example/build/outputs/apk/debug/watchface-example-debug.apk

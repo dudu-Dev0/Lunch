@@ -32,6 +32,7 @@ public class AddWatchfaceActivity extends BaseActivity {
         recycler = findViewById(R.id.watchface_list);
         WatchfaceListAdapter adapter = new WatchfaceListAdapter(this,WatchFaceHelper.getWatchfaces());
         recycler.setLayoutManager(new GridLayoutManager(this,2));
+        recycler.setEmptyView(findViewById(R.id.empty_view));
         recycler.setAdapter(adapter);
     }
     

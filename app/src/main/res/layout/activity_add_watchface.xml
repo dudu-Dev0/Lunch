@@ -12,9 +12,20 @@
         android:text="添加表盘"
         android:textColor="@color/theme_color"
         android:textStyle="bold" />
-    <com.dudu.wearlauncher.widget.MyRecyclerView
-        android:id="@+id/watchface_list"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="2dp" />
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" 
+            android:layout_gravity="center"
+            android:text="还没有表盘\n快去安装新表盘吧"/>
+        <com.dudu.wearlauncher.widget.MyRecyclerView
+            android:id="@+id/watchface_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="2dp" />
+    </FrameLayout>
 </LinearLayout>

@@ -51,6 +51,8 @@ public class WatchFacePreviewFragment extends Fragment{
         	info = WatchFaceHelper.getWatchfaceByPackage(watchFaceName);
         } catch(Exception err) {
         	err.printStackTrace();
+            text.setText("未知表盘");
+            return;
         }
         Glide.with(requireActivity())
             .load(info.preview)

@@ -21,7 +21,7 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
                 @Override
                 public void onChanged() {
                     Adapter<?> adapter =
-                            getAdapter(); // ??????????????ListView???????????????????????
+                            getAdapter(); 
                     if (adapter != null && mEmptyView != null) {
                         if (adapter.getItemCount() == 0) {
                             mEmptyView.setVisibility(View.VISIBLE);
@@ -48,13 +48,10 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
         super(context, attrs, defStyle);
         createOverScrollDelegate();
     }
-
-    /** * @param emptyView ????view */
     public void setEmptyView(View emptyView) {
         mEmptyView = emptyView;
     }
 
-    @SuppressLint("LongLogTag")
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
@@ -63,10 +60,6 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
         }
         emptyObserver.onChanged();
     }
-
-    // ===========================================================
-    // OverScrollable, aim to call view internal methods
-    // ===========================================================
 
     @Override
     public int superComputeVerticalScrollExtent() {
