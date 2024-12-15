@@ -9,12 +9,15 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.utils.OverScrollDelegate;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.OverScrollable {
     private View mEmptyView;
     private OverScrollDelegate mOverScrollDelegate;
+    private static final int MAX_VELOCITY = 5000;
+    private int maxFlingDistance = 3000;
 
     private AdapterDataObserver emptyObserver =
             new AdapterDataObserver() {
@@ -35,23 +38,71 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
             };
 
     public MyRecyclerView(Context context) {
-        super(context);
-        createOverScrollDelegate();
+        this(context,null);
     }
 
     public MyRecyclerView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        createOverScrollDelegate();
+        this(context, attrs,0);
     }
 
     public MyRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         createOverScrollDelegate();
+        setMaxFlingVelocity(this,MAX_VELOCITY);
+        setOnFlingListener(new OnFlingListener() {
+            @Override
+            public boolean onFling(int velocityX, int velocityY) {
+                // 计算预期的滑动距离
+                int distance = computeFlingDistance(velocityY);
+                if (distance > maxFlingDistance) {
+                    // 限制滑动距离
+                    int limitedVelocityY = calculateLimitedVelocity(velocityY);
+                    fling(velocityX, limitedVelocityY);
+                    return true; // 消费事件
+                }
+                return false; // 继续默认行为
+            }
+        });
     }
+    
+    /**
+     * 根据速度计算 fling 滑动距离
+     */
+    private int computeFlingDistance(int velocity) {
+        // 典型的滑动公式：s = v² / (2 * a)，此处假设减速度 a 为一个固定值
+        final float deceleration = 0.84f; // RecyclerView 内部常用的减速度因子
+        return (int) ((velocity * velocity) / (2 * Math.abs(deceleration * 1600))); // 1600 为默认滑动系数
+    }
+
+    /**
+     * 根据最大滑动距离计算限制后的速度
+     */
+    private int calculateLimitedVelocity(int originalVelocity) {
+        final float deceleration = 0.84f; // 同上，保持一致
+        return (int) Math.sqrt(2 * maxFlingDistance * Math.abs(deceleration * 1600)) * (originalVelocity < 0 ? -1 : 1);
+    }
+
+    /**
+     * 设置最大滑动距离
+     */
+    public void setMaxFlingDistance(int maxDistance) {
+        this.maxFlingDistance = maxDistance;
+    }
+
     public void setEmptyView(View emptyView) {
         mEmptyView = emptyView;
     }
-
+    //设定RecyclerView最大滑动速度
+    private void setMaxFlingVelocity(RecyclerView recycleview, int velocity) {
+        try{
+            Class clazz = recycleview.getClass().getSuperclass();
+            Field velocityField = clazz.getDeclaredField("mMaxFlingVelocity");
+            velocityField.setAccessible(true);
+            velocityField.set(recycleview, velocity);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
@@ -219,5 +270,4 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
         }
         return arrayList;
     }
-    
 }
