@@ -67,7 +67,7 @@ public class WatchFacePreviewFragment extends Fragment{
             requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         });
         settingsBtn.setOnClickListener(v->{
-            if (info.settingsActivityName!=null) {
+            if (info.settingsActivityName!=null&&!info.settingsActivityName.equals("")) {
                 Intent intent = new Intent();
                 intent.setClassName(watchFaceName,info.settingsActivityName);
                 requireActivity().startActivity(intent);
