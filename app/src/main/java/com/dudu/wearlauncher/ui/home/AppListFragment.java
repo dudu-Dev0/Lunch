@@ -34,6 +34,8 @@ import java.util.Map;
 public class AppListFragment extends Fragment{
     MyRecyclerView recycler;
     AppListAdapter adapter;
+    BroadcastReceiver packageChangedReceiver;
+    List<ResolveInfo> appList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +59,34 @@ public class AppListFragment extends Fragment{
             
         };
         requireActivity().registerReceiver(receiver,new IntentFilter("com.dudu.wearlauncher.REFESH_APP_LIST"));
+        
+        IntentFilter packageChangedFilter = new IntentFilter();
+        packageChangedFilter.addDataScheme("package");
+        packageChangedFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        packageChangedFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        packageChangedReceiver = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch(intent.getAction()){
+                    case Intent.ACTION_PACKAGE_ADDED :
+                        
+                        break;
+                    case Intent.ACTION_PACKAGE_REMOVED :
+                        for(ResolveInfo app:appList){
+                            if(app.activityInfo.packageName.equals(intent.getData().getSchemeSpecificPart())) {
+                            	
+                            }
+                        }
+                        break;
+                }
+            }
+            
+        };
+        requireActivity().registerReceiver(packageChangedReceiver,packageChangedFilter);
+        
     }
     private void refreshAppList() {
-    	List<ResolveInfo> appList = PackageManagerEx.getAppList(requireActivity());
+    	appList = PackageManagerEx.getAppList(requireActivity());
         Map<String,Drawable> iconMap = new HashMap<>();
         
         if(!SharedPreferencesUtil.getData(SharedPreferencesUtil.ICON_PACK,"default").equals("default")){

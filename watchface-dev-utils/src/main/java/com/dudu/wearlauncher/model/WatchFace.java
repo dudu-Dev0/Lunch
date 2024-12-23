@@ -24,7 +24,9 @@ public abstract class WatchFace extends FrameLayout {
         super(context,attributeSet,i);
         initView();
     }
-    public abstract void initView();
+    public void initView(){
+        
+    }
 
     public void onWatchfaceInvisible() {
 
@@ -46,5 +48,7 @@ public abstract class WatchFace extends FrameLayout {
 
     public void updateStep(int i) {
     }
-    public abstract void updateTime();
+    public void updateTime(){
+        
+    }
 }

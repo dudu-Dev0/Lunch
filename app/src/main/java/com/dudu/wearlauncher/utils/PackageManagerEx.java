@@ -1,6 +1,10 @@
 package com.dudu.wearlauncher.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.WearLauncherApp;
@@ -39,5 +43,33 @@ public class PackageManagerEx {
     }
     public static List<String> getAppComponentList(Context context) {
         return getAppList(context).stream().map(app->app.activityInfo.packageName+"/"+app.activityInfo.name).collect(Collectors.toList());
+    }
+
+    public static List<String> getLauncherActivities(Context context, String packageName) {
+        List<String> launcherActivities = new ArrayList<>();
+        try {
+            PackageManager pm = context.getPackageManager();
+            // 获取指定包名的 PackageInfo，包括 Activity 信息
+            PackageInfo packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+
+            // 遍历 Activity 信息，筛选出符合 LAUNCHER 和 MAIN 的 Activity
+            if (packageInfo.activities != null) {
+                for (ActivityInfo activityInfo : packageInfo.activities) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                    intent.setPackage(packageName);
+
+                    List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, 0);
+                    for (ResolveInfo resolveInfo : resolveInfos) {
+                        if (resolveInfo.activityInfo.name.equals(activityInfo.name)) {
+                            launcherActivities.add(activityInfo.name);
+                        }
+                    }
+                }
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return launcherActivities;
     }
 }
