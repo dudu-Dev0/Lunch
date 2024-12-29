@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.AppUtils;
@@ -38,6 +39,38 @@ public class AppListFragment extends Fragment{
     AppListAdapter adapter;
     BroadcastReceiver packageChangedReceiver;
     List<App> appList;
+    ItemTouchHelper.Callback callback =
+            new ItemTouchHelper.Callback() {
+                @Override
+                public int getMovementFlags(
+                        @NonNull RecyclerView recyclerView,
+                        @NonNull RecyclerView.ViewHolder viewHolder) {
+                    int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN |ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+                    return makeMovementFlags(dragFlags, 0);
+                }
+
+                @Override
+                public boolean onMove(
+                        @NonNull RecyclerView recyclerView,
+                        @NonNull RecyclerView.ViewHolder viewHolder,
+                        @NonNull RecyclerView.ViewHolder target) {
+                    int fromPosition = viewHolder.getAdapterPosition();
+                    int toPosition = target.getAdapterPosition();
+                    ((AppListAdapter) recyclerView.getAdapter()).moveItem(fromPosition, toPosition);
+                    return true;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    // 不处理侧滑
+                }
+
+                @Override
+                public boolean isLongPressDragEnabled() {
+                    return true; // 支持长按拖拽
+                }
+            };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +85,10 @@ public class AppListFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recycler = view.findViewById(R.id.recycler);
+        
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recycler);
+        
         refreshAppList();
         BroadcastReceiver receiver = new BroadcastReceiver(){
             @Override
@@ -82,27 +119,12 @@ public class AppListFragment extends Fragment{
                             }catch(Exception err){
                                 ILog.e("Can not load activity info:"+app.packageName+"/"+app.activityName);
                             }
-                            appList.add(app);
-                            adapter.notifyItemInserted(appList.size()-1);
+                            adapter.addApp(app);
                         }
                         
                         break;
                     case Intent.ACTION_PACKAGE_REMOVED :
-                        for(String activityName:PackageManagerEx.getLauncherActivities(requireActivity(),intent.getData().getSchemeSpecificPart())){
-                            App app = new App();
-                            app.packageName = intent.getData().getSchemeSpecificPart();
-                            app.activityName = activityName;
-                            try{
-                                ActivityInfo info = PackageManagerEx.getActivityInfo(context,app.packageName,app.activityName);
-                                app.icon = info.loadIcon(context.getPackageManager());
-                                app.label = info.loadLabel(context.getPackageManager()).toString();
-                            }catch(Exception err){
-                                ILog.e("Can not load activity info:"+app.packageName+"/"+app.activityName);
-                            }
-                            int position = appList.indexOf(app);
-                            appList.remove(app);
-                            adapter.notifyItemRemoved(position);
-                        }
+                        adapter.removeApp(intent.getData().getSchemeSpecificPart());
                         break;
                 }
             }

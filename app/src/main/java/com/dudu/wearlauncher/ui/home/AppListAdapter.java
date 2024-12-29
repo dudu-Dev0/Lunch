@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.dudu.wearlauncher.model.App;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.utils.DensityUtil;
 import com.dudu.wearlauncher.utils.ILog;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -101,12 +103,36 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
             return false;
         });
     }
-
+    public void addApp(App app) {
+    	appList.add(app);
+        notifyItemInserted(appList.size());
+    }
+    public void removeApp(App app) {
+    	int position = appList.indexOf(app);
+        appList.remove(position);
+        notifyItemRemoved(position);
+    }
+    public void removeApp(String packageName) {
+        Iterator<App> iterator = appList.iterator();
+        while(iterator.hasNext()) {
+            App app = iterator.next();
+        	if(app.packageName.equals(packageName)) {
+                int position = appList.indexOf(app);
+        		iterator.remove();
+                notifyItemRemoved(position);
+        	}
+        }
+    }
     @Override
     public int getItemCount() {
         return appList.size();
     }
-    
+    public void moveItem(int from,int to) {
+    	App app = appList.get(from);
+        appList.remove(from);
+        appList.add(to,app);
+        notifyItemMoved(from,to);
+    }
     public static class AppListHolder extends RecyclerView.ViewHolder{
         ImageView appIcon;
         TextView appName;
