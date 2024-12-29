@@ -23,6 +23,29 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
             new AdapterDataObserver() {
                 @Override
                 public void onChanged() {
+                    super.onChanged();
+                    check();
+                }
+                
+                @Override
+                public void onItemRangeRemoved(int arg0, int arg1) {
+                    super.onItemRangeRemoved(arg0, arg1);
+                    check();
+                }
+                
+                @Override
+                public void onItemRangeInserted(int arg0, int arg1) {
+                    super.onItemRangeInserted(arg0, arg1);
+                    check();
+                }
+                
+                @Override
+                public void onItemRangeMoved(int arg0, int arg1, int arg2) {
+                    super.onItemRangeMoved(arg0, arg1, arg2);
+                    check();
+                }
+                
+                public void check() {
                     Adapter<?> adapter =
                             getAdapter(); 
                     if (adapter != null && mEmptyView != null) {
@@ -111,7 +134,7 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
         }
         emptyObserver.onChanged();
     }
-
+    
     @Override
     public int superComputeVerticalScrollExtent() {
         return super.computeVerticalScrollExtent();

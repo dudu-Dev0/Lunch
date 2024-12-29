@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.ui.BaseActivity;
-import com.dudu.wearlauncher.utils.PmUtils;
+import com.dudu.wearlauncher.utils.PackageManagerEx;
 import com.dudu.wearlauncher.widget.MyLinearLayoutManager;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
 import java.util.List;
@@ -17,7 +17,7 @@ public class HiddenActivitiesSettingsActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hidden_activities);
-        List<ResolveInfo> appList = PmUtils.getAllApps();
+        List<ResolveInfo> appList = PackageManagerEx.getAllApps();
         MyRecyclerView recycler = findViewById(R.id.activity_list);
         ActivityEnableListAdapter adapter = new ActivityEnableListAdapter(this,appList);
         recycler.setLayoutManager(new MyLinearLayoutManager(this));

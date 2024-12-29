@@ -87,7 +87,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
     public int getItemCount() {
         return msgList.size();
     }
-
+    
     public void addSbn(Notification sbn) {
         for (Notification notification : msgList) {
             if (notification.key.equals(sbn.key)) {
@@ -97,6 +97,11 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
         }
         msgList.add(sbn);
         notifyItemInserted(getItemCount());
+    }
+    
+    public void addSbns(List<Notification> sbn) {
+        msgList.addAll(sbn);
+        notifyItemRangeInserted(getItemCount(),getItemCount()+sbn.size());
     }
 
     public void removeSbn(Notification sbn) {
@@ -116,7 +121,6 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
         }
         //}).start();
     }
-
     public static class MsgListHolder extends RecyclerView.ViewHolder {
         ImageView msgImg;
         FormattedTextClock msgTime;
@@ -134,4 +138,5 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.MsgListH
             msgCard = itemView.findViewById(R.id.item_msg_main_card);
         }
     }
+    
 }

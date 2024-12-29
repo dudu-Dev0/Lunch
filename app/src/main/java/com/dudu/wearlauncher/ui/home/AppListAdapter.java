@@ -21,6 +21,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.dudu.wearlauncher.R;
 
+import com.dudu.wearlauncher.model.App;
 import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.utils.DensityUtil;
 import com.dudu.wearlauncher.utils.ILog;
@@ -31,10 +32,10 @@ import java.util.Map;
 public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListHolder> {
 
     Context context;
-    List<ResolveInfo> appList;
+    List<App> appList;
     Map<String,Drawable> iconMap;
     String mode;
-    public AppListAdapter(Context context, List<ResolveInfo> appList,Map<String,Drawable> iconMap,String mode) {
+    public AppListAdapter(Context context, List<App> appList,Map<String,Drawable> iconMap,String mode) {
         this.context = context;
         this.appList = appList;
         this.iconMap = iconMap;
@@ -59,13 +60,13 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
 
     @Override
     public void onBindViewHolder(@NonNull AppListHolder holder, int position) {
-        ActivityInfo activityInfo = appList.get(position).activityInfo;
+        App activityInfo = appList.get(position);
 
         Drawable icon;
-        if(iconMap.containsKey(activityInfo.packageName+"/"+activityInfo.name)) {
-            icon = iconMap.get(activityInfo.packageName+"/"+activityInfo.name);
+        if(iconMap.containsKey(activityInfo.packageName+"/"+activityInfo.activityName)) {
+            icon = iconMap.get(activityInfo.packageName+"/"+activityInfo.activityName);
         }else{
-            icon = activityInfo.loadIcon(context.getPackageManager());
+            icon = activityInfo.icon;
         }
         holder.appIcon.setImageBitmap(ImageUtils.toRound(ImageUtils.drawable2Bitmap(icon)));
         
@@ -78,13 +79,13 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
                 .override(DensityUtil.dip2px(context,48),DensityUtil.dip2px(context,48))
                 .into(holder.appIcon);*/
         if(mode.equals("linear")) {
-        	holder.appName.setText(activityInfo.loadLabel(context.getPackageManager()));
+        	holder.appName.setText(activityInfo.label);
             holder.appName.setMaxWidth(DensityUtil.dip2px(context,90));
             holder.appSwitch.setVisibility(View.GONE);
         }
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent();
-            intent.setClassName(activityInfo.packageName,activityInfo.name);
+            intent.setClassName(activityInfo.packageName,activityInfo.activityName);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             try {
                 context.startActivity(intent);

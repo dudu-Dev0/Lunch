@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,11 +17,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.blankj.utilcode.util.AppUtils;
 import com.dudu.wearlauncher.R;
+import com.dudu.wearlauncher.model.App;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.IconPackLoader;
 import com.dudu.wearlauncher.utils.PackageManagerEx;
-import com.dudu.wearlauncher.utils.PmUtils;
 
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
@@ -35,7 +37,7 @@ public class AppListFragment extends Fragment{
     MyRecyclerView recycler;
     AppListAdapter adapter;
     BroadcastReceiver packageChangedReceiver;
-    List<ResolveInfo> appList;
+    List<App> appList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +71,37 @@ public class AppListFragment extends Fragment{
             public void onReceive(Context context, Intent intent) {
                 switch(intent.getAction()){
                     case Intent.ACTION_PACKAGE_ADDED :
+                        for(String activityName:PackageManagerEx.getLauncherActivities(requireActivity(),intent.getData().getSchemeSpecificPart())) {
+                        	App app = new App();
+                            app.packageName = intent.getData().getSchemeSpecificPart();
+                            app.activityName = activityName;
+                            try{
+                                ActivityInfo info = PackageManagerEx.getActivityInfo(context,app.packageName,app.activityName);
+                                app.icon = info.loadIcon(context.getPackageManager());
+                                app.label = info.loadLabel(context.getPackageManager()).toString();
+                            }catch(Exception err){
+                                ILog.e("Can not load activity info:"+app.packageName+"/"+app.activityName);
+                            }
+                            appList.add(app);
+                            adapter.notifyItemInserted(appList.size()-1);
+                        }
                         
                         break;
                     case Intent.ACTION_PACKAGE_REMOVED :
-                        for(ResolveInfo app:appList){
-                            if(app.activityInfo.packageName.equals(intent.getData().getSchemeSpecificPart())) {
-                            	
+                        for(String activityName:PackageManagerEx.getLauncherActivities(requireActivity(),intent.getData().getSchemeSpecificPart())){
+                            App app = new App();
+                            app.packageName = intent.getData().getSchemeSpecificPart();
+                            app.activityName = activityName;
+                            try{
+                                ActivityInfo info = PackageManagerEx.getActivityInfo(context,app.packageName,app.activityName);
+                                app.icon = info.loadIcon(context.getPackageManager());
+                                app.label = info.loadLabel(context.getPackageManager()).toString();
+                            }catch(Exception err){
+                                ILog.e("Can not load activity info:"+app.packageName+"/"+app.activityName);
                             }
+                            int position = appList.indexOf(app);
+                            appList.remove(app);
+                            adapter.notifyItemRemoved(position);
                         }
                         break;
                 }
@@ -105,6 +131,11 @@ public class AppListFragment extends Fragment{
         }
         
         recycler.setAdapter(adapter);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        requireActivity().unregisterReceiver(packageChangedReceiver);
     }
     
 }

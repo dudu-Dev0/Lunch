@@ -7,22 +7,14 @@ public class WatchFaceBridge {
     	this.watchface = watchface;
     }
     
-    public void onWatchfaceInvisible() throws NoSuchMethodException,IllegalAccessException,InvocationTargetException{
-        watchface.getClass().getMethod("onWatchfaceInvisible").invoke(watchface);
+    public void onWatchfaceVisibilityChanged(boolean isVisible) throws NoSuchMethodException,IllegalAccessException,InvocationTargetException{
+        watchface.getClass().getMethod("onWatchfaceVisibilityChanged",boolean.class).invoke(watchface,isVisible);
     }
 
-    public void onWatchfaceVisible() throws NoSuchMethodException,IllegalAccessException,InvocationTargetException {
-        watchface.getClass().getMethod("onWatchfaceVisible").invoke(watchface);
+    public void onScreenStateChanged(boolean isScreenOn) throws NoSuchMethodException,IllegalAccessException,InvocationTargetException {
+        watchface.getClass().getMethod("onScreenStateChanged",boolean.class).invoke(watchface,isScreenOn);
     }
-
-    public void onScreenOff() throws NoSuchMethodException,IllegalAccessException,InvocationTargetException {
-        watchface.getClass().getMethod("onScreenOff").invoke(watchface);
-    }
-
-    public void onScreenOn() throws NoSuchMethodException,IllegalAccessException,InvocationTargetException {
-        watchface.getClass().getMethod("onScreenOn").invoke(watchface);
-    }
-
+    
     public void updateBattery(int i, int batteryStatus) throws NoSuchMethodException,IllegalAccessException,InvocationTargetException {
         watchface.getClass().getMethod("updateBattery",int.class,int.class).invoke(watchface,i,batteryStatus);
     }

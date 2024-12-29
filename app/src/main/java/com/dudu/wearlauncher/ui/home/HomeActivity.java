@@ -52,9 +52,9 @@ public class HomeActivity extends BaseActivity {
                 try {
                     if (watchFaceFragment.getWatchFace() == null) return;
                     if (i != 0) {
-                        watchFaceFragment.getWatchFace().onWatchfaceInvisible();
+                        watchFaceFragment.getWatchFace().onWatchfaceVisibilityChanged(false);
                     } else {
-                        watchFaceFragment.getWatchFace().onWatchfaceVisible();
+                        watchFaceFragment.getWatchFace().onWatchfaceVisibilityChanged(true);
                     }
                         
                 } catch(Exception err) {
@@ -73,7 +73,7 @@ public class HomeActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         try {
-            if (watchFaceFragment.getWatchFace() != null) watchFaceFragment.getWatchFace().onWatchfaceInvisible();
+            if (watchFaceFragment.getWatchFace() != null) watchFaceFragment.getWatchFace().onWatchfaceVisibilityChanged(false);
         } catch(Exception err) {
         	
         }   
@@ -83,7 +83,7 @@ public class HomeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         try {
-            if (watchFaceFragment.getWatchFace() != null) watchFaceFragment.getWatchFace().onWatchfaceVisible();
+            if (watchFaceFragment.getWatchFace() != null) watchFaceFragment.getWatchFace().onWatchfaceVisibilityChanged(true);
         } catch(Exception err) {
         	
         }

@@ -41,6 +41,7 @@ import com.dudu.wearlauncher.widget.MyLinearLayoutManager;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
 import com.dudu.wearlauncher.widget.RoundedSeekBar;
 import com.dudu.wearlauncher.widget.SwitchIconButton;
+import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -169,12 +170,13 @@ public class WatchFaceFragment extends Fragment{
                 try {
                     switch (intent.getAction()) {
                         case Intent.ACTION_USER_PRESENT:
-                            watchFace.onScreenOn();
+                            watchFace.onScreenStateChanged(true);
                             break;
                         case Intent.ACTION_SCREEN_OFF:
-                            watchFace.onScreenOff();
+                            watchFace.onScreenStateChanged(false);
                             break;
                         case Intent.ACTION_SCREEN_ON:
+                            watchFace.onScreenStateChanged(true);
                             break;
                     }
                 	
@@ -189,19 +191,45 @@ public class WatchFaceFragment extends Fragment{
         screenStatusChangeFilter.addAction(Intent.ACTION_SCREEN_OFF);
         requireActivity().registerReceiver(screenStatusChangeReceiver, screenStatusChangeFilter);
 
+        
+        msgListAdapter = new MsgListAdapter(requireActivity(), new ArrayList<Notification>());
+        msgView.setLayoutManager(new MyLinearLayoutManager(requireActivity()));
+        msgView.setAdapter(msgListAdapter);
+        
+        msgReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(msgListAdapter != null) {
+                    Notification notification = intent.getParcelableExtra("notification");
+                    msgListAdapter.addSbn(notification);
+                }
+            }
+        };
+        
+
+        msgRemovedReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(msgListAdapter != null) {
+                    Notification notification = intent.getParcelableExtra("notification");
+                    msgListAdapter.removeSbn(notification);
+                }
+            }
+        };
+        
         msgListAllReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 List<Notification> list = intent.getParcelableArrayListExtra("list");
-                msgListAdapter = new MsgListAdapter(requireActivity(), list);
-                msgView.setLayoutManager(new MyLinearLayoutManager(requireActivity()));
-                msgView.setAdapter(msgListAdapter);
+                msgListAdapter.addSbns(list);
             }
         };
+        
+        requireActivity().registerReceiver(msgReceiver, new IntentFilter("com.dudu.wearlauncher.NotificationReceived"));
+        requireActivity().registerReceiver(msgRemovedReceiver, new IntentFilter("com.dudu.wearlauncher.NotificationRemoved"));
         requireActivity().registerReceiver(msgListAllReceiver, new IntentFilter("com.dudu.wearlauncher.ListAllNotification"));
-
-        postGetAllNotification();
-
+        
+        
         msgView.setEmptyView(view.findViewById(R.id.empty_list_text));
 
         watchFaceBox.setOnLongClickListener(v->{
@@ -211,24 +239,6 @@ public class WatchFaceFragment extends Fragment{
             return false;
         });
 
-        msgReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Notification notification = intent.getParcelableExtra("notification");
-                msgListAdapter.addSbn(notification);
-            }
-        };
-        requireActivity().registerReceiver(msgReceiver, new IntentFilter("com.dudu.wearlauncher.NotificationReceived"));
-
-        msgRemovedReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Notification notification = intent.getParcelableExtra("notification");
-                msgListAdapter.removeSbn(notification);
-            }
-        };
-        requireActivity().registerReceiver(msgRemovedReceiver, new IntentFilter("com.dudu.wearlauncher.NotificationRemoved"));
-        
         refreshWatchFace();
         
         watchFaceChangeReceiver = new BroadcastReceiver(){
@@ -260,6 +270,7 @@ public class WatchFaceFragment extends Fragment{
         timeChangeFilter.addAction(Intent.ACTION_TIME_TICK);
         timeChangeFilter.addAction(Intent.ACTION_TIME_CHANGED);
         requireActivity().registerReceiver(timeChangeReceiver,timeChangeFilter);
+        postGetAllNotification();
     }
 
     private void postGetAllNotification() {

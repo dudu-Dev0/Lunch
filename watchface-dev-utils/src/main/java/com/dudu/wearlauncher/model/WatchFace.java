@@ -28,19 +28,12 @@ public abstract class WatchFace extends FrameLayout {
         
     }
 
-    public void onWatchfaceInvisible() {
+    public void onWatchfaceVisibilityChanged(boolean isVisible) {
 
     }
 
-    public void onWatchfaceVisible() {
+    public void onScreenStateChanged(boolean isScreenOn) {
 
-    }
-
-    public void onScreenOff() {
-
-    }
-
-    public void onScreenOn() {
     }
 
     public void updateBattery(int i, int batteryStatus) {
