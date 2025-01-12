@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,7 +136,6 @@ public class AppListFragment extends Fragment{
         
     }
     private void refreshAppList() {
-    	appList = PackageManagerEx.getAppList(requireActivity());
         Map<String,Drawable> iconMap = new HashMap<>();
         
         if(!SharedPreferencesUtil.getData(SharedPreferencesUtil.ICON_PACK,"default").equals("default")){
@@ -145,13 +146,33 @@ public class AppListFragment extends Fragment{
             }
             
         }
+        List<App> originList = SharedPreferencesUtil.getListData(SharedPreferencesUtil.ORIGIN_APP_LIST,App.class);
+    	List<App> nowList = PackageManagerEx.getAppList(requireActivity());
+        appList = new ArrayList<App>();
+        
+        for(App app : originList) {
+        	if(nowList.contains(app)) {
+                try {
+                    //如果有图标就不loadIcon了费时间
+                    app.icon = iconMap.containsKey(app.packageName+"/"+app.activityName)?iconMap.get(app.packageName+"/"+app.activityName):
+                        PackageManagerEx.getActivityInfo(requireActivity(),app.packageName,app.activityName).loadIcon(requireActivity().getPackageManager());
+                    appList.add(app);
+                } catch(PackageManager.NameNotFoundException err) {
+                	ILog.e(err.toString());
+                }
+        	}
+        }
+        for(App app : nowList) {
+        	if(!originList.contains(app)||!appList.contains(app)) {
+        		appList.add(app);
+        	}
+        }
         adapter = new AppListAdapter(requireActivity(), appList, iconMap, (String)SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear"));
         if(SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear").equals("linear")) {
         	recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
         }if(SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear").equals("grid")) {
         	recycler.setLayoutManager(new GridLayoutManager(requireActivity(),3));
         }
-        
         recycler.setAdapter(adapter);
     }
     @Override
@@ -159,5 +180,11 @@ public class AppListFragment extends Fragment{
         super.onDestroy();
         requireActivity().unregisterReceiver(packageChangedReceiver);
     }
+    @Override
+    public void onStop() {
+        super.onStop();
+        SharedPreferencesUtil.putListData(SharedPreferencesUtil.ORIGIN_APP_LIST,adapter.getAppList());
+    }
+    
     
 }

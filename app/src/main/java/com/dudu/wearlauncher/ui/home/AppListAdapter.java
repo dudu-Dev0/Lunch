@@ -94,14 +94,14 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
             } catch (Exception e){
                 e.printStackTrace();
             }
-        });
+        });/*
         holder.itemView.setOnLongClickListener(v->{
             Uri uri = Uri.fromParts("package", activityInfo.packageName, null);
             Intent intent = new Intent(Intent.ACTION_DELETE, uri);
             context.startActivity(intent);
             ((BaseActivity)context).overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             return false;
-        });
+        });*/
     }
     public void addApp(App app) {
     	appList.add(app);
@@ -111,6 +111,9 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
     	int position = appList.indexOf(app);
         appList.remove(position);
         notifyItemRemoved(position);
+    }
+    public List<App> getAppList() {
+    	return appList;
     }
     public void removeApp(String packageName) {
         Iterator<App> iterator = appList.iterator();

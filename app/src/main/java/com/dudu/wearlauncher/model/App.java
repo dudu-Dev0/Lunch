@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 public class App {
     public String packageName;
     public String activityName;
-    public Drawable icon;
+    public transient Drawable icon;
     public String label;
     @Override
     public boolean equals(Object app) {
