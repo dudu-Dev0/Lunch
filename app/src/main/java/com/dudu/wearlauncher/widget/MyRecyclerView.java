@@ -71,6 +71,7 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
     public MyRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         createOverScrollDelegate();
+        /*
         setMaxFlingVelocity(this,MAX_VELOCITY);
         setOnFlingListener(new OnFlingListener() {
             @Override
@@ -86,6 +87,7 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
                 return false; // 继续默认行为
             }
         });
+        */
     }
     
     /**

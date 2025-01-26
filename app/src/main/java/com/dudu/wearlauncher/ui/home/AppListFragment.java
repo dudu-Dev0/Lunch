@@ -28,6 +28,7 @@ import com.dudu.wearlauncher.utils.IconPackLoader;
 import com.dudu.wearlauncher.utils.PackageManagerEx;
 
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
+import com.dudu.wearlauncher.widget.BubbleLayoutManager;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,6 +91,7 @@ public class AppListFragment extends Fragment{
         
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recycler);
+        
         
         refreshAppList();
         BroadcastReceiver receiver = new BroadcastReceiver(){
@@ -169,9 +171,11 @@ public class AppListFragment extends Fragment{
         }
         adapter = new AppListAdapter(requireActivity(), appList, iconMap, (String)SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear"));
         if(SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear").equals("linear")) {
-        	recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        	loadByLinear();
         }if(SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear").equals("grid")) {
-        	recycler.setLayoutManager(new GridLayoutManager(requireActivity(),3));
+        	loadByGrid();
+        }if(SharedPreferencesUtil.getData(SharedPreferencesUtil.APP_LIST_STYLE,"linear").equals("bubble")) {
+        	loadByBubble();
         }
         recycler.setAdapter(adapter);
     }
@@ -185,6 +189,16 @@ public class AppListFragment extends Fragment{
         super.onStop();
         SharedPreferencesUtil.putListData(SharedPreferencesUtil.ORIGIN_APP_LIST,adapter.getAppList());
     }
-    
-    
+    private void loadByLinear() {
+        recycler.getOverScrollDelegate().setOverScrollType(true,true);
+    	recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
+    }
+    private void loadByGrid() {
+        recycler.getOverScrollDelegate().setOverScrollType(true,true);
+    	recycler.setLayoutManager(new GridLayoutManager(requireActivity(),3));
+    }
+    private void loadByBubble() {
+        recycler.getOverScrollDelegate().setOverScrollType(false,false);
+    	recycler.setLayoutManager(new BubbleLayoutManager());
+    }
 }

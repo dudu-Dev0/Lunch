@@ -45,7 +45,9 @@ public class AppListSettingsActivity extends BaseActivity{
                     case R.id.grid_list_radio_btn:
                         SharedPreferencesUtil.putData(SharedPreferencesUtil.APP_LIST_STYLE,"grid");
                         break;
-                    default:
+                    case R.id.bubble_list_radio_btn:
+                        SharedPreferencesUtil.putData(SharedPreferencesUtil.APP_LIST_STYLE,"bubble");
+                        break;
                 }
             }
             
@@ -54,6 +56,8 @@ public class AppListSettingsActivity extends BaseActivity{
         	((RadioButton)findViewById(R.id.linear_list_radio_btn)).setChecked(true);
         }if(listStyle.equals("grid")) {
         	((RadioButton)findViewById(R.id.grid_list_radio_btn)).setChecked(true);
+        }if(listStyle.equals("bubble")) {
+            ((RadioButton)findViewById(R.id.bubble_list_radio_btn)).setChecked(true);
         }
     }
     @Override

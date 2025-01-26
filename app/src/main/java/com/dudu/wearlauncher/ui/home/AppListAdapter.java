@@ -54,7 +54,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
         View view = null;
         if(mode.equals("linear")) {
         	view = LayoutInflater.from(this.context).inflate(R.layout.item_app_linear,parent,false);
-        }if(mode.equals("grid")) {
+        }if(mode.equals("grid")||mode.equals("bubble")) {
         	view = LayoutInflater.from(this.context).inflate(R.layout.item_app_grid,parent,false);
         }
         return new AppListHolder(view);
@@ -70,16 +70,17 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
         }else{
             icon = activityInfo.icon;
         }
-        holder.appIcon.setImageBitmap(ImageUtils.toRound(ImageUtils.drawable2Bitmap(icon)));
+        //holder.appIcon.setImageBitmap(ImageUtils.toRound(ImageUtils.drawable2Bitmap(icon)));
         
-        /*Glide.with(context).load(icon)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .dontAnimate()
-                .dontTransform()
+        Glide.with(context).load(icon)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                //.skipMemoryCache(true)
+                //.dontAnimate()
+                //.dontTransform()
+                .thumbnail(0.5f)
                 .apply(RequestOptions.circleCropTransform())
                 .override(DensityUtil.dip2px(context,48),DensityUtil.dip2px(context,48))
-                .into(holder.appIcon);*/
+                .into(holder.appIcon);
         if(mode.equals("linear")) {
         	holder.appName.setText(activityInfo.label);
             holder.appName.setMaxWidth(DensityUtil.dip2px(context,90));
