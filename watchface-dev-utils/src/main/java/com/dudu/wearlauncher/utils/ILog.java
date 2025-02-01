@@ -1,5 +1,7 @@
 package com.dudu.wearlauncher.utils;
 import android.util.Log;
+import com.blankj.utilcode.util.FileIOUtils;
+import java.io.File;
 
 public class ILog {
     /*
@@ -25,7 +27,16 @@ public class ILog {
     public static void e(String msg) {
     	Log.e(getCallerName(),msg);
     }
-    
+    public static void writeThrowableToFile(Throwable throwable,File file) {
+        FileIOUtils.writeFileFromString(file,throwable.getMessage()+"\n");
+    	StackTraceElement[] elements = throwable.getStackTrace();
+        StringBuilder sb = new StringBuilder();
+        for(StackTraceElement element : elements) {
+        	sb.append(element);
+            sb.append("\n");
+        }
+        FileIOUtils.writeFileFromString(file,sb.toString(),true);
+    }
     private static String getCallerName() {
         //0 VMStack.getThreadStackTrace
         //1 Thread.getStackTrace

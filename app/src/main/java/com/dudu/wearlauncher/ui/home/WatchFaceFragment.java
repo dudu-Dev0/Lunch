@@ -9,6 +9,7 @@ import android.media.AudioManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -306,6 +307,7 @@ public class WatchFaceFragment extends Fragment{
                 }
             }
         } catch (Exception err) {
+            ILog.writeThrowableToFile(err.getCause(),new File(requireActivity().getExternalCacheDir(),SharedPreferencesUtil.getData(SharedPreferencesUtil.NOW_WATCHFACE,"")+"-"+System.currentTimeMillis()+".log"));
             onWatchFaceLoadFailed();
             ILog.e("表盘加载失败:" + err);
             err.printStackTrace();
