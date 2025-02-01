@@ -32,6 +32,9 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
     float minX;
     float minY;
     
+    float hexHeight = maxY-minY;
+    float hexWidth = maxX-minX;
+    
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
     public boolean canScrollHorizontally() {
         return true;
@@ -102,39 +105,31 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
             addView(viewForPosition);
             float x = viewForPosition.getX() + (this.viewWidth / 2);
             float y = viewForPosition.getY() + (this.viewHeight / 2);
-            if(x<minX) {
-            	minX = x;
-            }if(x>maxX) {
-            	maxX = x;
-            }if(y<minY) {
-            	minY = y;
-            }if(y>maxY) {
-            	maxY = y;
-            }
+            
             this.computeZ = new ComputeZ(x, y, this.centerX, this.centerY, this.viewHeight);
             double d2 = d;
             this.Z = (this.r - Math.sqrt(Math.pow(x - this.centerX, 2.0d) + Math.pow(y - this.centerY, 2.0d))) / this.r;
             if (this.isScale) {
                 float f = this.scale;
                 if (f >= 0.0f) {
-                    ViewCompat.animate(viewForPosition).setDuration(100L).scaleX(this.computeZ.Z).scaleY(this.computeZ.Z).alpha(this.computeZ.Z*1.25f).start();
+                    ViewCompat.animate(viewForPosition).setDuration(100L).scaleX(this.computeZ.Z*viewForPosition.getScaleX()).scaleY(this.computeZ.Z*viewForPosition.getScaleY()).alpha(this.computeZ.Z*1.25f).start();
                 } else if (f < 0.0f) {
-                    ViewCompat.animate(viewForPosition).setDuration(100L).scaleX(0.7f).scaleY(0.7f).alpha(1f).start();
+                    ViewCompat.animate(viewForPosition).setDuration(100L).scaleX(viewForPosition.getScaleX()).scaleY(viewForPosition.getScaleY()).alpha(1f).start();
                 }
             } else {
                 float f2 = this.scale;
                 if (f2 >= 0.0f) {
-                    viewForPosition.setScaleX(this.computeZ.Z);
-                    viewForPosition.setScaleY(this.computeZ.Z);
+                    viewForPosition.setScaleX(this.computeZ.Z*viewForPosition.getScaleX());
+                    viewForPosition.setScaleY(this.computeZ.Z*viewForPosition.getScaleY());
                     viewForPosition.setAlpha(this.computeZ.Z*1.25f);
-                } else if (f2 < 0.0f) {
-                    viewForPosition.setScaleX(0.7f);
-                    viewForPosition.setScaleY(0.7f);
+                } else if (f2 < 0.0f) {/*
+                    viewForPosition.setScaleX(viewForPosition.get);
+                    viewForPosition.setScaleY(0.7f);*/
                     viewForPosition.setAlpha(1f);
                 }
             }
-            viewForPosition.setTranslationX(this.computeZ.dx);
-            viewForPosition.setTranslationY(this.computeZ.dy);
+           // viewForPosition.setTranslationX(this.computeZ.dx);
+            //viewForPosition.setTranslationY(this.computeZ.dy);
             double d3 = this.Z;
             if (d2 <= d3) {
                 this.pos = i2;
@@ -170,34 +165,21 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
             layoutDecoratedWithMargins(viewForPosition2, this.bHexagon.x.get(i2).intValue() - (this.viewWidth / 2), this.bHexagon.y.get(i2).intValue() - (this.viewHeight / 2), this.bHexagon.x.get(i2).intValue() + (this.viewWidth / 2), this.bHexagon.y.get(i2).intValue() + (this.viewHeight / 2));
             ComputeZ computeZ = new ComputeZ(this.bHexagon.x.get(i2).intValue(), this.bHexagon.y.get(i2).intValue(), this.centerX, this.centerY, this.viewHeight);
             this.computeZ = computeZ;
-            viewForPosition2.setScaleX(this.computeZ.Z);
-            viewForPosition2.setScaleY(this.computeZ.Z);
-            viewForPosition2.setAlpha(this.computeZ.Z);
-            viewForPosition2.setTranslationX(this.computeZ.dx);
-            viewForPosition2.setTranslationY(this.computeZ.dy);
+            viewForPosition2.setScaleX(this.computeZ.Z*viewForPosition2.getScaleX());
+            viewForPosition2.setScaleY(this.computeZ.Z*viewForPosition2.getScaleY());
+            viewForPosition2.setAlpha(this.computeZ.Z*1.25f);
+            //viewForPosition2.setTranslationX(this.computeZ.dx);
+            //viewForPosition2.setTranslationY(this.computeZ.dy);
         }
         detachAndScrapAttachedViews(recycler);
     }
 
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
     public int scrollVerticallyBy(int i, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        int i2;
-        int i3;
-        if (this.verticalScrollOffset + i < (this.centerY - ((this.bHexagon.floor + 1) * this.bHexagon.triangleH)) - ((this.viewHeight * 3) / 2)) {
-            i2 = ((-this.verticalScrollOffset) + this.centerY) - ((this.bHexagon.floor + 1) * this.bHexagon.triangleH);
-            i3 = (this.viewHeight * 3) / 2;
-        } else {
-            if (this.verticalScrollOffset + i > (-this.centerY) + ((this.bHexagon.floor + 1) * this.bHexagon.triangleH) + ((this.viewHeight * 3) / 2)) {
-                i2 = (-this.centerY) + ((this.bHexagon.floor + 1) * this.TriangleH) + ((this.viewHeight * 3) / 2);
-                i3 = this.verticalScrollOffset;
-            }
-            this.verticalScrollOffset += i;
-            offsetChildrenVertical(-i);
-            detachAndScrapAttachedViews(recycler);
-            putItems(recycler);
-            return i;
+        if(verticalScrollOffset+i>getHeight()/2+viewHeight||verticalScrollOffset+i< -getHeight()/2-viewHeight) {
+        	i = 0;
         }
-        i = i2 - i3;
+        
         this.verticalScrollOffset += i;
         offsetChildrenVertical(-i);
         detachAndScrapAttachedViews(recycler);
@@ -207,29 +189,15 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
 
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
     public int scrollHorizontallyBy(int i, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        int i2;
-        int i3;
-        if (this.horizontalScrollOffset + i < (this.centerX - ((this.bHexagon.floor + 1) * this.bHexagon.triangleH)) - ((this.viewWidth * 3) / 2)) {
-//            i2 = ((-this.horizontalScrollOffset) + this.centerX) - ((this.bHexagon.floor + 1) * this.bHexagon.triangleH);
-//            i3 = (this.viewWidth * 3) / 2;
-//            i = i2 - i3;
-
-            this.horizontalScrollOffset += i;
-            offsetChildrenHorizontal(-i);
-            detachAndScrapAttachedViews(recycler);
-            putItems(recycler);
-            return i;
-        } else {
-//            if (this.horizontalScrollOffset + i > (-this.centerX) + ((this.bHexagon.floor + 1) * this.bHexagon.triangleH) + ((this.viewWidth * 3) / 2)) {
-//                i2 = (-this.centerX) + ((this.bHexagon.floor + 1) * this.TriangleH) + ((this.viewWidth * 3) / 2);
-//                i3 = this.horizontalScrollOffset;
-//            }
-            this.horizontalScrollOffset += i;
-            offsetChildrenHorizontal(-i);
-            detachAndScrapAttachedViews(recycler);
-            putItems(recycler);
-            return i;
+        if(horizontalScrollOffset+i>getHeight()/2f+viewHeight||horizontalScrollOffset+i< -getHeight()/2f-viewHeight) {
+        	i = 0;
         }
+        this.horizontalScrollOffset += i;
+        offsetChildrenHorizontal(-i);
+        detachAndScrapAttachedViews(recycler);
+        putItems(recycler);
+        return i;
+        
     }
     public class ComputeZ {
         float Z;
@@ -252,7 +220,7 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
             } else {
                 this.Z = 0.75f;
             }
-            float f5 = i3 * (-0.2f);
+            float f5 = i3 * (0f);
             double d = this.r;
             this.dx = (int) ((f3 * f5) / d);
             this.dy = (int) ((f5 * f4) / d);

@@ -220,6 +220,9 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
     public void draw(Canvas canvas) {
         mOverScrollDelegate.draw(canvas);
         scaleBottom();
+        scaleTop();
+        scaleLeft();
+        scaleRight();
     }
 
     @Override
@@ -261,8 +264,34 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
         return super.fling(arg0,arg1);
     }
     
-    
     private void scaleBottom() {
+        int scrollY = getScrollY();
+        int measuredHeight = getMeasuredHeight();
+        int contentHeight = getHeight();
+        for (View view : listChild()) {
+            if (view.getVisibility() == 0) {
+                int top = view.getTop();
+                int bottom = view.getBottom();
+                int height = view.getHeight();
+                int width = view.getWidth();
+                int i = scrollY + measuredHeight;
+                if (bottom >= scrollY+contentHeight) {
+                    if (top <= scrollY+contentHeight) {
+                        float f = (scrollY + contentHeight - top)/(float)height;
+                        view.setPivotX(((float) width) / 2.0f);
+                        view.setPivotY(0f);
+                        view.setScaleX(f);
+                        view.setScaleY(f);
+                    }
+                }else{
+                    view.setScaleX(1f);
+                    view.setScaleY(1f);
+                }
+            }
+        }
+    }
+    
+    private void scaleBottomFprLinear() {
         int scrollY = getScrollY();
         int measuredHeight = getMeasuredHeight();
         for (View view : listChild()) {
@@ -275,9 +304,82 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
                 if (bottom >= scrollY) {
                     if (top <= i) {
                         top = (bottom <= i || top >= i) ? height : i - top;
-                        float f = ((((float) top) * 0.19999999f) / ((float) height)) + 0.8f;
+                        float f = ((((float) top) * 0.2f) / ((float) height)) + 0.8f;
                         view.setPivotX(((float) width) / 2.0f);
-                        view.setPivotY(0.0f);
+                        view.setPivotY(0f);
+                        view.setScaleX(f);
+                        view.setScaleY(f);
+                    }
+                }
+            }
+        }
+    }
+    private void scaleTop() {
+        int scrollY = getScrollY();
+        int measuredHeight = getMeasuredHeight();
+        for (View view : listChild()) {
+            if (view.getVisibility() == 0) {
+                int top = view.getTop();
+                int bottom = view.getBottom();
+                int height = view.getHeight();
+                int width = view.getWidth();
+                int i = scrollY;
+                if (bottom >= scrollY) {
+                    if (top <= scrollY) {
+                        float f = (bottom - scrollY)/(float)height;
+                        view.setPivotX(((float) width) / 2.0f);
+                        view.setPivotY((float)height);
+                        view.setScaleX(f);
+                        view.setScaleY(f);
+                    }
+                }else{
+                    view.setScaleX(1f);
+                    view.setScaleY(1f);
+                }
+            }
+        }
+    }
+    private void scaleLeft() {
+        int scrollX = getScrollX();
+        int measuredWidth = getMeasuredWidth();
+        for (View view : listChild()) {
+            if (view.getVisibility() == 0) {
+                int left = view.getLeft();
+                int right = view.getRight();
+                int height = view.getHeight();
+                int width = view.getWidth();
+                int i = scrollX;
+                if (right >= scrollX) {
+                    if (left <= scrollX) {
+                        float f = (right - scrollX)/(float)width;
+                        view.setPivotX((float)width);
+                        view.setPivotY((float)height/2);
+                        view.setScaleX(f);
+                        view.setScaleY(f);
+                    }
+                }else{
+                    view.setScaleX(1f);
+                    view.setScaleY(1f);
+                }
+            }
+        }
+    }
+    
+    private void scaleRight() {
+        int scrollX = getScrollX();
+        int measuredWidth = getMeasuredWidth();
+        for (View view : listChild()) {
+            if (view.getVisibility() == 0) {
+                int left = view.getLeft();
+                int right = view.getRight();
+                int height = view.getHeight();
+                int width = view.getWidth();
+                int i = scrollX+measuredWidth;
+                if (right >= i) {
+                    if (left <= i) {
+                        float f = (i - left)/(float)width;
+                        view.setPivotX(0f);
+                        view.setPivotY((float)height/2);
                         view.setScaleX(f);
                         view.setScaleY(f);
                     }
