@@ -90,7 +90,7 @@ public class WatchFaceImpl extends WatchFace {
     align="right">下一步：
 </p>
 <div align="right" >
-<a href="">使用View构建您的表盘</a>
+<a href="https://github.com/dudu-Dev0/Lunch/blob/main/How-To-Make-WatchFace/Make-By-View.MD">使用View构建您的表盘</a>
 <br />
 <a href="">使用Canvas构建您的表盘</a>
 </div>
