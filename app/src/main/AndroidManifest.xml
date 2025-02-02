@@ -104,6 +104,7 @@
         <activity
             android:name="com.xtc.i3launcher.module.home.view.activity.HomeActivity"
             android:exported="true"
+            android:theme="@style/AppThemeNoSwipe"
             android:label="小天才专用">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

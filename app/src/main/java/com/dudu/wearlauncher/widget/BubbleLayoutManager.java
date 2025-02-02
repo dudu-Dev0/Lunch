@@ -176,10 +176,9 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
 
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
     public int scrollVerticallyBy(int i, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if(verticalScrollOffset+i>getHeight()/2+viewHeight||verticalScrollOffset+i< -getHeight()/2-viewHeight) {
+        if(verticalScrollOffset+i>getHeight()/2+getPaddingBottom()||verticalScrollOffset+i< -getHeight()/2-getPaddingTop()) {
         	i = 0;
         }
-        
         this.verticalScrollOffset += i;
         offsetChildrenVertical(-i);
         detachAndScrapAttachedViews(recycler);
@@ -189,7 +188,7 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
 
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
     public int scrollHorizontallyBy(int i, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if(horizontalScrollOffset+i>getHeight()/2f+viewHeight||horizontalScrollOffset+i< -getHeight()/2f-viewHeight) {
+        if(horizontalScrollOffset+i>getHeight()/2+getPaddingStart()||horizontalScrollOffset+i< -getHeight()/2-getPaddingEnd()) {
         	i = 0;
         }
         this.horizontalScrollOffset += i;
