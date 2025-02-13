@@ -24,6 +24,7 @@ import com.dudu.wearlauncher.R;
 
 import com.dudu.wearlauncher.model.App;
 import com.dudu.wearlauncher.ui.BaseActivity;
+import com.dudu.wearlauncher.utils.ActivityManager;
 import com.dudu.wearlauncher.utils.DensityUtil;
 import com.dudu.wearlauncher.utils.ILog;
 import java.util.Iterator;
@@ -87,6 +88,8 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
             holder.appSwitch.setVisibility(View.GONE);
         }
         holder.itemView.setOnClickListener(view -> {
+            ActivityManager.startActivityWithTransAnimation((BaseActivity)context,activityInfo.packageName,activityInfo.activityName,holder.appIcon,icon);
+            /*
             Intent intent = new Intent();
             intent.setClassName(activityInfo.packageName,activityInfo.activityName);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -94,7 +97,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListH
                 context.startActivity(intent);
             } catch (Exception e){
                 e.printStackTrace();
-            }
+            }*/
         });/*
         holder.itemView.setOnLongClickListener(v->{
             Uri uri = Uri.fromParts("package", activityInfo.packageName, null);

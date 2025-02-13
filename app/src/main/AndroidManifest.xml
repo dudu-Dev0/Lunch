@@ -64,7 +64,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
+        <activity
+            android:name=".ui.CatchActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".ui.AppTransformActivity"
+            android:exported="true">
+        </activity>
         <activity
             android:name=".ui.settings.AddWatchfaceActivity"
             android:exported="true">

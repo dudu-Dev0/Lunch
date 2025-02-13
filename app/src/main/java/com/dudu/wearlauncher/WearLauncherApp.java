@@ -10,6 +10,8 @@ import androidx.multidex.MultiDex;
 import com.blankj.utilcode.util.AppUtils;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.dudu.wearlauncher.utils.ErrorCatch;
+
 public class WearLauncherApp extends Application {
     private static Context context;
     
@@ -18,6 +20,7 @@ public class WearLauncherApp extends Application {
         super.onCreate();
         context = getApplicationContext();
         MultiDex.install(context);
+        ErrorCatch.getInstance().init(context);
         CrashReport.initCrashReport(context,"87aac51b62",false);
         CrashReport.setDeviceId(context,Build.ID);
         CrashReport.setDeviceId(context,Build.MODEL);

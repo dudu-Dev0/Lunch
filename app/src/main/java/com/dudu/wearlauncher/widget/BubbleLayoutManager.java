@@ -176,7 +176,7 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
 
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
     public int scrollVerticallyBy(int i, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if(verticalScrollOffset+i>getHeight()/2+getPaddingBottom()||verticalScrollOffset+i< -getHeight()/2-getPaddingTop()) {
+        if(verticalScrollOffset+i>getHexagonTotalHeight()/2+getPaddingBottom()+viewHeight||verticalScrollOffset+i< -getHexagonTotalHeight()/2-getPaddingTop()-viewHeight) {
         	i = 0;
         }
         this.verticalScrollOffset += i;
@@ -188,7 +188,7 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
 
     @Override // androidx.recyclerview.widget.RecyclerView.LayoutManager
     public int scrollHorizontallyBy(int i, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        if(horizontalScrollOffset+i>getHeight()/2+getPaddingStart()||horizontalScrollOffset+i< -getHeight()/2-getPaddingEnd()) {
+        if(horizontalScrollOffset+i>getHexagonTotalWidth()/2+getPaddingStart()+viewWidth||horizontalScrollOffset+i< -getHexagonTotalWidth()/2-getPaddingEnd()-viewWidth) {
         	i = 0;
         }
         this.horizontalScrollOffset += i;
@@ -198,6 +198,15 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
         return i;
         
     }
+
+    public int getHexagonTotalHeight() {
+        return bHexagon.floors * TriangleD;
+    }
+
+    public int getHexagonTotalWidth() {
+        return (2 * bHexagon.floors + 1) * TriangleH;
+    }
+
     public class ComputeZ {
         float Z;
         double d;

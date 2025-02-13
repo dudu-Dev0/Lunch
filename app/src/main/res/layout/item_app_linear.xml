@@ -27,6 +27,7 @@
                 android:layout_height="32dp"
                 android:layout_width="32dp"
                 android:id="@+id/app_icon"
+                android:transitionName="app_shared_view"
                 android:background="@drawable/circle_bg"/>
 
             <TextView
