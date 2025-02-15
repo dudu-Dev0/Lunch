@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="RoundedSeekBar">
-        <attr name="left_icon" format="reference"/>
+        <attr
+            name="left_icon"
+            format="reference" />
     </declare-styleable>
+    <declare-styleable name="AppScrollView">
+        <attr
+            name="asv_anim_scale"
+            format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="AppNestedScrollView">
+        <attr
+            name="ansv_enable_end"
+            format="boolean" />
+        <attr
+            name="ansv_enable_start"
+            format="boolean" />
+        <attr
+            name="ansv_anim_scale"
+            format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="AppRecyclerView">
+        <attr
+            name="arv_enable_start"
+            format="boolean" />
+        <attr
+            name="arv_enable_end"
+            format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="AppLinearLayout">
+        <attr
+            name="useAlphaForLL"
+            format="boolean" />
+        <attr
+            name="useZoomForLL"
+            format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="AppRelativeLayout">
+        <attr
+            name="useAlphaForRL"
+            format="boolean" />
+        <attr
+            name="useZoomForRL"
+            format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="LongSolidButton">
+        <attr
+            name="bgColorArray"
+            format="integer" />
+    </declare-styleable>
+
 </resources>

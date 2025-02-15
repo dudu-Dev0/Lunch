@@ -190,15 +190,15 @@ public class AppListFragment extends Fragment{
         SharedPreferencesUtil.putListData(SharedPreferencesUtil.ORIGIN_APP_LIST,adapter.getAppList());
     }
     private void loadByLinear() {
-        recycler.getOverScrollDelegate().setOverScrollType(true,true);
+        //recycler.getOverScrollDelegate().setOverScrollType(true,true);
     	recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
     }
     private void loadByGrid() {
-        recycler.getOverScrollDelegate().setOverScrollType(true,true);
+        //recycler.getOverScrollDelegate().setOverScrollType(true,true);
     	recycler.setLayoutManager(new GridLayoutManager(requireActivity(),3));
     }
     private void loadByBubble() {
-        recycler.getOverScrollDelegate().setOverScrollType(false,false);
+        //recycler.getOverScrollDelegate().setOverScrollType(false,false);
     	recycler.setLayoutManager(new BubbleLayoutManager());
     }
 }

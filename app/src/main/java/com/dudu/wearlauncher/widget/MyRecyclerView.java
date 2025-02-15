@@ -9,15 +9,13 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import com.dudu.wearlauncher.utils.OverScrollDelegate;
+import com.xtc.widget.scalablecontainer.AppRecyclerView;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.OverScrollable {
+public class MyRecyclerView extends AppRecyclerView {
     private View mEmptyView;
-    private OverScrollDelegate mOverScrollDelegate;
-    private static final int MAX_VELOCITY = 5000;
-    private int maxFlingDistance = 3000;
 
     private AdapterDataObserver emptyObserver =
             new AdapterDataObserver() {
@@ -70,63 +68,9 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
 
     public MyRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        createOverScrollDelegate();
-        /*
-        setMaxFlingVelocity(this,MAX_VELOCITY);
-        setOnFlingListener(new OnFlingListener() {
-            @Override
-            public boolean onFling(int velocityX, int velocityY) {
-                // 计算预期的滑动距离
-                int distance = computeFlingDistance(velocityY);
-                if (distance > maxFlingDistance) {
-                    // 限制滑动距离
-                    int limitedVelocityY = calculateLimitedVelocity(velocityY);
-                    fling(velocityX, limitedVelocityY);
-                    return true; // 消费事件
-                }
-                return false; // 继续默认行为
-            }
-        });
-        */
     }
-    
-    /**
-     * 根据速度计算 fling 滑动距离
-     */
-    private int computeFlingDistance(int velocity) {
-        // 典型的滑动公式：s = v² / (2 * a)，此处假设减速度 a 为一个固定值
-        final float deceleration = 0.84f; // RecyclerView 内部常用的减速度因子
-        return (int) ((velocity * velocity) / (2 * Math.abs(deceleration * 1600))); // 1600 为默认滑动系数
-    }
-
-    /**
-     * 根据最大滑动距离计算限制后的速度
-     */
-    private int calculateLimitedVelocity(int originalVelocity) {
-        final float deceleration = 0.84f; // 同上，保持一致
-        return (int) Math.sqrt(2 * maxFlingDistance * Math.abs(deceleration * 1600)) * (originalVelocity < 0 ? -1 : 1);
-    }
-
-    /**
-     * 设置最大滑动距离
-     */
-    public void setMaxFlingDistance(int maxDistance) {
-        this.maxFlingDistance = maxDistance;
-    }
-
     public void setEmptyView(View emptyView) {
         mEmptyView = emptyView;
-    }
-    //设定RecyclerView最大滑动速度
-    private void setMaxFlingVelocity(RecyclerView recycleview, int velocity) {
-        try{
-            Class clazz = recycleview.getClass().getSuperclass();
-            Field velocityField = clazz.getDeclaredField("mMaxFlingVelocity");
-            velocityField.setAccessible(true);
-            velocityField.set(recycleview, velocity);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
     @Override
     public void setAdapter(Adapter adapter) {
@@ -137,132 +81,17 @@ public class MyRecyclerView extends RecyclerView implements OverScrollDelegate.O
         emptyObserver.onChanged();
     }
     
-    @Override
-    public int superComputeVerticalScrollExtent() {
-        return super.computeVerticalScrollExtent();
-    }
-
-    @Override
-    public int superComputeVerticalScrollOffset() {
-        return super.computeVerticalScrollOffset();
-    }
-
-    @Override
-    public int superComputeVerticalScrollRange() {
-        return super.computeVerticalScrollRange();
-    }
-
-    @Override
-    public void superOnTouchEvent(MotionEvent event) {
-        super.onTouchEvent(event);
-    }
-
-    @Override
-    public void superDraw(Canvas canvas) {
-        super.draw(canvas);
-    }
-
-    @Override
-    public boolean superAwakenScrollBars() {
-        return super.awakenScrollBars();
-    }
-
-    @Override
-    public boolean superOverScrollBy(
-            int deltaX,
-            int deltaY,
-            int scrollX,
-            int scrollY,
-            int scrollRangeX,
-            int scrollRangeY,
-            int maxOverScrollX,
-            int maxOverScrollY,
-            boolean isTouchEvent) {
-        return super.overScrollBy(
-                deltaX,
-                deltaY,
-                scrollX,
-                scrollY,
-                scrollRangeX,
-                scrollRangeY,
-                maxOverScrollX,
-                maxOverScrollY,
-                isTouchEvent);
-    }
-
-    // ===========================================================
-    // createOverScrollDelegate
-    // ===========================================================
-    private void createOverScrollDelegate() {
-        mOverScrollDelegate = new OverScrollDelegate(this);
-    }
-
-    // ===========================================================
-    // Delegate
-    // ===========================================================
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mOverScrollDelegate.onInterceptTouchEvent(ev)) {
-            return true;
-        }
-        return super.onInterceptTouchEvent(ev);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (mOverScrollDelegate.onTouchEvent(event)) {
-            return true;
-        }
-        return super.onTouchEvent(event);
-    }
 
     @Override
     public void draw(Canvas canvas) {
-        mOverScrollDelegate.draw(canvas);
+        super.draw(canvas);
         scaleBottom();
         scaleTop();
         scaleLeft();
         scaleRight();
     }
 
-    @Override
-    protected boolean overScrollBy(
-            int deltaX,
-            int deltaY,
-            int scrollX,
-            int scrollY,
-            int scrollRangeX,
-            int scrollRangeY,
-            int maxOverScrollX,
-            int maxOverScrollY,
-            boolean isTouchEvent) {
-        return mOverScrollDelegate.overScrollBy(
-                deltaX,
-                deltaY,
-                scrollX,
-                scrollY,
-                scrollRangeX,
-                scrollRangeY,
-                maxOverScrollX,
-                maxOverScrollY,
-                isTouchEvent);
-    }
 
-    @Override
-    public OverScrollDelegate getOverScrollDelegate() {
-        return mOverScrollDelegate;
-    }
-
-    @Override
-    public View getOverScrollableView() {
-        return this;
-    }
-
-    @Override
-    public boolean fling(int arg0, int arg1) {
-        if(super.fling(arg0,arg1))mOverScrollDelegate.recyclerViewAbsorbGlows(arg0,arg1);
-        return super.fling(arg0,arg1);
-    }
     
     private void scaleBottom() {
         int scrollY = getScrollY();
