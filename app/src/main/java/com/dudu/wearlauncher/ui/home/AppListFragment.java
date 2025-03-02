@@ -42,7 +42,37 @@ public class AppListFragment extends Fragment{
     AppListAdapter adapter;
     BroadcastReceiver packageChangedReceiver;
     List<App> appList;
-    ItemTouchHelper.Callback callback =
+    
+        ItemTouchHelper.Callback nullTouchCallback =
+            new ItemTouchHelper.Callback() {
+                @Override
+                public int getMovementFlags(
+                        @NonNull RecyclerView recyclerView,
+                        @NonNull RecyclerView.ViewHolder viewHolder) {
+                    int dragFlags = 0;
+                    return makeMovementFlags(dragFlags, 0);
+                }
+
+                @Override
+                public boolean onMove(
+                        @NonNull RecyclerView recyclerView,
+                        @NonNull RecyclerView.ViewHolder viewHolder,
+                        @NonNull RecyclerView.ViewHolder target) {
+                    return true;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    // 不处理侧滑
+                }
+
+                @Override
+                public boolean isLongPressDragEnabled() {
+                    return false; // 支持长按拖拽
+                }
+            };
+
+    ItemTouchHelper.Callback touchCallback =
             new ItemTouchHelper.Callback() {
                 @Override
                 public int getMovementFlags(
@@ -88,9 +118,6 @@ public class AppListFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recycler = view.findViewById(R.id.recycler);
-        
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(recycler);
         
         
         refreshAppList();
@@ -191,14 +218,26 @@ public class AppListFragment extends Fragment{
     }
     private void loadByLinear() {
         //recycler.getOverScrollDelegate().setOverScrollType(true,true);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(touchCallback);
+        touchHelper.attachToRecyclerView(recycler);
+        recycler.setEnableStart(true);
+        recycler.setEnableEnd(true);
     	recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
     }
     private void loadByGrid() {
         //recycler.getOverScrollDelegate().setOverScrollType(true,true);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(touchCallback);
+        touchHelper.attachToRecyclerView(recycler);
+        recycler.setEnableStart(true);
+        recycler.setEnableEnd(true);
     	recycler.setLayoutManager(new GridLayoutManager(requireActivity(),3));
     }
     private void loadByBubble() {
         //recycler.getOverScrollDelegate().setOverScrollType(false,false);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(nullTouchCallback);
+        touchHelper.attachToRecyclerView(recycler);
+        recycler.setEnableStart(false);
+        recycler.setEnableEnd(false);
     	recycler.setLayoutManager(new BubbleLayoutManager());
     }
 }

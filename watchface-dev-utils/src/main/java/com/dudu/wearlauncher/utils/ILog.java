@@ -37,6 +37,7 @@ public class ILog {
         }
         FileIOUtils.writeFileFromString(file,sb.toString(),true);
     }
+    
     private static String getCallerName() {
         //0 VMStack.getThreadStackTrace
         //1 Thread.getStackTrace

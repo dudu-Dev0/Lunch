@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewParent;
@@ -40,8 +41,8 @@ public class AppRecyclerView extends RecyclerView {
     private static final String TAG = "AppRecyclerView";
     private final Set<View> animChildren;
     private final SpringAnimation animation;
-    private final boolean enableEnd;
-    private final boolean enableStart;
+    private boolean enableEnd;
+    private boolean enableStart;
     private int flingVelocityY;
     private boolean forbidEdgeDrag;
     private boolean isAvailable = true;
@@ -83,7 +84,12 @@ public class AppRecyclerView extends RecyclerView {
     public void setForbidEdgeDrag(boolean z) {
         this.forbidEdgeDrag = z;
     }
-
+    public void setEnableStart(boolean z) {
+    	enableStart = z;
+    }
+    public void setEnableEnd(boolean z) {
+    	enableEnd = z;
+    }
     @Override // android.support.v7.widget.RecyclerView
     public void onScrolled(int i, int i2) {
         if (!this.isAvailable) {

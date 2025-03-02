@@ -10,7 +10,8 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/home_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
     </androidx.viewpager.widget.ViewPager>
 </FrameLayout>

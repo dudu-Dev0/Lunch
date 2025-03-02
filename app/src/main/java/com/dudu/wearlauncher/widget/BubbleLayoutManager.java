@@ -265,7 +265,7 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
             while (this.floor <= this.floors) {
                 while (this.side <= 5) {
                     while (this.index <= this.floor) {
-                        Log.i("TEXT", "index=" + this.index + "side=" + this.side + "floor=" + this.floor + "i=" + i7);
+                        //Log.i("TEXT", "index=" + this.index + "side=" + this.side + "floor=" + this.floor + "i=" + i7);
                         int i8 = this.side;
                         if (i8 == 0) {
                             this.x.add(i7, Integer.valueOf((this.index * i5) + i2));

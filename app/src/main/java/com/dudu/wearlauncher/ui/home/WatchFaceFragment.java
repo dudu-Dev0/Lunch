@@ -31,9 +31,11 @@ import com.dudu.wearlauncher.model.Notification;
 import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceBridge;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
+import com.dudu.wearlauncher.ui.CatchActivity;
 import com.dudu.wearlauncher.ui.home.fastsettings.BluetoothItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.MobileNetworkItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.WifiSwitchItem;
+import com.dudu.wearlauncher.utils.ErrorCatch;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SettingCenterManager;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
@@ -115,7 +117,7 @@ public class WatchFaceFragment extends Fragment{
         });
         
         volumeSeekBar.setIconOnClickListener(v->{
-            VolumeUtils.setVolume(AudioManager.STREAM_MUSIC,0,AudioManager.FLAG_VIBRATE);
+            VolumeUtils.setVolume(AudioManager.STREAM_MUSIC,0,AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
         });
         
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -132,7 +134,7 @@ public class WatchFaceFragment extends Fragment{
                 }if(arg1>50) {
                 	volumeSeekBar.setIconDrawable(getResources().getDrawable(R.drawable.icon_volume_2));
                 }
-                VolumeUtils.setVolume(AudioManager.STREAM_MUSIC,(int)((double)arg1/100*volumeObserver.getMaxMusicVolume()),AudioManager.FLAG_SHOW_UI);
+                VolumeUtils.setVolume(AudioManager.STREAM_MUSIC,(int)((double)arg1/100*volumeObserver.getMaxMusicVolume()),AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
             }
         });
         
@@ -161,7 +163,11 @@ public class WatchFaceFragment extends Fragment{
             public void onStopTrackingTouch(SeekBar arg0) {}
             @Override
             public void onProgressChanged(SeekBar arg0,int arg1,boolean arg2) {
-                BrightnessObserver.setBrightness((int)((double)arg1/100*BrightnessObserver.getMaxBrightness()));
+                try{
+                    BrightnessObserver.setBrightness((int)((double)arg1/100*BrightnessObserver.getMaxBrightness()));
+                }catch(SecurityException e){
+                    ErrorCatch.instance.handlePermissionException(e);//频率太快，全局catch不到
+                }
             }
         });
 
@@ -308,6 +314,17 @@ public class WatchFaceFragment extends Fragment{
             }
         } catch (Exception err) {
             ILog.writeThrowableToFile(err.getCause(),new File(requireActivity().getExternalCacheDir(),SharedPreferencesUtil.getData(SharedPreferencesUtil.NOW_WATCHFACE,"")+"-"+System.currentTimeMillis()+".log"));
+            /*StackTraceElement[] elements = err.getStackTrace();
+            StringBuilder sb = new StringBuilder();
+            for(StackTraceElement element : elements) {
+                sb.append(element);
+                sb.append("\n");
+            }
+            
+            Intent intent = new Intent(requireActivity(), CatchActivity.class);
+            intent.putExtra("stack", sb.toString());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //这句是安卓4必须有的
+            requireActivity().startActivity(intent);*/
             onWatchFaceLoadFailed();
             ILog.e("表盘加载失败:" + err);
             err.printStackTrace();
@@ -328,6 +345,7 @@ public class WatchFaceFragment extends Fragment{
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER;
         TextView tv = new TextView(requireActivity());
+        tv.setGravity(Gravity.CENTER);
         tv.setText("还没有表盘哦\n快长按这里添加吧");
         watchFaceBox.addView(tv, lp);
     }

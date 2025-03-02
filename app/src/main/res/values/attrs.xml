@@ -22,13 +22,10 @@
             format="boolean" />
     </declare-styleable>
     <declare-styleable name="AppRecyclerView">
-        <attr
-            name="arv_enable_start"
-            format="boolean" />
-        <attr
-            name="arv_enable_end"
-            format="boolean" />
+        <attr name="arv_enable_start" format="boolean" />
+        <attr name="arv_enable_end" format="boolean" />
     </declare-styleable>
+
     <declare-styleable name="AppLinearLayout">
         <attr
             name="useAlphaForLL"
