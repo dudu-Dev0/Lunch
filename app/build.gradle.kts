@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
-    
+    id("org.jetbrains.kotlin.android")
+
 }
 
 android {
@@ -11,7 +12,7 @@ android {
         minSdk = 19
         targetSdk = 33
         versionCode = 1
-        versionName = "Chip"
+        versionName = "1.0.0-Stable"
         multiDexEnabled = true
         vectorDrawables { 
             useSupportLibrary = true
@@ -46,7 +47,10 @@ android {
         viewBinding = false
         
     }
-    
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
 }
 
 dependencies {
@@ -71,6 +75,5 @@ dependencies {
     implementation("com.tencent.bugly:crashreport:4.1.9")
     //XRadioGroup
     implementation("com.github.fodroid:XRadioGroup:v1.5")
-    //overScroll
-    implementation(files("./libs/overscroll.jar"))
+    implementation("androidx.core:core-ktx:1.10.1")
 }

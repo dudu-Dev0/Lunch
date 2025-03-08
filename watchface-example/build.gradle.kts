@@ -1,6 +1,7 @@
 
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.android")
 }
 
 
@@ -39,11 +40,15 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 }
 
 dependencies {
     //watchface-dev
     implementation(project(":watchface-dev-utils"))
+    implementation("androidx.core:core-ktx:1.10.1")
 }
 
 
