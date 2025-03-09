@@ -16,6 +16,7 @@ import com.dudu.wearlauncher.ui.ViewPagerFragmentAdapter;
 import com.dudu.wearlauncher.ui.home.pagertransformer.CubicOverturnTransformer;
 import com.dudu.wearlauncher.ui.home.pagertransformer.XTCTrans;
 import com.dudu.wearlauncher.ui.settings.RequestPermissonActivity;
+import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 
@@ -32,7 +33,11 @@ public class HomeActivity extends BaseActivity {
         checkIsFirstStart();
         checkIsXTC();
 
-        startService(new Intent(this, NotificationListenerService.class));
+        try {
+        	startService(new Intent(this, NotificationListenerService.class));
+        } catch(Exception err) {
+        	ILog.e("尝试唤起消息服务失败："+err.getMessage())
+        }
 
         watchFaceFragment = new WatchFaceFragment();
 
