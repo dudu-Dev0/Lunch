@@ -119,8 +119,8 @@ public class BubbleLayoutManager extends RecyclerView.LayoutManager {
             } else {
                 float f2 = this.scale;
                 if (f2 >= 0.0f) {
-                    viewForPosition.setScaleX((float)(this.computeZ.Z*viewForPosition.getScaleX()));
-                    viewForPosition.setScaleY((float)(this.computeZ.Z*viewForPosition.getScaleY()));
+                    if(Float.isFinite(this.computeZ.Z*viewForPosition.getScaleX())) viewForPosition.setScaleX(this.computeZ.Z*viewForPosition.getScaleX());
+                    if(Float.isFinite(this.computeZ.Z*viewForPosition.getScaleY())) viewForPosition.setScaleY(this.computeZ.Z*viewForPosition.getScaleY());
                     viewForPosition.setAlpha(this.computeZ.Z*1.25f);
                 } else if (f2 < 0.0f) {/*
                     viewForPosition.setScaleX(viewForPosition.get);
