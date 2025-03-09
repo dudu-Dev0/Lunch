@@ -20,4 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -dontwarn com.tencent.bugly.**
+-dontwarn com.dudu.wearlauncher.model.**
 -keep public class com.tencent.bugly.**{*;}
+-keep public class com.dudu.wearlauncher.model.**{*;}
