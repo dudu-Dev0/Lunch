@@ -4,6 +4,7 @@ import android.R;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.dudu.wearlauncher.WearLauncherApp;
