@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
-import com.dudu.wearlauncher.utils.OverScrollDelegate;
 import com.xtc.widget.scalablecontainer.AppRecyclerView;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
