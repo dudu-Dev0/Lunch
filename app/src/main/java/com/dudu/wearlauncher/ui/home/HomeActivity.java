@@ -36,7 +36,7 @@ public class HomeActivity extends BaseActivity {
         try {
         	startService(new Intent(this, NotificationListenerService.class));
         } catch(Exception err) {
-        	ILog.e("尝试唤起消息服务失败："+err.getMessage())
+        	ILog.e("尝试唤起消息服务失败："+err.getMessage());
         }
 
         watchFaceFragment = new WatchFaceFragment();
