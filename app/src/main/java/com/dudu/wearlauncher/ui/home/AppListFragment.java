@@ -222,6 +222,7 @@ public class AppListFragment extends Fragment{
         touchHelper.attachToRecyclerView(recycler);
         recycler.setEnableStart(true);
         recycler.setEnableEnd(true);
+        recycler.setScaleType(MyRecyclerView.SCALE_TYPE_BOTTOM_FOR_LINEAR);
     	recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
     }
     private void loadByGrid() {
@@ -230,6 +231,7 @@ public class AppListFragment extends Fragment{
         touchHelper.attachToRecyclerView(recycler);
         recycler.setEnableStart(true);
         recycler.setEnableEnd(true);
+        recycler.setScaleType(MyRecyclerView.SCALE_TYPE_BOTTOM_FOR_LINEAR);
     	recycler.setLayoutManager(new GridLayoutManager(requireActivity(),3));
     }
     private void loadByBubble() {
@@ -238,6 +240,7 @@ public class AppListFragment extends Fragment{
         touchHelper.attachToRecyclerView(recycler);
         recycler.setEnableStart(false);
         recycler.setEnableEnd(false);
+        recycler.setScaleType(MyRecyclerView.SCALE_TYPE_TOP|MyRecyclerView.SCALE_TYPE_BOTTOM|MyRecyclerView.SCALE_TYPE_LEFT|MyRecyclerView.SCALE_TYPE_RIGHT);
     	recycler.setLayoutManager(new BubbleLayoutManager());
     }
 }

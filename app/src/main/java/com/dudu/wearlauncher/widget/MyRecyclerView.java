@@ -15,7 +15,21 @@ import java.util.List;
 
 public class MyRecyclerView extends AppRecyclerView {
     private View mEmptyView;
+    public static final int SCALE_TYPE_TOP = 1 << 0;
+    public static final int SCALE_TYPE_BOTTOM = 1 << 1;
+    public static final int SCALE_TYPE_LEFT = 1 << 2;
+    public static final int SCALE_TYPE_RIGHT = 1 << 3;
+    public static final int SCALE_TYPE_BOTTOM_FOR_LINEAR = 1 << 4;
+    private int scaleType = 0;
 
+    public void setScaleType(int type) {
+    	scaleType = type;
+    }
+    
+    private boolean hasType(int type) {
+    	return (scaleType & type)!=0;
+    }
+    
     private AdapterDataObserver emptyObserver =
             new AdapterDataObserver() {
                 @Override
@@ -84,54 +98,36 @@ public class MyRecyclerView extends AppRecyclerView {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        scaleBottom();
-        scaleTop();
-        scaleLeft();
-        scaleRight();
+        scaleCenter();
     }
 
-
-    
-    private void scaleBottom() {
+    private void scaleCenter(){
+        int scrollX = getScrollX();
         int scrollY = getScrollY();
         int measuredHeight = getMeasuredHeight();
+        int measuredWidth = getMeasuredWidth();
         int contentHeight = getHeight();
+        int contentWidth = getWidth();
         for (View view : listChild()) {
             if (view.getVisibility() == 0) {
                 int top = view.getTop();
                 int bottom = view.getBottom();
+                int left = view.getLeft();
+                int right = view.getRight();
                 int height = view.getHeight();
                 int width = view.getWidth();
-                int i = scrollY + measuredHeight;
                 if (bottom >= scrollY+contentHeight) {
-                    if (top <= scrollY+contentHeight) {
+                    if (top <= scrollY+contentHeight&&hasType(SCALE_TYPE_BOTTOM)) {
                         float f = (scrollY + contentHeight - top)/(float)height;
                         view.setPivotX(((float) width) / 2.0f);
                         view.setPivotY(0f);
                         view.setScaleX(f);
                         view.setScaleY(f);
                     }
-                }else{
-                    view.setScaleX(1f);
-                    view.setScaleY(1f);
                 }
-            }
-        }
-    }
-    
-    private void scaleBottomFprLinear() {
-        int scrollY = getScrollY();
-        int measuredHeight = getMeasuredHeight();
-        for (View view : listChild()) {
-            if (view.getVisibility() == 0) {
-                int top = view.getTop();
-                int bottom = view.getBottom();
-                int height = view.getHeight();
-                int width = view.getWidth();
-                int i = scrollY + measuredHeight;
                 if (bottom >= scrollY) {
-                    if (top <= i) {
-                        top = (bottom <= i || top >= i) ? height : i - top;
+                    if (top <= scrollY + measuredHeight&&hasType(SCALE_TYPE_BOTTOM_FOR_LINEAR)) {
+                        top = (bottom <= scrollY + measuredHeight || top >= scrollY + measuredHeight) ? height : scrollY + measuredHeight - top;
                         float f = ((((float) top) * 0.2f) / ((float) height)) + 0.8f;
                         view.setPivotX(((float) width) / 2.0f);
                         view.setPivotY(0f);
@@ -139,82 +135,41 @@ public class MyRecyclerView extends AppRecyclerView {
                         view.setScaleY(f);
                     }
                 }
-            }
-        }
-    }
-    private void scaleTop() {
-        int scrollY = getScrollY();
-        int measuredHeight = getMeasuredHeight();
-        for (View view : listChild()) {
-            if (view.getVisibility() == 0) {
-                int top = view.getTop();
-                int bottom = view.getBottom();
-                int height = view.getHeight();
-                int width = view.getWidth();
-                int i = scrollY;
                 if (bottom >= scrollY) {
-                    if (top <= scrollY) {
+                    if (top <= scrollY&&hasType(SCALE_TYPE_TOP)) {
                         float f = (bottom - scrollY)/(float)height;
                         view.setPivotX(((float) width) / 2.0f);
                         view.setPivotY((float)height);
                         view.setScaleX(f);
                         view.setScaleY(f);
                     }
-                }else{
-                    view.setScaleX(1f);
-                    view.setScaleY(1f);
                 }
-            }
-        }
-    }
-    private void scaleLeft() {
-        int scrollX = getScrollX();
-        int measuredWidth = getMeasuredWidth();
-        for (View view : listChild()) {
-            if (view.getVisibility() == 0) {
-                int left = view.getLeft();
-                int right = view.getRight();
-                int height = view.getHeight();
-                int width = view.getWidth();
-                int i = scrollX;
                 if (right >= scrollX) {
-                    if (left <= scrollX) {
+                    if (left <= scrollX&&hasType(SCALE_TYPE_LEFT)) {
                         float f = (right - scrollX)/(float)width;
                         view.setPivotX((float)width);
                         view.setPivotY((float)height/2);
                         view.setScaleX(f);
                         view.setScaleY(f);
                     }
-                }else{
-                    view.setScaleX(1f);
-                    view.setScaleY(1f);
                 }
-            }
-        }
-    }
-    
-    private void scaleRight() {
-        int scrollX = getScrollX();
-        int measuredWidth = getMeasuredWidth();
-        for (View view : listChild()) {
-            if (view.getVisibility() == 0) {
-                int left = view.getLeft();
-                int right = view.getRight();
-                int height = view.getHeight();
-                int width = view.getWidth();
-                int i = scrollX+measuredWidth;
-                if (right >= i) {
-                    if (left <= i) {
-                        float f = (i - left)/(float)width;
+                if (right >= scrollX+measuredWidth) {
+                    if (left <= scrollX+measuredWidth&&hasType(SCALE_TYPE_RIGHT)) {
+                        float f = (scrollX+measuredWidth - left)/(float)width;
                         view.setPivotX(0f);
                         view.setPivotY((float)height/2);
                         view.setScaleX(f);
                         view.setScaleY(f);
                     }
                 }
+                if(left > scrollX && right < scrollX + measuredWidth && top > scrollY && bottom < scrollY + measuredHeight) {
+                    view.setScaleX(1f);
+                    view.setScaleY(1f);
+                }
             }
-        }
+        }    
     }
+   
     
     
     private List<View> listChild() {
