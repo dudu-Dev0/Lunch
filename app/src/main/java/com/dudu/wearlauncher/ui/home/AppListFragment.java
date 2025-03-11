@@ -42,35 +42,6 @@ public class AppListFragment extends Fragment{
     AppListAdapter adapter;
     BroadcastReceiver packageChangedReceiver;
     List<App> appList;
-    
-        ItemTouchHelper.Callback nullTouchCallback =
-            new ItemTouchHelper.Callback() {
-                @Override
-                public int getMovementFlags(
-                        @NonNull RecyclerView recyclerView,
-                        @NonNull RecyclerView.ViewHolder viewHolder) {
-                    int dragFlags = 0;
-                    return makeMovementFlags(dragFlags, 0);
-                }
-
-                @Override
-                public boolean onMove(
-                        @NonNull RecyclerView recyclerView,
-                        @NonNull RecyclerView.ViewHolder viewHolder,
-                        @NonNull RecyclerView.ViewHolder target) {
-                    return true;
-                }
-
-                @Override
-                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                    // 不处理侧滑
-                }
-
-                @Override
-                public boolean isLongPressDragEnabled() {
-                    return false; // 支持长按拖拽
-                }
-            };
 
     ItemTouchHelper.Callback touchCallback =
             new ItemTouchHelper.Callback() {
@@ -104,6 +75,7 @@ public class AppListFragment extends Fragment{
                 }
             };
 
+    ItemTouchHelper touchHelper = new ItemTouchHelper(touchCallback);
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,7 +190,6 @@ public class AppListFragment extends Fragment{
     }
     private void loadByLinear() {
         //recycler.getOverScrollDelegate().setOverScrollType(true,true);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(touchCallback);
         touchHelper.attachToRecyclerView(recycler);
         recycler.setEnableStart(true);
         recycler.setEnableEnd(true);
@@ -226,8 +197,6 @@ public class AppListFragment extends Fragment{
     	recycler.setLayoutManager(new LinearLayoutManager(requireActivity()));
     }
     private void loadByGrid() {
-        //recycler.getOverScrollDelegate().setOverScrollType(true,true);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(touchCallback);
         touchHelper.attachToRecyclerView(recycler);
         recycler.setEnableStart(true);
         recycler.setEnableEnd(true);
@@ -236,8 +205,7 @@ public class AppListFragment extends Fragment{
     }
     private void loadByBubble() {
         //recycler.getOverScrollDelegate().setOverScrollType(false,false);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(nullTouchCallback);
-        touchHelper.attachToRecyclerView(recycler);
+        touchHelper.attachToRecyclerView(null);
         recycler.setEnableStart(false);
         recycler.setEnableEnd(false);
         recycler.setScaleType(MyRecyclerView.SCALE_TYPE_TOP|MyRecyclerView.SCALE_TYPE_BOTTOM|MyRecyclerView.SCALE_TYPE_LEFT|MyRecyclerView.SCALE_TYPE_RIGHT);
