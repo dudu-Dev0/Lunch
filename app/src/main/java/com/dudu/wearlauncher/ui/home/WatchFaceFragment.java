@@ -9,7 +9,6 @@ import android.media.AudioManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,37 +20,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import cn.leaqi.drawer.SwipeDrawer;
-import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.VolumeUtils;
-import com.blankj.utilcode.util.ZipUtils;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.listener.BrightnessObserver;
 import com.dudu.wearlauncher.listener.VolumeChangeObserver;
 import com.dudu.wearlauncher.model.Notification;
-import com.dudu.wearlauncher.model.WatchFace;
 import com.dudu.wearlauncher.model.WatchFaceBridge;
 import com.dudu.wearlauncher.model.WatchFaceInfo;
-import com.dudu.wearlauncher.ui.CatchActivity;
 import com.dudu.wearlauncher.ui.home.fastsettings.BluetoothItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.MobileNetworkItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.WifiSwitchItem;
-import com.dudu.wearlauncher.utils.ErrorCatch;
-import com.dudu.wearlauncher.utils.ILog;
-import com.dudu.wearlauncher.utils.SettingCenterManager;
-import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
-import com.dudu.wearlauncher.utils.WatchFaceHelper;
+import com.dudu.wearlauncher.utils.*;
 import com.dudu.wearlauncher.widget.MyLinearLayoutManager;
 import com.dudu.wearlauncher.widget.MyRecyclerView;
 import com.dudu.wearlauncher.widget.RoundedSeekBar;
 import com.dudu.wearlauncher.widget.SwitchIconButton;
-import java.util.ArrayList;
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class WatchFaceFragment extends Fragment{
     WatchFaceBridge watchFace;
@@ -313,14 +301,13 @@ public class WatchFaceFragment extends Fragment{
                 }
             }
         } catch (Exception err) {
-            ILog.writeThrowableToFile(err.getCause(),new File(requireActivity().getExternalCacheDir(),SharedPreferencesUtil.getData(SharedPreferencesUtil.NOW_WATCHFACE,"")+"-"+System.currentTimeMillis()+".log"));
             /*StackTraceElement[] elements = err.getStackTrace();
             StringBuilder sb = new StringBuilder();
             for(StackTraceElement element : elements) {
                 sb.append(element);
                 sb.append("\n");
             }
-            
+
             Intent intent = new Intent(requireActivity(), CatchActivity.class);
             intent.putExtra("stack", sb.toString());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //这句是安卓4必须有的
@@ -328,6 +315,7 @@ public class WatchFaceFragment extends Fragment{
             onWatchFaceLoadFailed();
             ILog.e("表盘加载失败:" + err);
             err.printStackTrace();
+            ILog.writeThrowableToFile(err, new File(requireActivity().getExternalCacheDir(), SharedPreferencesUtil.getData(SharedPreferencesUtil.NOW_WATCHFACE, "") + "-" + System.currentTimeMillis() + ".log"));
             //FileIOUtils.writeFileFromString(watchFaceFolder + "/" + System.currentTimeMillis() + "watchface.log", err.toString());
         }
        

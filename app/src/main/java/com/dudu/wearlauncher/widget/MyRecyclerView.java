@@ -1,15 +1,12 @@
 package com.dudu.wearlauncher.widget;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import com.xtc.widget.scalablecontainer.AppRecyclerView;
-import java.lang.reflect.Field;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,7 +106,7 @@ public class MyRecyclerView extends AppRecyclerView {
         int contentHeight = getHeight();
         int contentWidth = getWidth();
         for (View view : listChild()) {
-            if (view.getVisibility() == 0) {
+            if (view.getVisibility() == View.VISIBLE) {
                 int top = view.getTop();
                 int bottom = view.getBottom();
                 int left = view.getLeft();
