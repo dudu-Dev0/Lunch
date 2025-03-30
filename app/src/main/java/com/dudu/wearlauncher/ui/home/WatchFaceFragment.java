@@ -31,10 +31,7 @@ import com.dudu.wearlauncher.ui.home.fastsettings.BluetoothItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.MobileNetworkItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.WifiSwitchItem;
 import com.dudu.wearlauncher.utils.*;
-import com.dudu.wearlauncher.widget.MyLinearLayoutManager;
-import com.dudu.wearlauncher.widget.MyRecyclerView;
-import com.dudu.wearlauncher.widget.RoundedSeekBar;
-import com.dudu.wearlauncher.widget.SwitchIconButton;
+import com.dudu.wearlauncher.widget.*;
 import org.json.JSONArray;
 
 import java.io.File;
@@ -44,7 +41,7 @@ import java.util.List;
 public class WatchFaceFragment extends Fragment{
     WatchFaceBridge watchFace;
     View watchFaceView;
-    FrameLayout watchFaceBox;
+    MyFrameLayout watchFaceBox;
     FrameLayout.LayoutParams layoutParams;
     SwipeDrawer swipeDrawer;
 
@@ -94,14 +91,11 @@ public class WatchFaceFragment extends Fragment{
         volumeObserver = new VolumeChangeObserver(requireActivity());
         volumeObserver.registerReceiver();
         volumeSeekBar.setProgress((int)((double)volumeObserver.getCurrentMusicVolume()/volumeObserver.getMaxMusicVolume()*100));
-        volumeObserver.setVolumeChangeListener(new VolumeChangeObserver.VolumeChangeListener(){
-            @Override
-            public void onVolumeChanged(int volume) {
-                if(Math.abs(((double)volume/volumeObserver.getMaxMusicVolume()*100)-volumeSeekBar.getProgress())>=10) {
-                	volumeSeekBar.setProgress((int)((double)volume/volumeObserver.getMaxMusicVolume()*100));
-                }
-                ILog.d("Volume Changed :"+volume+"Max:"+volumeObserver.getMaxMusicVolume());
+        volumeObserver.setVolumeChangeListener(volume -> {
+            if (Math.abs(((double) volume / volumeObserver.getMaxMusicVolume() * 100) - volumeSeekBar.getProgress()) >= 10) {
+                volumeSeekBar.setProgress((int) ((double) volume / volumeObserver.getMaxMusicVolume() * 100));
             }
+            ILog.d("Volume Changed :" + volume + "Max:" + volumeObserver.getMaxMusicVolume());
         });
         
         volumeSeekBar.setIconOnClickListener(v->{
@@ -128,20 +122,16 @@ public class WatchFaceFragment extends Fragment{
         
 
         brightnessSeekBar.setProgress((int)((double)BrightnessObserver.getCurrectBrightness()/BrightnessObserver.getMaxBrightness()*100));
-        brightnessObserver = new BrightnessObserver(requireActivity(),new BrightnessObserver.BrightnessChangeListener(){
-            @Override
-            public void onBrightnessChanged(int brightness) {
-                int delta = 15;
-                if(Build.MANUFACTURER.equalsIgnoreCase("xiaomi")) {
-                	delta = 120;
-                }
-                if(Math.abs((double)brightnessSeekBar.getProgress()/100*BrightnessObserver.getMaxBrightness()-brightness)>delta) {
-                	brightnessSeekBar.setProgress((int)((double)brightness/BrightnessObserver.getMaxBrightness()*100));
-                    ILog.d("Brightness Changed :"+brightness+"Max:"+BrightnessObserver.getMaxBrightness());
-                }
-                
+        brightnessObserver = new BrightnessObserver(requireActivity(), brightness -> {
+            int delta = 15;
+            if (Build.MANUFACTURER.equalsIgnoreCase("xiaomi")) {
+                delta = 120;
             }
-            
+            if (Math.abs((double) brightnessSeekBar.getProgress() / 100 * BrightnessObserver.getMaxBrightness() - brightness) > delta) {
+                brightnessSeekBar.setProgress((int) ((double) brightness / BrightnessObserver.getMaxBrightness() * 100));
+                ILog.d("Brightness Changed :" + brightness + "Max:" + BrightnessObserver.getMaxBrightness());
+            }
+
         });
         brightnessObserver.register();
         brightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -283,11 +273,13 @@ public class WatchFaceFragment extends Fragment{
                 watchFaceView = WatchFaceHelper.loadWatchface(wfInfo.packageName, wfInfo.watchface);
                 watchFace = new WatchFaceBridge(watchFaceView);
                 if(watchFace != null) {
-                //watchFace.setOnClickListener(v->{
-                    //覆盖原Listener防止打不开表盘切换界面
-                //});
                     layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
                     watchFaceBox.addView(watchFaceView,layoutParams);
+                    watchFaceBox.setLongClickListener(() -> {
+                        Intent intent = new Intent(requireActivity(), ChooseWatchFaceActivity.class);
+                        startActivity(intent);
+                        requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    });
                     updateTime();
                     BatteryManager batteryManager = (BatteryManager)requireActivity().getSystemService(Context.BATTERY_SERVICE);
                     if(Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {

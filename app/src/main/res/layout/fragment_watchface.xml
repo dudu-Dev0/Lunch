@@ -96,11 +96,11 @@
     <FrameLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent">
-        <FrameLayout
+        <com.dudu.wearlauncher.widget.MyFrameLayout
             android:id="@+id/watchface_box"
             android:layout_height="match_parent"
             android:layout_width="match_parent">
-        </FrameLayout>
+        </com.dudu.wearlauncher.widget.MyFrameLayout>
     </FrameLayout>
 
 </cn.leaqi.drawer.SwipeDrawer>

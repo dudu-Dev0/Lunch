@@ -9,7 +9,7 @@ android {
     compileSdk = 33
     defaultConfig {
         applicationId = "com.dudu.wearlauncher"
-        minSdk = 19
+        minSdk = 23
         targetSdk = 33
         versionCode = 1
         versionName = "1.0.0-Stable"
@@ -50,6 +50,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildToolsVersion = "34.0.0"
 
 }
 

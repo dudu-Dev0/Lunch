@@ -6,6 +6,9 @@ plugins {
 android {
     namespace = "com.dudu.wearlauncher"
     compileSdk = 33
+    defaultConfig {
+        minSdk = 19
+    }
     kotlinOptions {
         jvmTarget = "1.8"
     }
