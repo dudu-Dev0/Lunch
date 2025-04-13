@@ -30,92 +30,96 @@
             android:text="还没有消息哦" />
     </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:background="@android:color/black"
-        android:orientation="vertical"
         android:id="@+id/bottomDrawer">
-        <FrameLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-            <TextView
-                android:id="@+id/text_carrier"
-                android:text="未知"
-                android:textSize="10sp"
-                android:layout_marginLeft="12dp"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="start" />
-            <TextClock
-                android:id="@+id/text_date"
-                android:textSize="10sp"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content" 
-                android:format12Hour="MM月dd日"
-                android:format24Hour="MM月dd日"
-                android:layout_gravity="center"/>
-            <TextView
-                android:id="@+id/text_battery"
-                android:text="24%"
-                android:textSize="10sp"
-                android:layout_marginRight="12dp"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="end"/>
-
-        </FrameLayout>
-        <!-- ImageView android:layout_width="30dp" android:layout_height="4dp" android:src="@drawable/circle_bg_gray" android:layout_gravity="center" android:layout_margin="4dp"/ -->
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_margin="1dp">
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <FrameLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+                <TextView
+                    android:id="@+id/text_carrier"
+                    android:text="未知"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="start" />
+                <TextClock
+                    android:id="@+id/text_date"
+                    android:textSize="10sp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:format12Hour="MM月dd日"
+                    android:format24Hour="MM月dd日"
+                    android:layout_gravity="center" />
+                <TextView
+                    android:id="@+id/text_battery"
+                    android:text="24%"
+                    android:textSize="10sp"
+                    android:layout_marginRight="12dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="end" />
 
-            <com.dudu.wearlauncher.widget.SwitchIconButton
-                android:id="@+id/setting_center_btn1"
+            </FrameLayout>
+            <!-- ImageView android:layout_width="30dp" android:layout_height="4dp" android:src="@drawable/circle_bg_gray" android:layout_gravity="center" android:layout_margin="4dp"/ -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_margin="1dp">
+
+                <com.dudu.wearlauncher.widget.SwitchIconButton
+                    android:id="@+id/setting_center_btn1"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/wifi_selector"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.dudu.wearlauncher.widget.SwitchIconButton
+                    android:id="@+id/setting_center_btn2"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/mobile_network_selector"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/setting_center_btn1"
+                    app:layout_constraintEnd_toStartOf="@id/setting_center_btn3" />
+
+                <com.dudu.wearlauncher.widget.SwitchIconButton
+                    android:id="@+id/setting_center_btn3"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:src="@drawable/bluetooth_selector"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.dudu.wearlauncher.widget.RoundedSeekBar
+                android:id="@+id/volume_seekbar"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_width="48dp"
-                android:src="@drawable/wifi_selector"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <com.dudu.wearlauncher.widget.SwitchIconButton
-                android:id="@+id/setting_center_btn2"
+                app:left_icon="@drawable/icon_volume_0"
+                android:layout_margin="2dp" />
+            <com.dudu.wearlauncher.widget.RoundedSeekBar
+                android:id="@+id/brightness_seekbar"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_width="48dp"
-                android:src="@drawable/mobile_network_selector"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/setting_center_btn1"
-                app:layout_constraintEnd_toStartOf="@id/setting_center_btn3" />
-
-            <com.dudu.wearlauncher.widget.SwitchIconButton
-                android:id="@+id/setting_center_btn3"
-                android:layout_height="48dp"
-                android:layout_width="48dp"
-                android:src="@drawable/bluetooth_selector"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.dudu.wearlauncher.widget.RoundedSeekBar
-            android:id="@+id/volume_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:left_icon="@drawable/icon_volume_0"
-            android:layout_margin="2dp" />
-        <com.dudu.wearlauncher.widget.RoundedSeekBar
-            android:id="@+id/brightness_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:left_icon="@drawable/icon_light"
-            android:layout_margin="2dp" />
-    </LinearLayout>
-
+                app:left_icon="@drawable/icon_light"
+                android:layout_margin="2dp" />
+        </LinearLayout>
+    </FrameLayout>
     <FrameLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent">
