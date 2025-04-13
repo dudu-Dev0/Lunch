@@ -20,14 +20,14 @@
         <com.dudu.wearlauncher.widget.MyRecyclerView
             android:id="@+id/msg_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/empty_list_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="还没有消息哦"/>
+            android:text="还没有消息哦" />
     </FrameLayout>
 
     <LinearLayout
@@ -36,18 +36,41 @@
         android:background="@android:color/black"
         android:orientation="vertical"
         android:id="@+id/bottomDrawer">
+        <FrameLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <TextView
+                android:id="@+id/text_carrier"
+                android:text="未知"
+                android:textSize="10sp"
+                android:layout_marginLeft="12dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="start" />
+            <TextClock
+                android:id="@+id/text_date"
+                android:textSize="10sp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" 
+                android:format12Hour="MM月dd日"
+                android:format24Hour="MM月dd日"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/text_battery"
+                android:text="24%"
+                android:textSize="10sp"
+                android:layout_marginRight="12dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"/>
 
-        <!--ImageView
-            android:layout_width="30dp"
-            android:layout_height="4dp"
-            android:src="@drawable/circle_bg_gray"
-            android:layout_gravity="center"
-            android:layout_margin="4dp"/-->
+        </FrameLayout>
+        <!-- ImageView android:layout_width="30dp" android:layout_height="4dp" android:src="@drawable/circle_bg_gray" android:layout_gravity="center" android:layout_margin="4dp"/ -->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_margin="4dp">
+            android:layout_margin="1dp">
 
             <com.dudu.wearlauncher.widget.SwitchIconButton
                 android:id="@+id/setting_center_btn1"
@@ -56,7 +79,7 @@
                 android:src="@drawable/wifi_selector"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
             <com.dudu.wearlauncher.widget.SwitchIconButton
                 android:id="@+id/setting_center_btn2"
@@ -66,7 +89,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/setting_center_btn1"
-                app:layout_constraintEnd_toStartOf="@id/setting_center_btn3"/>
+                app:layout_constraintEnd_toStartOf="@id/setting_center_btn3" />
 
             <com.dudu.wearlauncher.widget.SwitchIconButton
                 android:id="@+id/setting_center_btn3"
@@ -75,7 +98,7 @@
                 android:src="@drawable/bluetooth_selector"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -84,13 +107,13 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             app:left_icon="@drawable/icon_volume_0"
-            android:layout_margin="4dp"/>
+            android:layout_margin="2dp" />
         <com.dudu.wearlauncher.widget.RoundedSeekBar
             android:id="@+id/brightness_seekbar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             app:left_icon="@drawable/icon_light"
-            android:layout_margin="4dp"/>
+            android:layout_margin="2dp" />
     </LinearLayout>
 
     <FrameLayout

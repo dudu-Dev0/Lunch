@@ -21,10 +21,11 @@ import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.utils.WatchFaceHelper;
 
+import com.dudu.wearlauncher.widget.MyViewPager;
 import java.util.List;
 
 public class HomeActivity extends BaseActivity {
-    ViewPager homeViewPager;
+    MyViewPager homeViewPager;
     WatchFaceFragment watchFaceFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,9 @@ public class HomeActivity extends BaseActivity {
         	ILog.e("尝试唤起消息服务失败："+err.getMessage());
         }
 
-        watchFaceFragment = new WatchFaceFragment();
 
         homeViewPager = findViewById(R.id.home_pager);
+        watchFaceFragment = new WatchFaceFragment(homeViewPager);
         List<Fragment> fragmentList = List.of(watchFaceFragment, new AppListFragment());
         ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager(),fragmentList);
         homeViewPager.setAdapter(adapter);
