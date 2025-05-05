@@ -19,7 +19,7 @@ public class ActivityManager {
         Transition trans = activity.getWindow().getSharedElementEnterTransition();
         if(trans!=null) {
         	activity.getWindow().getSharedElementEnterTransition().setInterpolator(new AccelerateDecelerateInterpolator());
-            activity.getWindow().getSharedElementEnterTransition().setDuration(1000);
+            activity.getWindow().getSharedElementEnterTransition().setDuration(600);
         }
         Intent intent = new Intent(activity,AppTransformActivity.class);
         intent.putExtra("image",ImageUtil.drawableToBitmap(image,256,256));

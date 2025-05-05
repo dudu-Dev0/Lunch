@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt">
     <item
-        android:state_activated="true">
+        android:state_activated="false">
         <aapt:attr name="android:drawable">
             <vector
                 android:width="24dp"
@@ -15,7 +15,7 @@
         </aapt:attr>
     </item>
     <item
-        android:state_activated="false">
+        android:state_activated="true">
         <aapt:attr name="android:drawable">
             <vector
                 android:width="24dp"
