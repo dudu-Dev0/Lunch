@@ -19,12 +19,13 @@ public class MyViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (!scrollble) {
-            return true;
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                if(!scrollble) return true;
         }
         return super.onTouchEvent(ev);
     }
-
+    
     private float mInitialX;
     private float mInitialY;
     private static final int SLOP = 20; // 滑动阈值，单位像素
@@ -42,7 +43,7 @@ public class MyViewPager extends ViewPager {
 
                 float absDx = Math.abs(dx);
                 float absDy = Math.abs(dy);
-
+                
                 if (absDx > SLOP && absDx > absDy) {
                     if(!scrollble) return true; // 拦截左右滑动事件
                 }
