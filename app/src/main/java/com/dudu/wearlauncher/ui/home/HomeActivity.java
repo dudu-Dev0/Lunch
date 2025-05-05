@@ -44,7 +44,8 @@ public class HomeActivity extends BaseActivity {
 
 
         homeViewPager = findViewById(R.id.home_pager);
-        watchFaceFragment = new WatchFaceFragment(homeViewPager);
+        watchFaceFragment = new WatchFaceFragment();
+        watchFaceFragment.setViewPager(homeViewPager);
         List<Fragment> fragmentList = List.of(watchFaceFragment, new AppListFragment());
         ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager(),fragmentList);
         homeViewPager.setAdapter(adapter);

@@ -58,9 +58,6 @@ public class WatchFaceFragment extends Fragment{
     BrightnessObserver brightnessObserver;
     SwitchIconButton btn1,btn2,btn3;
     
-    public WatchFaceFragment(MyViewPager viewPager){
-        this.viewPager = viewPager;
-    }
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -306,6 +303,9 @@ public class WatchFaceFragment extends Fragment{
         Intent intent = new Intent("com.dudu.wearlauncher.NOTIFICATION_LISTENER");
         intent.putExtra("command", "listAll");
         requireActivity().sendBroadcast(intent);
+    }
+    public void setViewPager(MyViewPager viewPager) {
+    	this.viewPager = viewPager;
     }
     private void refreshWatchFace() {
     	watchFaceBox.removeAllViews();
