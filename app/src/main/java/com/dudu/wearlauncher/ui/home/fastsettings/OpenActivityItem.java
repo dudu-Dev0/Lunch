@@ -33,6 +33,7 @@ public class OpenActivityItem extends FastSettingsItem {
             public void onClick(boolean checked) {
                 Intent intent = new Intent();
                 intent.setClassName(packageName,activityName);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 WearLauncherApp.getContext().startActivity(intent);
             }
             @Override
