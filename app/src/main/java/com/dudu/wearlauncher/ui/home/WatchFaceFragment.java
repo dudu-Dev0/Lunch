@@ -81,7 +81,7 @@ public class WatchFaceFragment extends Fragment{
         btn2 = view.findViewById(R.id.setting_center_btn2);
         btn3 = view.findViewById(R.id.setting_center_btn3);
         swipeDrawer = view.findViewById(R.id.swipe_drawer);
-        
+        viewPager = ((HomeActivity)getActivity()).homeViewPager;
         try {
         	JSONArray oldArray = new JSONArray((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.SETTING_CENTER,"[{\"button\":\"button_wifi\"},{\"button\":\"button_mobiledata\"},{\"button\":\"button_bluetooth\"}]"));
             btn1.attach(SettingCenterManager.getButtonInstance(oldArray.getJSONObject(0).getString("button")));
@@ -303,9 +303,6 @@ public class WatchFaceFragment extends Fragment{
         Intent intent = new Intent("com.dudu.wearlauncher.NOTIFICATION_LISTENER");
         intent.putExtra("command", "listAll");
         requireActivity().sendBroadcast(intent);
-    }
-    public void setViewPager(MyViewPager viewPager) {
-    	this.viewPager = viewPager;
     }
     private void refreshWatchFace() {
     	watchFaceBox.removeAllViews();

@@ -21,5 +21,8 @@
 #-renamesourcefileattribute SourceFile
 -dontwarn com.tencent.bugly.**
 -dontwarn com.dudu.wearlauncher.model.**
+-dontwarn com.dudu.wearlauncher.ui.home.fastsettings.**
+
 -keep public class com.tencent.bugly.**{*;}
 -keep public class com.dudu.wearlauncher.model.**{*;}
+-keep public class com.dudu.wearlauncher.ui.home.fastsettings.**{*;}

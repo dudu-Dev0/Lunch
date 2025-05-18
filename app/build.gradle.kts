@@ -11,8 +11,8 @@ android {
         applicationId = "com.dudu.wearlauncher"
         minSdk = 23
         targetSdk = 33
-        versionCode = 5
-        versionName = "1.1.1-Stable"
+        versionCode = 6
+        versionName = "1.1.2-Stable"
         multiDexEnabled = true
         vectorDrawables { 
             useSupportLibrary = true
