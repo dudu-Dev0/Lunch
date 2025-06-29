@@ -1,9 +1,10 @@
 package com.dudu.wearlauncher.ui.settings;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.model.FastSettingsItem;
 import com.dudu.wearlauncher.ui.BaseActivity;
@@ -14,11 +15,11 @@ import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SettingCenterManager;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
 import com.dudu.wearlauncher.widget.SwitchIconButton;
-import com.google.gson.JsonArray;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SettingCenterSettingsActivity extends BaseActivity{
     SwitchIconButton btn1;
@@ -97,5 +98,11 @@ public class SettingCenterSettingsActivity extends BaseActivity{
         	}
         }
         return 0;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "重启后生效", Toast.LENGTH_SHORT).show();
     }
 }

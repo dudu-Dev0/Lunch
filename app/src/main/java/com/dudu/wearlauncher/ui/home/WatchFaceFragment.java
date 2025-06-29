@@ -75,7 +75,9 @@ public class WatchFaceFragment extends Fragment{
         btn2 = view.findViewById(R.id.setting_center_btn2);
         btn3 = view.findViewById(R.id.setting_center_btn3);
         swipeDrawer = view.findViewById(R.id.swipe_drawer);
-        
+
+        swipeDrawer.setTopDragOpen((Boolean) SharedPreferencesUtil.getData(SharedPreferencesUtil.MSG_LIST_ENABLED, true));
+        swipeDrawer.setBottomDragOpen((Boolean) SharedPreferencesUtil.getData(SharedPreferencesUtil.SETTING_CENTER_ENABLED, true));
         try {
         	JSONArray oldArray = new JSONArray((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.SETTING_CENTER,"[{\"button\":\"button_wifi\"},{\"button\":\"button_mobiledata\"},{\"button\":\"button_bluetooth\"}]"));
             btn1.attach(SettingCenterManager.getButtonInstance(oldArray.getJSONObject(0).getString("button")));
