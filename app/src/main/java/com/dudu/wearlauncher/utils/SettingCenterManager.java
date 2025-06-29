@@ -5,6 +5,7 @@ import com.dudu.wearlauncher.ui.home.fastsettings.BluetoothItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.MobileNetworkItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.NullItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.WifiSwitchItem;
+import com.dudu.wearlauncher.ui.home.fastsettings.ZenModeItem;
 import com.google.gson.internal.ConstructorConstructor;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -14,8 +15,9 @@ public class SettingCenterManager {
     public static final String BUTTON_WIFI = "button_wifi";
     public static final String BUTTON_MOBILE_DATA = "button_mobiledata";
     public static final String BUTTON_BLUETOOTH = "button_bluetooth";
+    public static final String BUTTON_ZEN = "button_zen";
     public static final String BUTTON_ACTIVITY = "button_activity";
-    public static final Map<String,Class> classMap = Map.of(BUTTON_WIFI,WifiSwitchItem.class,BUTTON_MOBILE_DATA,MobileNetworkItem.class,BUTTON_BLUETOOTH,BluetoothItem.class);
+    public static final Map<String,Class> classMap = Map.of(BUTTON_WIFI,WifiSwitchItem.class,BUTTON_MOBILE_DATA,MobileNetworkItem.class,BUTTON_BLUETOOTH,BluetoothItem.class,BUTTON_ZEN,ZenModeItem.class);
     public static FastSettingsItem getButtonInstance(String name,Object...args) {
         if(!classMap.containsKey(name)) {
         	return new NullItem();

@@ -64,10 +64,9 @@
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:rowCount="2"
-                android:columnCount="3"
-                android:layout_margin="4dp">
+                android:columnCount="3">
 
-                <com.dudu.wearlauncher.widget.SwitchIconButton
+                <!--com.dudu.wearlauncher.widget.SwitchIconButton
                     android:id="@+id/settings_wifi_btn"
                     android:layout_height="48dp"
                     android:layout_width="48dp"
@@ -92,7 +91,7 @@
                     android:src="@drawable/bluetooth_selector"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center" /-->
             </GridLayout>
         </LinearLayout>
     </ScrollView>

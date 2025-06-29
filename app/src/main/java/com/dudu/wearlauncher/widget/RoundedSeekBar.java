@@ -5,6 +5,9 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -32,10 +35,48 @@ public class RoundedSeekBar extends FrameLayout {
         seekBar = findViewById(R.id.seek_bar);
         iconView = findViewById(R.id.seek_bar_icon);
         iconView.setImageDrawable(icon);
-        
-
+        /*setOnTouchListener((v, event) -> {
+            ViewGroup parent = (ViewGroup)v.getParent();
+            while(true) {
+            	if(parent instanceof MyViewPager) {
+            		break;
+            	}
+                parent = (ViewGroup)parent.getParent();
+            }
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    parent.requestDisallowInterceptTouchEvent(true);
+                    ((MyViewPager)parent).setScrollble(true);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    parent.requestDisallowInterceptTouchEvent(false);
+                    ((MyViewPager)parent).setScrollble(false);
+                    break;
+            }
+            return false;
+        });
+        */
     }
-
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        ViewGroup parent = (ViewGroup)getParent();
+        while(true) {
+        	if(parent instanceof MyViewPager) {
+            	break;
+        	}
+            parent = (ViewGroup)parent.getParent();
+        }
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                parent.requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_UP:
+                parent.requestDisallowInterceptTouchEvent(false);
+                break;
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+    
     public int getProgress() {
         return seekBar.getProgress();
     }

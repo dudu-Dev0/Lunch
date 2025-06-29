@@ -16,6 +16,9 @@ public class HomePageSettingsActivity extends BaseActivity {
         Switch msgListSwitch = findViewById(R.id.switch_msg_list);
         Switch settingCenterSwitch = findViewById(R.id.switch_setting_center);
 
+        msgListSwitch.setChecked((boolean) SharedPreferencesUtil.getData(SharedPreferencesUtil.MSG_LIST_ENABLED, true));
+        settingCenterSwitch.setChecked((boolean) SharedPreferencesUtil.getData(SharedPreferencesUtil.SETTING_CENTER_ENABLED, true));
+
         findViewById(R.id.card_msg_list).setOnClickListener(v -> {
             msgListSwitch.toggle();
         });

@@ -33,7 +33,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_height="match_parent"
                         android:layout_width="match_parent"
-                        android:paddingHorizontal="20dp">
+                        android:paddingStart="20dp"
+                        android:paddingEnd="10dp">
 
                     <TextView
                             android:text="消息列表"
@@ -70,7 +71,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_height="match_parent"
                         android:layout_width="match_parent"
-                        android:paddingHorizontal="20dp">
+                        android:paddingStart="20dp"
+                        android:paddingEnd="10dp">
 
                     <TextView
                             android:text="控制中心"

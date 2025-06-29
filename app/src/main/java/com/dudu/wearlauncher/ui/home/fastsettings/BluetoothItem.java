@@ -53,6 +53,7 @@ public class BluetoothItem extends FastSettingsItem {
                         requestBluetoothOn.putExtra(
                                 BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
                                 600);
+                        requestBluetoothOn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);        
                         WearLauncherApp.getContext().startActivity(requestBluetoothOn);
                     }
                 }

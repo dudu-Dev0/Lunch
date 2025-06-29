@@ -19,7 +19,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import cn.leaqi.drawer.OnDrawerChange;
+import cn.leaqi.drawer.OnDrawerState;
 import cn.leaqi.drawer.SwipeDrawer;
+import com.blankj.utilcode.util.PhoneUtils;
 import com.blankj.utilcode.util.VolumeUtils;
 import com.dudu.wearlauncher.R;
 import com.dudu.wearlauncher.listener.BrightnessObserver;
@@ -44,6 +48,7 @@ public class WatchFaceFragment extends Fragment{
     MyFrameLayout watchFaceBox;
     FrameLayout.LayoutParams layoutParams;
     SwipeDrawer swipeDrawer;
+    MyViewPager viewPager;
 
     MsgListAdapter msgListAdapter;
 
@@ -78,6 +83,7 @@ public class WatchFaceFragment extends Fragment{
 
         swipeDrawer.setTopDragOpen((Boolean) SharedPreferencesUtil.getData(SharedPreferencesUtil.MSG_LIST_ENABLED, true));
         swipeDrawer.setBottomDragOpen((Boolean) SharedPreferencesUtil.getData(SharedPreferencesUtil.SETTING_CENTER_ENABLED, true));
+        viewPager = ((HomeActivity)getActivity()).homeViewPager;
         try {
         	JSONArray oldArray = new JSONArray((String)SharedPreferencesUtil.getData(SharedPreferencesUtil.SETTING_CENTER,"[{\"button\":\"button_wifi\"},{\"button\":\"button_mobiledata\"},{\"button\":\"button_bluetooth\"}]"));
             btn1.attach(SettingCenterManager.getButtonInstance(oldArray.getJSONObject(0).getString("button")));
@@ -218,12 +224,41 @@ public class WatchFaceFragment extends Fragment{
         
         
         msgView.setEmptyView(view.findViewById(R.id.empty_list_text));
-
+        ((TextView)view.findViewById(R.id.text_carrier)).setText(PhoneUtils.getSimOperatorName());
         watchFaceBox.setOnLongClickListener(v->{
             Intent intent = new Intent(requireActivity(),ChooseWatchFaceActivity.class);
             startActivity(intent);
             requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             return false;
+        });
+
+        swipeDrawer.setOnDrawerState(new OnDrawerState(){
+            @Override
+            public void onStart(int arg0) {
+                // TODO: Implement this method
+            }
+
+            @Override
+            public void onMove(int arg0, float arg1) {
+                // TODO: Implement this method
+            }
+
+            @Override
+            public void onOpen(int arg0) {
+                viewPager.setScrollble(false);
+            }
+
+            @Override
+            public void onClose(int arg0) {
+                viewPager.setScrollble(true);
+            }
+
+            @Override
+            public void onCancel(int arg0) {
+                // TODO: Implement this method
+            }
+
+
         });
 
         refreshWatchFace();
@@ -244,6 +279,7 @@ public class WatchFaceFragment extends Fragment{
                 int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN);
                 int battery = level * 100 / scale;
                 updateBattery(battery,status);
+                ((TextView)view.findViewById(R.id.text_battery)).setText(battery+"%"+((status==BatteryManager.BATTERY_STATUS_CHARGING)?"+":""));
             }
         };
         requireActivity().registerReceiver(batteryChangeReceiver,new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
@@ -258,6 +294,11 @@ public class WatchFaceFragment extends Fragment{
         timeChangeFilter.addAction(Intent.ACTION_TIME_CHANGED);
         requireActivity().registerReceiver(timeChangeReceiver,timeChangeFilter);
         postGetAllNotification();
+        watchFaceBox.setLongClickListener(() -> {
+            Intent intent = new Intent(requireActivity(), ChooseWatchFaceActivity.class);
+            startActivity(intent);
+            requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        });
     }
 
     private void postGetAllNotification() {
@@ -277,11 +318,6 @@ public class WatchFaceFragment extends Fragment{
                 if(watchFace != null) {
                     layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT);
                     watchFaceBox.addView(watchFaceView,layoutParams);
-                    watchFaceBox.setLongClickListener(() -> {
-                        Intent intent = new Intent(requireActivity(), ChooseWatchFaceActivity.class);
-                        startActivity(intent);
-                        requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    });
                     updateTime();
                     BatteryManager batteryManager = (BatteryManager)requireActivity().getSystemService(Context.BATTERY_SERVICE);
                     if(Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {

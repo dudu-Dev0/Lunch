@@ -1,8 +1,11 @@
 package com.dudu.wearlauncher.ui.settings;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.Toast;
 import com.dudu.wearlauncher.R;
@@ -11,6 +14,8 @@ import com.dudu.wearlauncher.ui.BaseActivity;
 import com.dudu.wearlauncher.ui.home.fastsettings.BluetoothItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.MobileNetworkItem;
 import com.dudu.wearlauncher.ui.home.fastsettings.WifiSwitchItem;
+import com.dudu.wearlauncher.ui.home.fastsettings.ZenModeItem;
+import com.dudu.wearlauncher.utils.DensityUtil;
 import com.dudu.wearlauncher.utils.ILog;
 import com.dudu.wearlauncher.utils.SettingCenterManager;
 import com.dudu.wearlauncher.utils.SharedPreferencesUtil;
@@ -27,7 +32,7 @@ public class SettingCenterSettingsActivity extends BaseActivity{
     SwitchIconButton btn3;
     GridLayout btnList;
     SwitchIconButton choosingButton;
-    FastSettingsItem[] items = {new WifiSwitchItem(),new MobileNetworkItem(),new BluetoothItem()};
+    FastSettingsItem[] items = {new WifiSwitchItem(),new MobileNetworkItem(),new BluetoothItem(),new ZenModeItem()};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,10 +75,27 @@ public class SettingCenterSettingsActivity extends BaseActivity{
         btn1.performClick();
         Map<Class,String> btnItemMap = SettingCenterManager.classMap.entrySet().stream().collect(Collectors.toMap(entity-> entity.getValue(),entity-> entity.getKey()));
 
-        for(int i = 0; i < btnList.getChildCount(); ++i) {
-        	View child = btnList.getChildAt(i);
-            ((SwitchIconButton)child).attach(items[i]);
-            child.setOnClickListener(v->{
+        for(int i = 0; i < SettingCenterManager.classMap.size(); ++i) {
+        	SwitchIconButton button = new SwitchIconButton(this);
+            FrameLayout child = new FrameLayout(this);
+
+            FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(DensityUtil.dip2px(this,48),DensityUtil.dip2px(this,48));
+            flp.gravity = Gravity.CENTER;
+            //flp.height = DensityUtil.dip2px(this,48);
+            //flp.width = DensityUtil.dip2px(this,48);
+            child.addView(button,flp);
+
+            GridLayout.LayoutParams glp = new GridLayout.LayoutParams();
+            glp.setGravity(Gravity.CENTER);
+            glp.columnSpec = GridLayout.spec(GridLayout.UNDEFINED,1f);
+            glp.rowSpec = GridLayout.spec(GridLayout.UNDEFINED,1f);
+            glp.topMargin = DensityUtil.dip2px(this,2);
+            glp.bottomMargin = DensityUtil.dip2px(this,2);
+
+            btnList.addView(child,glp);
+
+            button.attach(items[i]);
+            button.setOnClickListener(v->{
                 FastSettingsItem item = ((SwitchIconButton)v).getFastSettingsItem();
                 choosingButton.setImageDrawable(item.getDrawable());
                 try {
